@@ -1,0 +1,40 @@
+.orders {
+width: 95%;
+margin: 40px auto;
+}
+.btn-card{
+float:right;
+width:100%;
+}
+.btn-card a{
+	position:relative;
+	padding: 10px 30px;
+	background: #FF6F00;
+	display:block;
+	margin-right: 35px;
+	margin-bottom: 60px;
+	float:right;
+}
+.btn-card p{
+	float:right;
+	margin:10px 40px;
+}
+.btn-card span{
+	color:#FF6F00;
+}
+.btn-card a:hover{
+	background:#4d4d4d;
+	color:#fff;
+}
+.goods-list {
+display: block;
+position: relative;
+display: block;
+margin: 0px 25px;
+}
+.shop-item {
+float: left;
+width: 253px;
+padding: 0 20px 0 0;
+margin: 0 0 80px;
+}

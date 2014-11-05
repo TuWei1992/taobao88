@@ -1,0 +1,29 @@
+package org.taobao88.taobao.enterprise.service;
+
+import java.util.List;
+
+import org.taobao88.taobao.enterprise.entity.Message;
+import org.taobao88.taobao.enterprise.entity.PackageT;
+import org.taobao88.taobao.enterprise.entity.UserT;
+
+public interface MessagesService {
+
+public Message findMessageById(int id);
+	
+	public List<Message> findSendedMessagesByUser(UserT user);
+	
+	public List<Message> findReceivedMessagesByUser(UserT user);
+	
+	public List<Message> findAllUserMessages(UserT user);
+	
+	public List<Message> findMessagesByPackage(PackageT packageT);
+	
+//	public Map<Integer, Set<Message>> getMessagesByPackages(List<Message> allMessages);
+	
+	public int createMessage(Message message);
+	
+	public void deleteMessage(Message message);
+	
+	public void deleteMessagesByPackage(PackageT packageT);
+	
+}
