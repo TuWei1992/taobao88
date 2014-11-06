@@ -23,6 +23,15 @@
 </head>
 <body>
 	<jsp:include page="adminMenu.jsp"/>
+	
+	<div class="container">
+		<div class="row">
+			<div class="page-header">
+  				<h1>Редактор <small>создание рекомендации</small></h1>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8 col-md-8 col-xs-8 col-xs-offset-2">

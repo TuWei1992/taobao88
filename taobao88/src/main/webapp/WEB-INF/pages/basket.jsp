@@ -43,6 +43,8 @@
 			<div class="position">
 				<span><a href="${pageContext.request.contextPath}/">Главная</a></span>
 				<span>></span> 
+				<span><a href="${pageContext.request.contextPath}/privateOffice">Мой аккаунт</a></span>
+				<span>></span> 
 				<span><a href="${pageContext.request.contextPath}/basket">Корзина</a></span>
 			</div>
 			<div>

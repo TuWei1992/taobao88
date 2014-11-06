@@ -40,12 +40,10 @@
 				<jsp:include page="partials/horizontal_menu_logged.jsp"/>
 				<div class="position">
 					<span><a href="${pageContext.request.contextPath}/">Главная</a></span>
+					<span>></span> 
+					<span><a href="${pageContext.request.contextPath}/privateOffice">Мой аккаунт</a></span>
 					<span>></span>
-					<span><a href="${pageContext.request.contextPath}/privateOffice/toPackages">Мои посылки</a></span>
-					<span>></span>
-					<span><a href="${pageContext.request.contextPath}/privateOffice/showPackage?idPackage=${packageT.idPackage}">Посылка №${packageT.idPackage}</a></span>
-					<span>></span>
-					<span><a href="${pageContext.request.contextPath}/privateOffice/payment?idPackage=${packageT.idPackage}">Оплата</a></span>
+					<span><a href="${pageContext.request.contextPath}/privateOffice/payment?idPackage=${packageT.idPackage}">Мой счёт</a></span>
 				</div>
 				<div class="side">
 					<div class="side-menu">

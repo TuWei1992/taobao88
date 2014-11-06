@@ -35,6 +35,8 @@
 					<li><a href="${pageContext.request.contextPath}/discount"><i class="icon rea"></i>Товары со скидками</a></li>
 					<li><a href="${pageContext.request.contextPath}/comments"><i class="icon social"></i>Товары с отзывами</a></li>
 					<li><a href="${pageContext.request.contextPath}/free"><i class="icon free"></i>Бесплатная доставка!</a></li>
+					<li><a href="${pageContext.request.contextPath}/privateOffice"><i class="icon office"></i>Мой аккаунт</a></li>
+					<li><a href="" class="orderHref">Сделать заказ</a></li>
 					<li class="entre">
 						<c:choose>
 							<c:when test="${pageContext.request.userPrincipal.name != null}">
@@ -45,7 +47,7 @@
 							</c:otherwise>
 						</c:choose>
 					</li>
-					<li class="entre"><a href="" class="orderHref">Сделать заказ</a></li>
+					
 					<li class="entre">
 						<c:choose>
 							<c:when test="${pageContext.request.userPrincipal.name != null}">

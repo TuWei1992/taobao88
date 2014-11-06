@@ -31,11 +31,6 @@
 <div class="un_menu">
 				<ul class="ul_menu">
 					<li>
-						<a href="${pageContext.request.contextPath}/privateOffice">
-							<i class="icon office"></i>Мой аккаунт
-						</a>
-					</li>
-					<li>
 						<a href="${pageContext.request.contextPath}/privateOffice/accountSettings">
 							<i class="icon inst"></i>Мой настройки
 						</a>

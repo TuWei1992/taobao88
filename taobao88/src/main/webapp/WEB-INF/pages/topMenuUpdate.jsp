@@ -20,6 +20,7 @@
 				var sourceHref = '${pageContext.request.contextPath}/admin/pageRedactor/updateTopMenu/doUpdate';
 				var form = $('form');
 				$(form).attr('action', sourceHref);
+				$(form).submit();
 			});
 			tinymce.init({
 			    selector: "textarea",
@@ -34,6 +35,15 @@
 </head>
 <body>
 	<jsp:include page="adminMenu.jsp"/>
+	
+	<div class="container">
+		<div class="row">
+			<div class="page-header">
+  				<h1>Редактор <small>изменение топ-меню</small></h1>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12 col-xs-12">

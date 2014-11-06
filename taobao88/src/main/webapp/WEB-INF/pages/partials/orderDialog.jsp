@@ -98,7 +98,7 @@
 						<c:choose>
 							<c:when test="${pageContext.request.userPrincipal.name != null}">
 								<button role="button" class="btn btn-success btn-order"
-									type="submit">Сделать заказ</button>
+									type="submit">Положить в корзину</button>
 							</c:when>
 							<c:otherwise>
 								<a role="button" class="btn btn-danger"

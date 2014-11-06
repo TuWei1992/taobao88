@@ -72,6 +72,8 @@ function isDigit(data) {
 		<jsp:include page="partials/horizontal_menu_logged.jsp"/>
 		<div class="position">
 			<span><a href="${pageContext.request.contextPath}/">Главная</a></span>
+			<span>></span> 
+				<span><a href="${pageContext.request.contextPath}/privateOffice">Мой аккаунт</a></span>
 			<span>></span>
 			<span><a href="${pageContext.request.contextPath}/privateOffice/accountSettings">Мои настройки</a></span>
 			<span>></span>

@@ -43,6 +43,8 @@ public class OfficeController extends  MainController{
         HttpSession session = request.getSession(true);
         List<OrderT> newOrders = new ArrayList<OrderT>();
 
+        HttpSession s = request.getSession();
+        
         session.setAttribute("TIME",getCurrentDate());
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

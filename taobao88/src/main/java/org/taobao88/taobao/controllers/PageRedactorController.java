@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.taobao88.taobao.enterprise.DAO.PagesContentDAO;
 import org.taobao88.taobao.enterprise.entity.Brands;
 import org.taobao88.taobao.enterprise.entity.Images;
+import org.taobao88.taobao.enterprise.entity.PageContent;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
 import org.taobao88.taobao.enterprise.entity.SideMenu;
@@ -45,6 +47,7 @@ public class PageRedactorController extends MainController {
 	@Autowired private ImagesService imagesService;
     @Autowired private ColorsService colorsService;
     @Autowired private SizesService sizesService;
+    @Autowired private PagesContentDAO pagesContentDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String pageRedactor(Model model) {
@@ -57,6 +60,7 @@ public class PageRedactorController extends MainController {
 		model.addAttribute("free_ship", recomendationService.getAllRecomendations(types.get(3)));
 		model.addAttribute("comments", recomendationService.getAllRecomendations(types.get(4)));
 		model.addAttribute("brands", brandsService.getAllBrands());
+		model.addAttribute("privateOffice", pagesContentDAO.findContentByPageName("privateOffice"));
 		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
 		Iterator<RecomendationType> iterator = typesList.iterator();
 		while (iterator.hasNext()) {
@@ -364,6 +368,16 @@ public class PageRedactorController extends MainController {
     	return "_template";
     }
     
+    @RequestMapping(value = "/updatedPageContent", method = RequestMethod.POST)
+    public String updatedPageContent(@RequestParam ("page") String page,
+    								 @RequestParam ("content") String content) {
+    	PageContent pageContent = pagesContentDAO.findContentByPageName(page);
+    	pageContent.setContent(content);
+    	pagesContentDAO.updatePageContent(pageContent);
+    	return "redirect:/admin/pageRedactor";
+    }
+    
+    
     private void createRecomendation(MultipartFile file, Recomendation rec) {
     	saveUploadedFile(file);
     }
@@ -394,7 +408,6 @@ public class PageRedactorController extends MainController {
 			stream.write(bytes);
 			stream.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			e.printStackTrace();
 		}
     }
