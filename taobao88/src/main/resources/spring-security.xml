@@ -14,7 +14,7 @@
 		<intercept-url pattern="/privateOffice/**" access="ROLE_USER" />
 		<intercept-url pattern="/toOrder/**" access="ROLE_USER" />
 		<intercept-url pattern="/toPackages/**" access="ROLE_USER" />
-		<form-login login-page="/login" default-target-url="/"
+		<form-login login-page="/login" default-target-url="/privateOffice"
 			authentication-failure-url="/loginfailed" />
 		<logout logout-success-url="/logout" />
 	</http>

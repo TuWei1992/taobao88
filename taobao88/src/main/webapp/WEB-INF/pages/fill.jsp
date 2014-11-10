@@ -7,7 +7,7 @@
 <title>taobao88. Товары из Китая. Аукцион Таобао. Посредник Taobao</title>
 <meta name="keywords" content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 <!-- CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-latest.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/office.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/card.css" type="text/css">
@@ -71,7 +71,7 @@
             }
             $('.jcarousel').jcarousel(params);
             
-            $('#basket').text('${basket.size()}');
+            $('#basket').text('${basket}');
             $('#translate').click(function() {
             	translate();
             });

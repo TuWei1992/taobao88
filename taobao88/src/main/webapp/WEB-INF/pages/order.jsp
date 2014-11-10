@@ -10,11 +10,11 @@
 <meta name="keywords"
 	content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-latest.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
 <link rel="shortcut icon" href="http://taobao88.org/favicon.ico">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/modernizr.custom.28468.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
 <script type="text/javascript">
 		$(function() {
 			$('.btn-order').addClass('disabled');

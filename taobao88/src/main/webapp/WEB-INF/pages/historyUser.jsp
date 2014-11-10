@@ -15,7 +15,7 @@
 		</h2>
 	</c:if>
 
-	<jsp:include page="userMenu.jsp" />
+	
 
 	<!--<div id="legend">
     <legend class="">

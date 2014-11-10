@@ -6,7 +6,7 @@
 <title>taobao88. Мой аккаунт</title>
 <meta name="keywords" content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 <!-- CSS -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-latest.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/office.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/item.css" type="text/css" media="screen"/>
@@ -25,7 +25,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
 <script type="text/javascript">
 $(function() {
-    $('#basket').text('${basket.size()}');
+    $('#basket').text('${basket}');
     $('#translate').click(function() {
     	translate();
     });
