@@ -8,7 +8,7 @@
 	<meta charset="utf-8">
 	<meta name="keywords" content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-latest.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-latest.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/slider.css" type="text/css">
 	<link rel="shortcut icon" href="http://taobao88.org/favicon.ico">
@@ -22,7 +22,7 @@
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/modernizr.custom.28468.js"></script>
 	<script	type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.cslider.js"></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
 	<script type="text/javascript">
         $(function() {
@@ -30,7 +30,7 @@
                 autoplay	: true,
                 bgincrement	: 450
             });
-            $('#basket').text('${basket.size()}');
+            $('#basket').text('${basket}');
             $('#translate').click(function() {
             	translate();
             });

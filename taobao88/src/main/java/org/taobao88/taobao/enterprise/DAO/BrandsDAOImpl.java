@@ -15,6 +15,7 @@ public class BrandsDAOImpl implements BrandsDAO {
 	@Autowired
 	SessionFactory sessionFactory;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Brands> getAllBrands() {
 		return (List<Brands>) sessionFactory.getCurrentSession().createQuery("from Brands").list();

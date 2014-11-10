@@ -46,7 +46,8 @@ public class GoodsDAOImpl implements GoodsDAO {
         return (Integer) sessionFactory.getCurrentSession().getIdentifier(goods);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Goods> getAll(List<OrderT> orderTs) {
 
         if(orderTs.size()!=0){
@@ -60,8 +61,7 @@ public class GoodsDAOImpl implements GoodsDAO {
             }
         }
 
-        return sessionFactory.getCurrentSession().createQuery(query)
-                .list();
+        return sessionFactory.getCurrentSession().createQuery(query).list();
         }
 
         return null;

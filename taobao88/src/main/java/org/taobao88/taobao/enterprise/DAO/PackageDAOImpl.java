@@ -32,7 +32,8 @@ public class PackageDAOImpl implements PackageDAO{
         return (PackageT)sessionFactory.getCurrentSession().get(PackageT.class,id);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<PackageT> getPackagesForAdmin() {
         String query = "";
         query  = "from PackageT where approve='false' ORDER BY idPackage DESC ";
@@ -43,7 +44,8 @@ public class PackageDAOImpl implements PackageDAO{
         return (List<PackageT>) sessionFactory.getCurrentSession().createQuery(query).list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<PackageT> getPackagesForAdminHistory() {
         String query = "";
         query  = "from PackageT where approve='true' ORDER BY datePackage desc";
@@ -61,7 +63,8 @@ public class PackageDAOImpl implements PackageDAO{
         sessionFactory.getCurrentSession().update(packageT);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public ArrayList<OrderT> getPackagesForUser(int idUser) {
         String query = "select idPackage from OrderT where (approve='false' AND idUser="+idUser+")";
 
@@ -70,12 +73,14 @@ public class PackageDAOImpl implements PackageDAO{
         return (ArrayList<OrderT>) sessionFactory.getCurrentSession().createQuery(query).list();
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<PackageT> getPackagesByUser(UserT user) {
     	return sessionFactory.getCurrentSession().createQuery("FROM PackageT P, OrderT O WHERE P.approve = 'false' AND P.idPackage = O.packageT.idPackage AND O.idUser = :user_id").setParameter("user_id", user.getIdUser()).list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public ArrayList<OrderT> getPackagesForUserHistory(int idUser) {
         String query = "select idPackage from OrderT where (approve='true' AND idUser="+idUser+")";
 

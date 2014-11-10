@@ -43,8 +43,6 @@ public class OfficeController extends  MainController{
         HttpSession session = request.getSession(true);
         List<OrderT> newOrders = new ArrayList<OrderT>();
 
-        HttpSession s = request.getSession();
-        
         session.setAttribute("TIME",getCurrentDate());
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -73,6 +71,7 @@ public class OfficeController extends  MainController{
         request.setAttribute("orders", orderBEANList);
         request.setAttribute("newOrders",newOrders);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("basket", orders.size());
         
         RecomendationType recType = new RecomendationType();
         recType.setTypeId(5);

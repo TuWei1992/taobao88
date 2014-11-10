@@ -37,6 +37,14 @@
 	<div id="wrapper">
  	<!-- HEADER -->
  	<jsp:include page="partials/index_header.jsp"/>
+ 	
+ 	<form name="changeOrder" action="${pageContext.request.contextPath}/privateOffice/changeOrder">
+		<input type="hidden" name="idOrderForChange" />
+	</form>
+	<form name="deleteOrder" action="${pageContext.request.contextPath}/privateOffice/deleteOrder">
+		<input type="hidden" name="idOrderForDelete" />
+	</form>
+	 	
  	<div class="width">
 		<div class="content">
 			<jsp:include page="partials/horizontal_menu_logged.jsp"/>
@@ -50,107 +58,165 @@
 			<div>
 			<h1>Добро пожаловать, ${pageContext.request.userPrincipal.name}</h1>
 			<div class="control">
-				<c:choose>
-					<c:when test="${basket.size() != 0}">
-						<div class="o_head">
-							<h3>Товары</h3>
+				<c:if test="${newOrders.size() != 0}">
+					<c:if test="${newOrders.size() == 1}">
+						<div class="alert alert-warning">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+							Номер вышего нового заказа:
+							<ul>
+								<c:forEach items="${newOrders}" var="order">
+									<li><h5>${order.idOrder}</h5></li>
+								</c:forEach>
+							</ul>
 						</div>
-					<table class="orders">
-                	<thead>
-                    	<tr>
-                        	<th colspan="2">Товар</th>
-                        	<th>Стоимость</th>
-							<th></th>
-                    	</tr>
-                	</thead>
-					<tbody>
-						<c:forEach items="${basket}" var="good">
-							<tr>
-								<td>
-									<a href="${pageContext.request.contextPath}/item?id=${good.recomendation.id}" class="product-img">
-										<img src="/images/${good.recomendation.photo}" />
-									</a>
-								</td>
-								<td  class="product">
-									<h2>
-										<a href="${pageContext.request.contextPath}/item?id=${good.recomendation.id}">${good.recomendation.description}</a>
-									</h2>
-						     		<div class="property">
-										<span class="order">№: ${good.idGoods}</span>
-										<div class="row-form">
-											<div class="overflow">Цвет: 
-												<c:choose>
-													<c:when test="${good.colorGoods == null }">
-														<font color="red">Не выбран</font>
-													</c:when>
-													<c:otherwise>
-														<span>${good.colorGoods}</span>
-													</c:otherwise>
-												</c:choose>
-											</div>
-										</div>
-										<div class="row-form">
-											<div class="overflow">Размер: 
-												<c:choose>
-													<c:when test="${good.sizeGoods == null }">
-														<font color="red">Не выбран</font>
-													</c:when>
-													<c:otherwise>
-														<span>${good.sizeGoods}</span>
-													</c:otherwise>
-												</c:choose>
-											</div>
-										</div>
-										<div class="row-form">
-											<div class="overflow">Количество: 
-												<c:choose>
-													<c:when test="${good.amountGoods == null }">
-														<font color="red">Не выбран</font>
-													</c:when>
-													<c:otherwise>
-														<span>${good.amountGoods}</span>
-													</c:otherwise>
-												</c:choose>
-											</div>
-										</div>
-										<div class="row-form">
-											<div class="overflow">Фотоотчет: 
-												<c:choose>
-													<c:when test="${good.photoGoods == null }">
-														<font color="red">Не выбран</font>
-													</c:when>
-													<c:otherwise>
-														<span>да</span>
-													</c:otherwise>
-												</c:choose>
-											</div>
-										</div>
-									</div>
-					        	</td>  
-								<td>
-									<div>
-										<span>$ <span class="price">${good.recomendation.price}</span></span>                            
-									</div>
-								</td>
-								<td>
-									<a href="${pageContext.request.contextPath}/fill?id=${good.idGoods}"><img src="${pageContext.request.contextPath}/resources/img/fill.png"></a>
-									<a href="" onclick="removeFromBasket('${pageContext.request.contextPath}',${good.idGoods});"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
-								</td>
-							</tr>
-						</c:forEach>
-           			</tbody>
-       			</table>
-       			<div class="btn-card">
-					<a href="${pageContext.request.contextPath}/privateOffice/fromBasket">Оформить заказ</a>
-					<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
+					</c:if>
+					<c:if test="${newOrders.size() > 1}">
+						<div class="alert alert-warning">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+							Так как общий вес Вашего заказа превышает 20 кг, то Ваш	заказ был разделен на ${orders.size()}, их номера:
+							<ul>
+								<c:forEach items="${newOrders}" var="order">
+									<li><h5>${order.idOrder}</h5></li>
+								</c:forEach>
+							</ul>
+						</div>
+					</c:if>
+				</c:if>
+				<div class="alert alert-warning">
+					Для того, чтобы отправить заказы продавцу, выделите галочкой те, которые хотите заказать и нажмите кнопку отправить.
 				</div>
-				</c:when>
-				<c:otherwise>
-					<div class="o_head">
-						<h3>В вашей корзине пока нет товаров.</h3>
-					</div>
-				</c:otherwise>
+					
+				<c:choose>
+					<c:when test="${orders.size() !=0 }">
+						<div class="o_head">
+                          	<h3>Товары</h3>
+                      	</div>
+						<table class="orders">
+							<thead>
+								<tr>
+									<th colspan="2">Товар</th>
+									<th>Стоимость</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${orders}" var="order">
+									<tr>
+										<td>
+											<c:choose>
+												<c:when test="${order.goods.recomendation != null}">
+													<a href="${pageContext.request.contextPath}/item?id=${order.goods.recomendation.id}" class="product-img">
+														<img src="/images/${order.goods.recomendation.photo}" />
+													</a>
+												</c:when>
+												<c:otherwise>
+													<a href="${order.goods.hrefGoods}" class="product-img">
+														<img src="/images/image_missing.png" />
+													</a>
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td class="product">
+											<h2>
+												<c:choose>
+													<c:when test="${order.goods.recomendation != null}">
+														<a href="${pageContext.request.contextPath}/item?id=${order.goods.recomendation.id}">${order.goods.recomendation.description}</a>
+													</c:when>
+													<c:otherwise>
+														<a href="${order.goods.hrefGoods}">${order.goods.nameGoods}</a>
+													</c:otherwise>
+												</c:choose>
+											</h2>
+											<div class="property">
+												<span class="order">№: ${order.goods.idGoods}</span>
+												<div class="row-form">
+													<div class="overflow">Цвет:
+													<c:choose>
+														<c:when test="${order.goods.colorGoods == null}">
+															<font color="red">Не выбран</font>
+														</c:when>
+														<c:otherwise>
+															<span>${order.goods.colorGoods}</span>
+														</c:otherwise>
+													</c:choose>
+													</div>
+												</div>
+												<div class="row-form">
+													<div class="overflow">Размер:
+														<%--<c:choose>
+                                                    		<c:when test="${empty order.goods.sizeGoods}">
+                                                        		<font color="red">Не выбран</font>
+															</c:when>
+															<c:otherwise>
+                                                        		<span>${order.goods.sizeGoods}</span>
+                                                    		</c:otherwise>
+                                                		</c:choose>--%>
+													</div>
+												</div>
+												<div class="row-form">
+													<div class="overflow">Количество:
+														<c:choose>
+															<c:when test="${empty order.goods.amountGoods}">
+																<font color="red">Не выбран</font>
+															</c:when>
+															<c:otherwise>
+																<span>${order.goods.amountGoods}</span>
+															</c:otherwise>
+														</c:choose>
+													</div>
+												</div>
+												<div class="row-form">
+													<div class="overflow">Фотоотчет:
+														<%--<c:choose>
+															<c:when test="${order.goods.photoGoods == null}">
+																<font color="red">Не выбран</font>
+																</c:when>
+															<c:otherwise>
+                                                        		<span>${order.goods.photoGoods}</span>
+                                                    		</c:otherwise>
+                                                		</c:choose>--%>
+													</div>
+												</div>
+											</div>
+										</td>
+										<td>
+											<div>
+												<span>$ <span class="price">${order.fullPrice}</span></span>
+											</div>
+										</td>
+										<td>
+											<c:choose>
+												<c:when test="${order.goods.recomendation != null}">
+													<a href="${pageContext.request.contextPath}/fill?id=${order.goods.idGoods}">
+														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
+													</a>
+												</c:when>
+												<c:otherwise>
+													<a onclick="{document.changeOrder.idOrderForChange.value=${order.idOrder};document.changeOrder.submit();}" style="cursor: pointer; color: blue">
+														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
+													</a>
+												</c:otherwise>
+											</c:choose>
+                                    		<a onclick="removeFromBasket('${pageContext.request.contextPath}',${good.idGoods});">
+												<img src="${pageContext.request.contextPath}/resources/img/card.png">
+											</a>
+										</td>
+									</tr>	
+								</c:forEach>
+							</tbody>
+						</table>
+						<div class="btn-card">
+                    		<a href="${pageContext.request.contextPath}/privateOffice/fromBasket">Оформить заказ</a>
+                    		<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
+                		</div>
+					</c:when>
+					<c:otherwise>
+                    	<div class="o_head">
+                        	<h3>В вашей корзине пока нет товаров.</h3>
+                    	</div>
+                	</c:otherwise>
 				</c:choose>
+				
 			</div>
 				<div class="goods-list">
        					<c:forEach items="${recomendations}" var="rec">

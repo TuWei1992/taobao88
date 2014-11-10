@@ -105,7 +105,7 @@ public class IndexController extends MainController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "basket", method = RequestMethod.GET)
 	public String basket(HttpServletRequest request, Model model) {
-		List<Goods> basket = (List<Goods>) request.getSession().getAttribute("basket");
+		/*List<Goods> basket = (List<Goods>) request.getSession().getAttribute("basket");
 		double totalPrice = 0;
 		for (Goods good : basket) {
 			totalPrice += good.getPriceGoods();
@@ -113,6 +113,23 @@ public class IndexController extends MainController {
 		model.addAttribute("totalPrice", totalPrice);
 		model.addAttribute("basket", request.getSession().getAttribute("basket"));
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
+		RecomendationType recType = recomendationTypeService.getTypeById(0);
+		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));*/
+		List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
+		double totalPrice = 0;
+		for (OrderT o : orders) {
+			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+			totalPrice += o.getFullPrice();
+		}
+
+        List<OrderBEAN> orderBEANList = getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders));
+        Collections.sort(orderBEANList, Collections.reverseOrder());
+        orderBEANList = getListForFirstPageOrder(orderBEANList,request);
+        request.setAttribute("ordersBeans", orderBEANList);
+        request.setAttribute("orders", orders);
+        
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		RecomendationType recType = recomendationTypeService.getTypeById(0);
 		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
 		return "basket";
@@ -133,7 +150,6 @@ public class IndexController extends MainController {
 		return "_template";
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "addToBasket", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String addToBasket(@RequestParam ("id") int id,
 										   HttpServletRequest request,

@@ -20,34 +20,40 @@ public class CountryRegCityDAOImpl implements CountryRegCityDAO{
     @Autowired
     SessionFactory sessionFactory;
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Country> getAllCountry() {
         return sessionFactory.getCurrentSession().createQuery("from Country").list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Region> getAllRegion() {
         return sessionFactory.getCurrentSession().createQuery("from Region").list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<City> getAllCity() {
         return sessionFactory.getCurrentSession().createQuery("from City").list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Country> getCountriesByID(int id) {
         String query = "from Country where idCountry = "+id;
         return sessionFactory.getCurrentSession().createQuery(query).list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Region> getRegionsByID(int id) {
         String query = "from Region where idCountry = "+id;
         return sessionFactory.getCurrentSession().createQuery(query).list();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<City> getCitiessByID(int id) {
         String query = "from City where idRegion = "+id;
         return sessionFactory.getCurrentSession().createQuery(query).list();

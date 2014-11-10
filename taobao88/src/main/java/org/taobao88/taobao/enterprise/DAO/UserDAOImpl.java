@@ -23,7 +23,8 @@ public class UserDAOImpl implements UserDAO {
         sessionFactory.getCurrentSession().save(user);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserT> getId(String name) {
        return sessionFactory.getCurrentSession().createQuery("from UserT where username=:articleId").setParameter("articleId", name).list();
     }
@@ -38,7 +39,8 @@ public class UserDAOImpl implements UserDAO {
         sessionFactory.getCurrentSession().update(userT);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<UserT> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from UserT").list();
     }

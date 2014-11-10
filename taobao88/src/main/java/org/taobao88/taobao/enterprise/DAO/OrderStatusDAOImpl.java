@@ -45,7 +45,8 @@ public class OrderStatusDAOImpl implements OrderStatusDAO{
         sessionFactory.getCurrentSession().delete(orderStatus);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<OrderStatus> getOrdersStatuses(List<OrderT> orderTs) {
         if(orderTs.size()!=0){
             String query = "from OrderStatus where ";

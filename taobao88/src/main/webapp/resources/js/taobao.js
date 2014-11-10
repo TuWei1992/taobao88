@@ -2,6 +2,7 @@
  * 
  */
 function translate() {
+			var googleWindow = window.open('','_blank');
         	var q = $('.input_search').val();
         	var googleHref = 'http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=';
         	var taobaoSearch = 'http://s.taobao.com/search?';
@@ -22,15 +23,15 @@ function translate() {
     			success: function(jsondata){
     						if (google) {
     							if (king) {
-    								window.open(googleHref + taobaoSearch + kingHref + 'q=' + jsondata.text, '_blank');
+    								googleWindow.location.replace(googleHref + taobaoSearch + kingHref + 'q=' + jsondata.text);
     							} else {
-    								window.open(googleHref + taobaoSearch + 'q=' + jsondata.text, '_blank');
+    								googleWindow.location.replace(googleHref + taobaoSearch + 'q=' + jsondata.text);
     							}
     						} else {
     							if (king) {
-    								window.open(taobaoSearch + kingHref + 'q=' + jsondata.text, '_blank');
+    								googleWindow.location.replace(taobaoSearch + kingHref + 'q=' + jsondata.text);
     							} else {
-    								window.open(taobaoSearch + 'q=' + jsondata.text, '_blank');
+    								googleWindow.location.replace(taobaoSearch + 'q=' + jsondata.text);
     							}
     						}
 						}
