@@ -59,16 +59,12 @@ public class MainController {
     }
 
     public Goods getObjectGoodsForUpdate(HttpServletRequest request,Goods good) throws UnsupportedEncodingException {
-        //HttpSession sesion = request.getSession(true);
-
-        System.out.println(request.getParameter("HREFGOODS"));
         good.setHrefGoods(request.getParameter("HREFGOODS"));
-        if(request.getParameter("AMOUNTGOODS") != null) {
+        
             good.setAmountGoods(Integer.parseInt(request.getParameter("AMOUNTGOODS")));
             good.setWeightGoods(Double.parseDouble(request.getParameter("WEIGHTGOODS")));
             good.setPriceGoods(getPriceOfOrder(Integer.parseInt(request.getParameter("AMOUNTGOODS")),Double.parseDouble(request.getParameter("PRICEGOODS"))));
-        }
-
+     
 
         good.setColorGoods(request.getParameter("COLORGOODS"));
         good.setSizeGoods(request.getParameter("SIZEGOODS"));
@@ -111,7 +107,14 @@ public class MainController {
 
     public OrderT getObjectOrder(int idGoods,int idUser, int idOrderStatus, double price,double weight, int amount) throws UnsupportedEncodingException {
         //HttpSession sesion = request.getSession(true);
-        OrderT orderT = new OrderT();
+        OrderT orderT = null;
+        Goods goods = goodsDAO.findEmployeeById(idGoods);
+        if (goods != null) {
+        	orderT = orderDAO.findByGoods(goods);
+        } 
+        if (orderT == null) {
+        	orderT = new OrderT();
+        }
 
         orderT.setApprove("false");
         orderT.setIdGoods(idGoods);
@@ -468,7 +471,7 @@ public class MainController {
     public List<OrderT> allOrdersForOneRequest(int amountConst,Goods goods, int idUser) throws UnsupportedEncodingException {
         List<OrderT> rezOrders = new ArrayList<OrderT>();
         double weight = 0;
-        int amount = 0;
+        int amount = amountConst;
         double realWeight = goods.getWeightGoods() * amountConst;
         if (realWeight > WEIGHT_LIMIT) {
             for(int i = 1; i <= amountConst; i++) {
@@ -479,10 +482,23 @@ public class MainController {
                         Goods goodsNew = goods;
                         goodsNew.setAmountGoods(amount);
 
-                        int idGoods = goodsDAO.saveGoods(goodsNew);
+                        int idGoods = 0;
+                        if (goodsNew.getIdGoods() != 0) {
+                        	idGoods = goodsNew.getIdGoods();
+                        	goodsDAO.updateEmployee(goodsNew);
+                        } else {
+                        	idGoods = goodsDAO.saveGoods(goodsNew);
+                        }
                         int idOrderStatus = orderStatusDAO.saveStatus(getOrderStatus());
 
-                        int idNewOrder = orderDAO.addOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+                        int idNewOrder = 0;
+                        OrderT order = orderDAO.findByGoods(goodsNew);
+                        if (order != null) {
+                        	idNewOrder = order.getIdOrder();
+                        	orderDAO.updateOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+                        } else {
+                        	idNewOrder = orderDAO.addOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+                        }
                         rezOrders.add(orderDAO.findOrderById(idNewOrder));
                         break;
                     }
@@ -494,10 +510,23 @@ public class MainController {
                     Goods goodsNew = goods;
                     goodsNew.setAmountGoods(amount);
 
-                    int idGoods = goodsDAO.saveGoods(goodsNew);
+                    int idGoods = 0;
+                    if (goodsNew.getIdGoods() != 0) {
+                    	idGoods = goodsNew.getIdGoods();
+                    	goodsDAO.updateEmployee(goodsNew);
+                    } else {
+                    	idGoods = goodsDAO.saveGoods(goodsNew);
+                    }
                     int idOrderStatus = orderStatusDAO.saveStatus(getOrderStatus());
 
-                    int idNewOrder = orderDAO.addOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+                    int idNewOrder = 0;
+                    OrderT order = orderDAO.findByGoods(goodsNew);
+                    if (order != null) {
+                    	idNewOrder = order.getIdOrder();
+                    	orderDAO.updateOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+                    } else {
+                    	idNewOrder = orderDAO.addOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+                    }
                     rezOrders.add(orderDAO.findOrderById(idNewOrder));
 
                     weight = 0;
@@ -507,10 +536,25 @@ public class MainController {
                }
             }
         } else {
-            int idGoods = goodsDAO.saveGoods(goods);
+        	Goods goodsNew = goods;
+            goodsNew.setAmountGoods(amount);
+        	int idGoods = 0;
+            if (goodsNew.getIdGoods() != 0) {
+            	idGoods = goodsNew.getIdGoods();
+            	goodsDAO.updateEmployee(goodsNew);
+            } else {
+            	idGoods = goodsDAO.saveGoods(goodsNew);
+            }
             int idOrderStatus = orderStatusDAO.saveStatus(getOrderStatus());
 
-            int idNewOrder = orderDAO.addOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goods.getPriceGoods(),goods.getWeightGoods(),goods.getAmountGoods()));
+            int idNewOrder = 0;
+            OrderT order = orderDAO.findByGoods(goodsNew);
+            if (order != null) {
+            	idNewOrder = order.getIdOrder();
+            	orderDAO.updateOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+            } else {
+            	idNewOrder = orderDAO.addOrder(getObjectOrder(idGoods,idUser,idOrderStatus,goodsNew.getPriceGoods(),goodsNew.getWeightGoods(),goodsNew.getAmountGoods()));
+            }
             rezOrders.add(orderDAO.findOrderById(idNewOrder));
         }
         return  rezOrders;

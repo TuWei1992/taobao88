@@ -48,6 +48,7 @@ $(function() {
 			</div>
 			<div class="control">
 				<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/updateOrder" method="POST">
+					<input type="hidden" name="goodsId" value="${goods.idGoods}">
 					<table class="table" cellpadding='50px' >
 						<tr>
 							<td>
@@ -73,7 +74,7 @@ $(function() {
 											<label class="control-label" for="AMOUNTGOODS">Количество единиц продукции <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" value="${goods.amountGoods}" disabled required class="form in">
+											<input type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" value="${goods.amountGoods}" required class="form in">
 										</td>
 									</tr>
 									<tr>

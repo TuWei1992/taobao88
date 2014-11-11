@@ -26,7 +26,7 @@ public interface OrderDAO {
 
     List<OrderT> getOrdersForAdmin();
 
-    void deleteOrder(int id);
+    void deleteOrder(int orderId);
 
     public List<OrderT> getOrdersByPackages(int idPackage);
     

@@ -24,7 +24,7 @@ public interface OrderService {
 
     List<OrderT> getOrdersForAdmin();
 
-    void deleteOrder(int id);
+    void deleteOrder(int orderId);
 
     List<OrderT> getOrdersOnStartPage(int idUser);
 

@@ -75,8 +75,8 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
-    public void deleteOrder(int id) {
-        sessionFactory.getCurrentSession().delete(findOrderById(id));
+    public void deleteOrder(int orderId) {
+        sessionFactory.getCurrentSession().createSQLQuery("DELETE FROM ordert WHERE orderT_id = :orderT_id").setParameter("orderT_id", orderId).executeUpdate();
     }
 
 	@Override

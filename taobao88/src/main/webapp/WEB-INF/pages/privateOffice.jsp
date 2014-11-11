@@ -64,9 +64,10 @@ $(function() {
 					<h1>Добро пожаловать,
 						${pageContext.request.userPrincipal.name}</h1>
 				</c:if>
+				
+				<p>${content.content}</p>
 			
-			
-			<c:if test="${newOrders.size() != 0}">
+			<%--<c:if test="${newOrders.size() != 0}">
 			<div class="alert alert-warning">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<c:if test="${newOrders.size() == 1}">
@@ -227,7 +228,7 @@ $(function() {
 				<c:otherwise>
          			&nbsp;След.&nbsp;
      			</c:otherwise>
-			</c:choose>
+			</c:choose>--%>
 		</div>
 	</div>
 	</div>

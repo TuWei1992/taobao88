@@ -86,17 +86,18 @@
 					Для того, чтобы отправить заказы продавцу, выделите галочкой те, которые хотите заказать и нажмите кнопку отправить.
 				</div>
 					
+				
 				<c:choose>
 					<c:when test="${orders.size() !=0 }">
-						<div class="o_head">
-                          	<h3>Товары</h3>
-                      	</div>
+						<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder">
 						<table class="orders">
 							<thead>
 								<tr>
 									<th colspan="2">Товар</th>
+									<th>В посылку</th>
 									<th>Стоимость</th>
-									<th></th>
+									<th>Редактировать</th>
+									<th>Удалить</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -132,7 +133,7 @@
 												<div class="row-form">
 													<div class="overflow">Цвет:
 													<c:choose>
-														<c:when test="${order.goods.colorGoods == null}">
+														<c:when test="${empty order.goods.colorGoods}">
 															<font color="red">Не выбран</font>
 														</c:when>
 														<c:otherwise>
@@ -143,14 +144,14 @@
 												</div>
 												<div class="row-form">
 													<div class="overflow">Размер:
-														<%--<c:choose>
-                                                    		<c:when test="${empty order.goods.sizeGoods}">
-                                                        		<font color="red">Не выбран</font>
+														<c:choose>
+															<c:when test="${empty order.goods.sizeGoods}">
+																<font color="red">Не выбран</font>
 															</c:when>
 															<c:otherwise>
-                                                        		<span>${order.goods.sizeGoods}</span>
-                                                    		</c:otherwise>
-                                                		</c:choose>--%>
+																<span>${order.goods.sizeGoods}</span>
+															</c:otherwise>
+														</c:choose>
 													</div>
 												</div>
 												<div class="row-form">
@@ -167,17 +168,20 @@
 												</div>
 												<div class="row-form">
 													<div class="overflow">Фотоотчет:
-														<%--<c:choose>
-															<c:when test="${order.goods.photoGoods == null}">
-																<font color="red">Не выбран</font>
-																</c:when>
+														<c:choose>
+															<c:when test="${empty order.goods.photoGoods}">
+																<span>Нет</span>
+															</c:when>
 															<c:otherwise>
-                                                        		<span>${order.goods.photoGoods}</span>
-                                                    		</c:otherwise>
-                                                		</c:choose>--%>
+																<span>Да</span>
+															</c:otherwise>
+														</c:choose>
 													</div>
 												</div>
 											</div>
+										</td>
+										<td>
+											<input type="checkbox" name="idOrder" value="${order.idOrder}">
 										</td>
 										<td>
 											<div>
@@ -197,18 +201,19 @@
 													</a>
 												</c:otherwise>
 											</c:choose>
-                                    		<a onclick="removeFromBasket('${pageContext.request.contextPath}',${good.idGoods});">
-												<img src="${pageContext.request.contextPath}/resources/img/card.png">
-											</a>
+										</td>
+										<td>
+                                    		<img name="deleteNews" class="pull-left" src="${pageContext.request.contextPath}/resources/img/card.png" onclick="{document.deleteOrder.idOrderForDelete.value=${order.idOrder};document.deleteOrder.submit();}">
 										</td>
 									</tr>	
 								</c:forEach>
 							</tbody>
 						</table>
 						<div class="btn-card">
-                    		<a href="${pageContext.request.contextPath}/privateOffice/fromBasket">Оформить заказ</a>
+                    		<a onclick="document.toOrder.submit();">Оформить заказ</a>
                     		<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
                 		</div>
+					</form>
 					</c:when>
 					<c:otherwise>
                     	<div class="o_head">

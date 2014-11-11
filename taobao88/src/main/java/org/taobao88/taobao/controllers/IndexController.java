@@ -102,36 +102,25 @@ public class IndexController extends MainController {
 		return "index";
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "basket", method = RequestMethod.GET)
 	public String basket(HttpServletRequest request, Model model) {
-		/*List<Goods> basket = (List<Goods>) request.getSession().getAttribute("basket");
-		double totalPrice = 0;
-		for (Goods good : basket) {
-			totalPrice += good.getPriceGoods();
-		}
-		model.addAttribute("totalPrice", totalPrice);
-		model.addAttribute("basket", request.getSession().getAttribute("basket"));
-		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
-		RecomendationType recType = recomendationTypeService.getTypeById(0);
-		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));*/
 		List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
 		double totalPrice = 0;
 		for (OrderT o : orders) {
 			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
 			totalPrice += o.getFullPrice();
 		}
-
-        List<OrderBEAN> orderBEANList = getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders));
-        Collections.sort(orderBEANList, Collections.reverseOrder());
-        orderBEANList = getListForFirstPageOrder(orderBEANList,request);
-        request.setAttribute("ordersBeans", orderBEANList);
-        request.setAttribute("orders", orders);
-        
+        model.addAttribute("orders", orders);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		RecomendationType recType = recomendationTypeService.getTypeById(0);
 		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
+		
+		int basket = 0;
+		if (!orders.isEmpty()) {
+			basket = orders.size();
+		}
+		request.getSession().setAttribute("basket", basket);
 		return "basket";
 	}
 	
@@ -168,19 +157,6 @@ public class IndexController extends MainController {
         
         request.setAttribute("orders", orderBEANList);
         request.setAttribute("newOrders",newOrders);
-//		prepareOrdersFromGoods(goodsService.findEmployeeById(goodsId), userService.findUserById(userId));
-		
-//		List<Goods> basket = (List<Goods>) request.getSession().getAttribute("basket");
-//		if (basket == null || basket.isEmpty()) {
-//			basket = new ArrayList<Goods>();
-//		} else {
-//			for (Goods good : basket) {
-//				if (good.getRecomendation().getId() == id) {
-//					return "already_in_basket";
-//				}
-//			}
-//		}
-//		basket.add(goodsService.findEmployeeById(goodsId));
 		model.addAttribute("basket", orders.size());
 			
 		return orders.size() + "";
@@ -214,7 +190,6 @@ public class IndexController extends MainController {
 		return "fill";
 	}
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "fillUpdate", method = RequestMethod.POST)
 	public String fillUpdate(@RequestParam ("idGoods") int id, 
 							 @RequestParam ("color") String color, 
@@ -222,14 +197,13 @@ public class IndexController extends MainController {
 							 @RequestParam ("count") int count,
 							 HttpServletRequest request) throws UnsupportedEncodingException {
 		
+		int userId = (int) request.getSession().getAttribute("currentIdUser");
 		boolean photoGoods = false;
 		if (request.getAttribute("photoGoods") != null) {
 			photoGoods = true;
 		}
 		
 		Goods good = goodsService.findEmployeeById(id);
-		List<Goods> basket = (List<Goods>) request.getSession().getAttribute("basket");
-		basket.remove(good);
 		good.setColorGoods(color);
 		good.setSizeGoods(size);
 		good.setAmountGoods(count);
@@ -241,9 +215,11 @@ public class IndexController extends MainController {
 		}
 		goodsService.updateEmployee(good);
 		
-		basket.add(goodsService.findEmployeeById(id));
-		request.getSession().setAttribute("basket", basket.size());
-		return "redirect:basket";
+		allOrdersForOneRequest(good.getAmountGoods(), good, userId);
+		
+		List<OrderT> orders = orderDAO.getOrdersOnStartPage(userId);
+		request.getSession().setAttribute("basket", orders.size());
+		return "redirect:/basket";
 	}
 }
 

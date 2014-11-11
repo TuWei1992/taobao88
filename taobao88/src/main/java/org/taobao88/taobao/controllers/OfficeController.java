@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.taobao88.taobao.beans.OrderBEAN;
+import org.taobao88.taobao.enterprise.DAO.PagesContentDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 
@@ -37,12 +38,11 @@ public class OfficeController extends  MainController{
     @Autowired private RecomendationService recomendationService;
     @Autowired private MessagesService messagesService;
     @Autowired private BalanceService balanceService;
+    @Autowired private PagesContentDAO pagesContentDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
         HttpSession session = request.getSession(true);
-        List<OrderT> newOrders = new ArrayList<OrderT>();
-
         session.setAttribute("TIME",getCurrentDate());
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -52,30 +52,18 @@ public class OfficeController extends  MainController{
 
         session.setAttribute("user", user);
         session.setAttribute("currentIdUser",idUser);
-        session.setAttribute("HREFGOODS",(String)request.getParameter("HREFGOODS"));
+        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
 
-        String NULL = (String) session.getAttribute("HREFGOODS");
-        String NULLALL = null;
-
-        if(NULLALL != NULL){
-            Goods goods = getObjectGoods(request);
-            newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, idUser);
-            session.setAttribute("HREFGOODS","null");
-        }
-
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) session.getAttribute("currentIdUser"));
-
-        List<OrderBEAN> orderBEANList = getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders));
-        Collections.sort(orderBEANList, Collections.reverseOrder());
-        orderBEANList = getListForFirstPageOrder(orderBEANList,request);
-        request.setAttribute("orders", orderBEANList);
-        request.setAttribute("newOrders",newOrders);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         request.getSession().setAttribute("basket", orders.size());
         
         RecomendationType recType = new RecomendationType();
         recType.setTypeId(5);
         request.setAttribute("banner", recomendationService.getAllRecomendations(recType));
+        
+        PageContent content = pagesContentDAO.findContentByPageName("privateOffice");
+        request.setAttribute("content", content);
+        
         return "privateOffice";
     }
 
@@ -124,20 +112,22 @@ public class OfficeController extends  MainController{
             newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, idUser);
             session.setAttribute("HREFGOODS","null");
         }
-
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) session.getAttribute("currentIdUser"));
-
-        List<OrderBEAN> orderBEANList = getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders));
-        Collections.sort(orderBEANList, Collections.reverseOrder());
-        orderBEANList = getListForFirstPageOrder(orderBEANList,request);
-        request.setAttribute("orders", orderBEANList);
+        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
+		double totalPrice = 0;
+		for (OrderT o : orders) {
+			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+			totalPrice += o.getFullPrice();
+		}
+		request.setAttribute("totalPrice", totalPrice);
+		request.setAttribute("orders", orders);
         request.setAttribute("newOrders",newOrders);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("basket", orders.size());
         
         RecomendationType recType = new RecomendationType();
         recType.setTypeId(5);
         request.setAttribute("banner", recomendationService.getAllRecomendations(recType));
-        return "privateOffice";
+        return "redirect:/basket";
     }
 
     private List<PackageT> preparePackage(UserT user, List<OrderT> orders) {
@@ -189,6 +179,9 @@ public class OfficeController extends  MainController{
             }
         }
         Collections.sort(packageTs, Collections.reverseOrder());
+        
+        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
+        request.getSession().setAttribute("basket", orders.size());
 
         packageTs = getListForFirstPage(packageTs,request);
         request.setAttribute("packages",packageTs);
@@ -213,7 +206,6 @@ public class OfficeController extends  MainController{
             }
         }
         Collections.sort(packageTs, Collections.reverseOrder());
-//        packageTs = getListForFirstPage(packageTs,request);
         for (PackageT p : packageTs) {
         	p.setStatus(packageStatusDAO.findPackageStatusById(p.getIdPackageStatus()));
         }
@@ -227,8 +219,6 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/showPackage", method = RequestMethod.GET)
     public ModelAndView showPackage(HttpServletRequest request){
-        HttpSession session = request.getSession(true);
-
 //        int idUser = (int) session.getAttribute("currentIdUser");
 
         int idPackage = Integer.parseInt(request.getParameter("idPackage"));
@@ -268,30 +258,26 @@ public class OfficeController extends  MainController{
         int idOrder = Integer.parseInt(request.getParameter("idOrderForDelete"));
         OrderT orderT = orderDAO.findOrderById(idOrder);
         if(orderT != null) {
+        	orderDAO.deleteOrder(orderT.getIdOrder());
         	orderStatusDAO.deleteOrderStatus(orderT.getIdOrderStatus());
-        	orderDAO.deleteOrder(idOrder);
+        	
         	goodsDAO.deleteGood(orderT.getIdGoods());
         }
 
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) session.getAttribute("currentIdUser"));
-
-        request.setAttribute("orders",getOrders(orders,goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders)));
-        return "redirect:/privateOffice/toPackages";
+        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
+        request.getSession().setAttribute("basket", orders.size());
+        
+        return "redirect:/basket";
     }
 
     @RequestMapping(value="/changeOrder", method = RequestMethod.GET)
     public ModelAndView changeOrder(HttpServletRequest request){
-        HttpSession session = request.getSession(true);
-
-        int idUser = (int) session.getAttribute("currentIdUser");
-
         int idOrder = Integer.parseInt(request.getParameter("idOrderForChange"));
         OrderT orderT = orderDAO.findOrderById(idOrder);
         Goods goods = goodsDAO.findEmployeeById(orderT.getIdGoods());
 
         request.setAttribute("order",orderT);
         request.setAttribute("goods",goods);
-        session.setAttribute("idGoodsForChange",goods);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         return new ModelAndView("changeOrder");
     }
@@ -309,15 +295,16 @@ public class OfficeController extends  MainController{
 
         session.setAttribute("currentIdUser",idUser);
 
-        Goods goods = getObjectGoodsForUpdate(request,(Goods)session.getAttribute("idGoodsForChange"));
+        Goods goods = goodsDAO.findEmployeeById(Integer.parseInt(request.getParameter("goodsId")));
+        goods = getObjectGoodsForUpdate(request, goods);
 
         goodsDAO.updateEmployee(goods);
 
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) session.getAttribute("currentIdUser"));
+        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
 
         request.setAttribute("orders", getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders)));
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
-        return "redirect:/privateOffice";
+        return "redirect:/basket";
     }
 
     @RequestMapping(value="/ordersHistory", method = RequestMethod.GET)

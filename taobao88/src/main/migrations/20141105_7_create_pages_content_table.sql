@@ -1,3 +1,5 @@
+USE taobao;
+
 CREATE TABLE `taobao`.`pages_content` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `page` VARCHAR(255) NOT NULL,

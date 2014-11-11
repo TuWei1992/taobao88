@@ -142,8 +142,15 @@
 								<a href="#">${good.weightGoods}g</a>
 							</div>
 							<div class="row-form">
-								<label>Фотоотчет: 
-									<input type="checkbox" name="photoGoods" checked="checked">
+								<label>Фотоотчет:
+									<c:choose>
+										<c:when test="${good.photoGoods != null}">
+											<input type="checkbox" name="photoGoods" checked="checked">
+										</c:when>
+										<c:otherwise>
+											<input type="checkbox" name="photoGoods">
+										</c:otherwise>
+									</c:choose>
 								</label>
 								
 							</div>
