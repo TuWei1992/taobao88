@@ -7,7 +7,7 @@
 			if (!window.focus) {
 				window.focus();
 			}
-			$('.form-group input').change(function() {
+			$('.form-group input, textarea').change(function() {
 				checkFilling();
 				var paramName = $(this).attr('name');
 				var paramValue = $(this).val();
@@ -103,7 +103,7 @@
 
 					<div class="form-group">
 						<label for="PHOTOGOODS">Фотоотчет <input type="checkbox"
-							value="true" id="PHOTOGOODS" name="PHOTOGOODS">
+							value="${PHOTOGOODS}" id="PHOTOGOODS" name="PHOTOGOODS">
 						</label>
 					</div>
 
