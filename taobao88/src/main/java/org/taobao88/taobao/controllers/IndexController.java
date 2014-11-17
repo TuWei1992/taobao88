@@ -3,6 +3,7 @@ package org.taobao88.taobao.controllers;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -220,6 +221,18 @@ public class IndexController extends MainController {
 		List<OrderT> orders = orderDAO.getOrdersOnStartPage(userId);
 		request.getSession().setAttribute("basket", orders.size());
 		return "redirect:/basket";
+	}
+	
+	@RequestMapping(value = "/storeOrder", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String storeOrder(HttpServletRequest request) {
+		
+		Enumeration<String> attributes = request.getParameterNames();
+		while (attributes.hasMoreElements()) {
+			String parameter = attributes.nextElement();
+			request.getSession().setAttribute(parameter, request.getParameter(parameter));
+		}
+		
+		return null;
 	}
 }
 
