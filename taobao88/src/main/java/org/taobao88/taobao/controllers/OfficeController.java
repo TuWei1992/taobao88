@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -16,9 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.taobao88.taobao.beans.OrderBEAN;
 import org.taobao88.taobao.enterprise.DAO.PagesContentDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
@@ -125,6 +122,8 @@ public class OfficeController extends  MainController{
         request.setAttribute("newOrders",newOrders);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         request.getSession().setAttribute("basket", orders.size());
+        
+        clearOrderInSession(request);
         
         RecomendationType recType = new RecomendationType();
         recType.setTypeId(5);
@@ -536,6 +535,19 @@ public class OfficeController extends  MainController{
         request.setAttribute("cities", countryRegCityDAO.getAllCity());
         request.setAttribute("changeSettingsBool", bool);
         request.setAttribute("adminSettingsBool","false");
+    }
+    
+    private void clearOrderInSession(HttpServletRequest request) {
+    	request.getSession().setAttribute("HREFGOODS", null);
+    	request.getSession().setAttribute("NAMEGOODS", null);
+    	request.getSession().setAttribute("AMOUNTGOODS", null);
+    	request.getSession().setAttribute("PRICEGOODS", null);
+    	request.getSession().setAttribute("CHINAGOODS", null);
+    	request.getSession().setAttribute("WEIGHTGOODS", null);
+    	request.getSession().setAttribute("COLORGOODS", null);
+    	request.getSession().setAttribute("SIZEGOODS", null);
+    	request.getSession().setAttribute("COMPLEXGOODS", null);
+    	request.getSession().setAttribute("PHOTOGOODS", null);
     }
 
 }
