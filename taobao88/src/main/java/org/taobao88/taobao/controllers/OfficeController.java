@@ -48,8 +48,9 @@ public class OfficeController extends  MainController{
         String name = user.getUsername();
 
         int idUser = userDAO.getId(name).get(0).getIdUser();
+        UserT usert = userDAO.findUserById(idUser);
 
-        session.setAttribute("user", user);
+        session.setAttribute("user", usert);
         session.setAttribute("currentIdUser",idUser);
         List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
 
