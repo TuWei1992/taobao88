@@ -22,10 +22,10 @@
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="css/ie.css"/>
 <![endif]-->
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/modernizr.custom.28468.js"></script>
 <script	type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
 <script type="text/javascript">
 $(function() {
     $('#basket').text('${basket}');

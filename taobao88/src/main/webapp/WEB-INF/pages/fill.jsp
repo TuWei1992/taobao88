@@ -26,6 +26,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.jcarousel.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-ui-1.10.3.custom.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
     <!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="./css/ie.css" />
     <script type="text/javascript" src="./js/curvycorners.js"></script>

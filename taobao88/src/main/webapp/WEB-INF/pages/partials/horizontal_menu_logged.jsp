@@ -1,9 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-<script type="text/javascript" src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-
 <script type="text/javascript">
 	$(function() {
 		$('.basket_entry').click(function() {
@@ -11,22 +8,11 @@
 				$('.basket_entry').attr('href', '${pageContext.request.contextPath}/login');
 			} 
 		});
-		$('.orderHref').click(function() {
-			showDialog();	
-		});
-		showDialog();
 	});
-	function showDialog() {
-		$( "#dialog" ).dialog({
-			autoOpen:true,
-			position:'left'
-		});
-	}
 </script>
 
-<div id="dialog" title="Сделать заказ">
-	<jsp:include page="orderDialog.jsp"/>
-</div>
+<jsp:include page="../modal/order_modal.jsp" />
+<jsp:include page="../modal/added_to_basket_modal.jsp" />
 
 <div class="un_menu">
 				<ul class="ul_menu">
@@ -71,6 +57,6 @@
 							</c:otherwise>
 						</c:choose>
 					</li>
-					<li class="entre"><a href="" class="orderHref">Сделать заказ</a></li>
+					<li class="entre"><a href="javascript:void(0);" class="orderHref" data-toggle="modal" data-target="#orderModal">Сделать заказ</a></li>
 				</ul>
 			</div>
