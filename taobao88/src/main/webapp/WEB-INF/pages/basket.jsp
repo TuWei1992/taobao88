@@ -106,13 +106,13 @@
 										<td>
 											<c:choose>
 												<c:when test="${order.goods.recomendation != null}">
-													<a href="${pageContext.request.contextPath}/item?id=${order.goods.recomendation.id}" class="product-img">
+													<a href="${pageContext.request.contextPath}/item?id=${order.goods.recomendation.id}" class="product-img" target="_blank">
 														<img src="/images/${order.goods.recomendation.photo}" />
 													</a>
 												</c:when>
 												<c:otherwise>
-													<a href="${order.goods.hrefGoods}" class="product-img">
-														<img src="/images/image_missing.png" />
+													<a href="${order.goods.hrefGoods}" class="product-img" target="_blank">
+														<img src="/images/image_missing.png"/>
 													</a>
 												</c:otherwise>
 											</c:choose>
@@ -121,10 +121,10 @@
 											<h2>
 												<c:choose>
 													<c:when test="${order.goods.recomendation != null}">
-														<a href="${pageContext.request.contextPath}/item?id=${order.goods.recomendation.id}">${order.goods.recomendation.description}</a>
+														<a href="${pageContext.request.contextPath}/item?id=${order.goods.recomendation.id}" target="_blank">${order.goods.recomendation.description}</a>
 													</c:when>
 													<c:otherwise>
-														<a href="${order.goods.hrefGoods}">${order.goods.nameGoods}</a>
+														<a href="${order.goods.hrefGoods}" target="_blank">${order.goods.nameGoods}</a>
 													</c:otherwise>
 												</c:choose>
 											</h2>
@@ -191,7 +191,7 @@
 										<td>
 											<c:choose>
 												<c:when test="${order.goods.recomendation != null}">
-													<a href="${pageContext.request.contextPath}/fill?id=${order.goods.idGoods}">
+													<a href="${pageContext.request.contextPath}/fill?id=${order.goods.idGoods}" target="_blank">
 														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 													</a>
 												</c:when>
