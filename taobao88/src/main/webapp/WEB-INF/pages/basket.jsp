@@ -23,6 +23,20 @@
 		$('#translate').click(function() {
         	translate();
         });
+		$('#orderBtn').click(function() {
+		  var checkboxes = $('.orderIdCheckbox');
+		  var checkedStatus = false;
+		  $(checkboxes).each(function(i, item) {
+		    console.log('la ' + i);
+		    if (item.checked) {
+		      document.toOrder.submit();
+		      return false;
+		    } else {
+		      $('#fromBasketModal').modal('show');
+		      return false;
+		    }
+		  });
+		});
 	});
 </script>
 <!--[if IE 6]>
@@ -34,6 +48,9 @@
 <![endif]-->
 </head>
 <body>
+	
+	<jsp:include page="./modal/basket_alert_modal.jsp"/>
+	
 	<div id="wrapper">
  	<!-- HEADER -->
  	<jsp:include page="partials/index_header.jsp"/>
@@ -181,7 +198,7 @@
 											</div>
 										</td>
 										<td>
-											<input type="checkbox" name="idOrder" value="${order.idOrder}">
+											<input type="checkbox" class="orderIdCheckbox" name="idOrder" value="${order.idOrder}">
 										</td>
 										<td>
 											<div>
@@ -210,7 +227,7 @@
 							</tbody>
 						</table>
 						<div class="btn-card">
-                    		<a onclick="document.toOrder.submit();">Оформить заказ</a>
+                    		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
                     		<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
                 		</div>
 					</form>
