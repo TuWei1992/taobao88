@@ -49,6 +49,7 @@ function addToBasket(currUrl, recId) {
 				$('#alertModal').modal('show');
 			} else {
 				$('#basket').text(jsonData.responseText);
+				$('#addedToBasketModal').modal('show');
 			}
 		}
 	});
