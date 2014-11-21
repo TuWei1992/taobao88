@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 		$(function() {
-			$('.btn-order').addClass('disabled');
+			checkFilling();
 			if (!window.focus) {
 				window.focus();
 			}
