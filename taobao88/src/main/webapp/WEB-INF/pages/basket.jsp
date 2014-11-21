@@ -186,7 +186,7 @@
 												<div class="row-form">
 													<div class="overflow">Фотоотчет:
 														<c:choose>
-															<c:when test="${empty order.goods.photoGoods}">
+															<c:when test="${order.goods.photoGoods == 'false'}">
 																<span>Нет</span>
 															</c:when>
 															<c:otherwise>

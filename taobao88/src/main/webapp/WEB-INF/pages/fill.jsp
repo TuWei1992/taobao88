@@ -145,7 +145,7 @@
 							<div class="row-form">
 								<label>Фотоотчет:
 									<c:choose>
-										<c:when test="${good.photoGoods != null}">
+										<c:when test="${good.photoGoods == 'true'}">
 											<input type="checkbox" name="photoGoods" checked="checked">
 										</c:when>
 										<c:otherwise>

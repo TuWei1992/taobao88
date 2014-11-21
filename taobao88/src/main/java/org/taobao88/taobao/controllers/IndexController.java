@@ -192,28 +192,20 @@ public class IndexController extends MainController {
 	}
 	
 	@RequestMapping(value = "fillUpdate", method = RequestMethod.POST)
-	public String fillUpdate(@RequestParam ("idGoods") int id, 
-							 @RequestParam ("color") String color, 
-							 @RequestParam ("size") String size,
-							 @RequestParam ("count") int count,
-							 HttpServletRequest request) throws UnsupportedEncodingException {
+	public String fillUpdate(HttpServletRequest request) throws UnsupportedEncodingException {
 		
 		int userId = (int) request.getSession().getAttribute("currentIdUser");
-		boolean photoGoods = false;
-		if (request.getAttribute("photoGoods") != null) {
-			photoGoods = true;
-		}
-		
-		Goods good = goodsService.findEmployeeById(id);
-		good.setColorGoods(color);
-		good.setSizeGoods(size);
-		good.setAmountGoods(count);
-		good.setPriceGoods(priceService.getPriceOfOrder(good.getAmountGoods(), good.getRecomendation().getPrice()));
-		if (photoGoods) {
-			good.setPhotoGoods("true");
-		} else {
+		Goods good = goodsService.findEmployeeById(Integer.parseInt(request.getParameter("idGoods")));
+		String photoGoods = request.getParameter("photoGoods");
+		if (photoGoods == null) {
 			good.setPhotoGoods("false");
+		} else {
+			good.setPhotoGoods("true");
 		}
+		good.setColorGoods(request.getParameter("color"));
+		good.setSizeGoods(request.getParameter("size"));
+		good.setAmountGoods(Integer.parseInt(request.getParameter("count")));
+		good.setPriceGoods(priceService.getPriceOfOrder(good.getAmountGoods(), good.getRecomendation().getPrice()));
 		goodsService.updateEmployee(good);
 		
 		allOrdersForOneRequest(good.getAmountGoods(), good, userId);
