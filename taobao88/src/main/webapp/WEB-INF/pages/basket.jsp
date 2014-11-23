@@ -229,8 +229,7 @@
 							</tbody>
 						</table>
 						<div class="btn-card">
-                    		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
-                    		<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
+                    		<p>Общая сумма без доставки: <span>$${totalPrice}</span></p>
                 		</div>
 					</form>
 					</c:when>
@@ -241,44 +240,40 @@
                 	</c:otherwise>
 				</c:choose>
 				
-			</div>
+			<span>Способ доставки</span>
+			<hr>
+			<div>
 				<div class="goods-list">
-       					<c:forEach items="${recomendations}" var="rec">
-							<div id="${rec.id}">
-								<div class="shop-item">
-									<div>
-										<div class="item-box">
-											<div class="item-thumb">
-												<a href="${pageContext.request.contextPath}/item?id=${rec.id}" target="_blank" class="item-lnk thumbnail"> 
-													<img src="/images/${rec.photo}" alt="New fashion">
-												</a>
+       				<c:forEach items="${postServices}" var="service">
+						<div id="${service.id}">
+							<div class="shop-item">
+								<div>
+									<div class="item-box">
+										<div class="item-thumb">
+											<img src="/images/${service.image.imageName}" alt="post service" class="thumbnail">
+										</div>
+										<div class="item-meta">
+											<div class="item-ttl">
+												<span>${service.serviceName} (${service.postRegion.regionName}) </span><input type="radio" name="service" value="${service.id}">
 											</div>
-											<div class="item-meta">
-												<div class="item-ttl">
-													<a href="${pageContext.request.contextPath}/item?id=${rec.id}" target="_blank" title="${rec.description}">${rec.description}</a>
-												</div>
-												<div class="item-prc">
-													<span>${rec.price}</span>
-												</div>
-												<div class="item-buy">
-													<c:choose>
-														<c:when test="${pageContext.request.userPrincipal.name != null}">
-															<a href="#" onclick="addToBasket('${pageContext.request.contextPath}',${rec.id});">В корзину</a>
-														</c:when>
-														<c:otherwise>
-															<a href="${pageContext.request.contextPath}/login" target="_blank">В корзину</a>
-														</c:otherwise>
-													</c:choose>
-												</div>
+											<div class="item-prc">
+												<input type="hidden" name="price" value="${service.price}">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</c:forEach>	
-					</div>
-			</div>		
-		</div>
+						</div>
+					</c:forEach>	
+				</div>
+			</div>
+			<div class="btn-card">
+                    		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
+                    		<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
+                		</div>
+		</div>	
+	</div>
+	</div>
 	</div>
 </div>
 <jsp:include page="partials/index_footer.jsp"/>

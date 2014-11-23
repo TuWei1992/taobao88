@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.taobao88.taobao.beans.OrderBEAN;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
+import org.taobao88.taobao.enterprise.dao.ImagesDAO;
 import org.taobao88.taobao.enterprise.dao.OrderDAO;
 import org.taobao88.taobao.enterprise.dao.OrderStatusDAO;
+import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
 import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.OrderT;
+import org.taobao88.taobao.enterprise.entity.PostService;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
 import org.taobao88.taobao.enterprise.service.*;
@@ -46,6 +49,8 @@ public class IndexController extends MainController {
 	@Autowired private OrderDAO orderDAO;
 	@Autowired private OrderStatusDAO orderStatusDAO;
 	@Autowired private GoodsDAO goodsDAO;
+	@Autowired private PostServiceDAO postServiceDAO;
+	@Autowired private ImagesDAO imagesDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(HttpServletRequest request,
@@ -116,6 +121,12 @@ public class IndexController extends MainController {
         model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		RecomendationType recType = recomendationTypeService.getTypeById(0);
 		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
+		
+		List<PostService> services = postServiceDAO.getAll();
+		for (PostService s : services) {
+			s.setImage(imagesDAO.getImagesById(s.getImageId()));
+		}
+		model.addAttribute("postServices", services);
 		
 		int basket = 0;
 		if (!orders.isEmpty()) {
