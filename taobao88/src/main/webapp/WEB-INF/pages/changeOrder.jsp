@@ -105,7 +105,7 @@ $(function() {
 											<label class="control-label" for="CHINAGOODS">Доставка по Китаю <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder="" value="${goods.chinaGoods}" class="form in">
+											<input type="text" id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder="" value="${goods.chinaGoods}" class="form in" required>
 										</td>
 									</tr>
 									<tr>
@@ -113,7 +113,7 @@ $(function() {
 											<label class="control-label" for="COLORGOODS">Цвет <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="COLORGOODS" name="COLORGOODS" placeholder="" value="${goods.colorGoods}" class="form in">
+											<input type="text" id="COLORGOODS" name="COLORGOODS" placeholder="" value="${goods.colorGoods}" class="form in" required>
 										</td>
 									</tr>
 									<tr>
@@ -121,7 +121,7 @@ $(function() {
 											<label class="control-label" for="SIZEGOODS">Размер <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="SIZEGOODS" name="SIZEGOODS" placeholder="" value="${goods.sizeGoods}" class="form in">
+											<input type="text" id="SIZEGOODS" name="SIZEGOODS" placeholder="" value="${goods.sizeGoods}" class="form in" required>
 										</td>
 									</tr>
 									<tr>
@@ -137,7 +137,14 @@ $(function() {
 											<label class="control-label" for="PHOTOGOODS">Фотоотчет<a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="checkbox" id="PHOTOGOODS" name="PHOTOGOODS" placeholder="" value="true" value="${goods.photoGoods}" class="">
+											<c:choose>
+												<c:when test="${goods.photoGoods == 'true'}">
+													<input type="checkbox" id="PHOTOGOODS" name="PHOTOGOODS" placeholder="" checked>
+												</c:when>
+												<c:otherwise>
+													<input type="checkbox" id="PHOTOGOODS" name="PHOTOGOODS" placeholder="">
+												</c:otherwise>
+											</c:choose>
 										</td>
 									</tr>
 									<tr>

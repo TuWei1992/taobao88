@@ -28,18 +28,23 @@
 					<input class="form-control" type="text" name="serviceName" id="serviceName" required>
 				</div>
 				
-				<div class="form-group">
+				<%-- <div class="form-group">
 					<label class="input" for="region">Регион доставки</label>
 					<select class="form-control" name="region" id="region" required>
 						<c:forEach items="${postRegions}" var="region">
 							<option value="${region.id}">${region.regionName}</option>
 						</c:forEach>
 					</select>
+				</div> --%>
+				
+				<div class="form-group">
+					<label class="input" for="price">Стоимость доставки (до Минска)</label>
+					<input class="form-control" type="text" name="minskPrice" id="minskPrice" required>
 				</div>
 				
 				<div class="form-group">
-					<label class="input" for="price">Стоимость доставки</label>
-					<input class="form-control" type="text" name="price" id="price" required>
+					<label class="input" for="price">Стоимость доставки (до Москвы)</label>
+					<input class="form-control" type="text" name="moscowPrice" id="moscowPrice" required>
 				</div>
 				
 				<div class="form-group">

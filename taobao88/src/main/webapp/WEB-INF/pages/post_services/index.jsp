@@ -26,7 +26,6 @@
 					<tr>
 						<th>Логотип</th>
 						<th>Название</th>
-						<th>Регион доставки</th>
 						<th>Стоимость доставки</th>
 						<th>Действия</th>
 					</tr>
@@ -41,10 +40,8 @@
 								<span>${service.serviceName}</span>
 							</td>
 							<td>
-								<span>${service.postRegion.regionName}</span>
-							</td>
-							<td>
-								<span>${service.price}</span>
+								<span>${service.minskPrice} (до Минска)</span><br>
+								<span>${service.moscowPrice} (до Москвы)</span>
 							</td>
 							<td>
 								<div class="btn-group">
@@ -57,7 +54,6 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>

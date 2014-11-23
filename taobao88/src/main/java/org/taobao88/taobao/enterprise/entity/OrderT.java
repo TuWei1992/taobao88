@@ -1,6 +1,7 @@
 package org.taobao88.taobao.enterprise.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 
@@ -37,7 +38,7 @@ public class OrderT implements Serializable {
     private double fullPrice;
    
     @Column(name = "date")
-    private String dateOrder;
+    private Timestamp dateOrder;
     
     @ManyToOne
     @JoinColumn(name = "idpackage", referencedColumnName = "idpackage")
@@ -46,11 +47,11 @@ public class OrderT implements Serializable {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "orderT")
     private Goods goods;
     
-    public String getDateOrder() {
+    public Timestamp getDateOrder() {
         return dateOrder;
     }
     
-    public void setDateOrder(String dateOrder) {
+    public void setDateOrder(Timestamp dateOrder) {
         this.dateOrder = dateOrder;
     }
 

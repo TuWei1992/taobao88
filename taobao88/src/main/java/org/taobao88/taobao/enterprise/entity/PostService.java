@@ -33,8 +33,11 @@ public class PostService implements Serializable {
     @JoinColumn(name = "post_region_id", referencedColumnName = "id")
 	private PostRegion postRegion;
 	
-	@Column(name = "price")
-	private double price;
+	@Column(name = "minsk_price")
+	private double minskPrice;
+	
+	@Column(name = "moscow_price")
+	private double moscowPrice;
 	
 	@Column(name = "image_id")
 	private int imageId;
@@ -70,12 +73,20 @@ public class PostService implements Serializable {
 		this.postRegion = postRegion;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getMinskPrice() {
+		return minskPrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setMinskPrice(double minskPrice) {
+		this.minskPrice = minskPrice;
+	}
+
+	public double getMoscowPrice() {
+		return moscowPrice;
+	}
+
+	public void setMoscowPrice(double moscowPrice) {
+		this.moscowPrice = moscowPrice;
 	}
 
 	public int getImageId() {
@@ -101,7 +112,9 @@ public class PostService implements Serializable {
 		result = prime * result + id;
 		result = prime * result + imageId;
 		long temp;
-		temp = Double.doubleToLongBits(price);
+		temp = Double.doubleToLongBits(minskPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(moscowPrice);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result
 				+ ((serviceName == null) ? 0 : serviceName.hashCode());
@@ -121,8 +134,11 @@ public class PostService implements Serializable {
 			return false;
 		if (imageId != other.imageId)
 			return false;
-		if (Double.doubleToLongBits(price) != Double
-				.doubleToLongBits(other.price))
+		if (Double.doubleToLongBits(minskPrice) != Double
+				.doubleToLongBits(other.minskPrice))
+			return false;
+		if (Double.doubleToLongBits(moscowPrice) != Double
+				.doubleToLongBits(other.moscowPrice))
 			return false;
 		if (serviceName == null) {
 			if (other.serviceName != null)

@@ -335,7 +335,7 @@ public class MainController {
 
     }
 
-    public List<PackageT> allPackagesForOneRequest(List<OrderT> orderTList) {
+    public List<PackageT> allPackagesForOneRequest(List<OrderT> orderTList, double price) {
         List<PackageT> rez = new ArrayList<PackageT>();
         List<Integer> rezInt = new ArrayList<Integer>();
         double weightOfGoodsInOneOrder = 0;
@@ -359,7 +359,7 @@ public class MainController {
                         PackageT packageT = new PackageT();
                         packageT.setApprove("false");
                         packageT.setIdPackageStatus(idPackageStatus);
-                        packageT.setFullPrice(pricePackage);
+                        packageT.setFullPrice(price);
                         packageT.setDatePackage(getCurrentDate());
 
                         pricePackage = 0;
@@ -380,7 +380,7 @@ public class MainController {
                     PackageT packageT = new PackageT();
                     packageT.setApprove("false");
                     packageT.setIdPackageStatus(idPackageStatus);
-                    packageT.setFullPrice(pricePackage);
+                    packageT.setFullPrice(price);
                     packageT.setDatePackage(getCurrentDate());
 
                     pricePackage = 0;
@@ -415,7 +415,7 @@ public class MainController {
                 orderTList.get(i).setPackageT(packageDAO.findPackageById(idPackage));
                 orderDAO.updateOrder(orderTList.get(i));
             }
-            packageT.setFullPrice(pricePackage);
+            packageT.setFullPrice(price);
             packageT.setDatePackage(getCurrentDate());
 
             sendMessage(userDAO.findUserById(orderTList.get(0).getIdUser()),packageT,idPackage);

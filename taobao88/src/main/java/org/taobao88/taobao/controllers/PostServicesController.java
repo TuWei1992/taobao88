@@ -46,11 +46,12 @@ public class PostServicesController {
 	
 	@RequestMapping(value = "/doCreate", method = RequestMethod.POST)
 	public String doCreate(@RequestParam ("serviceName") String serviceName,
-						   @RequestParam ("region") int regionId,
-						   @RequestParam ("price") double price,
+//						   @RequestParam ("region") int regionId,
+						   @RequestParam ("minskPrice") double minskPrice,
+						   @RequestParam ("moscowPrice") double moscowPrice,
 						   @RequestParam ("logo") MultipartFile logo) {
 		
-		PostRegion region = postRegionDAO.findById(regionId);
+//		PostRegion region = postRegionDAO.findById(regionId);
 		PostService service = new PostService();		
 		saveUploadedFile(logo);
 		
@@ -58,9 +59,10 @@ public class PostServicesController {
 		img.setImageName(logo.getOriginalFilename());
 		img.setImageId(imagesDAO.addImage(img));
 		
-		service.setPostRegion(region);
+//		service.setPostRegion(region);
 		service.setServiceName(serviceName);
-		service.setPrice(price);
+		service.setMinskPrice(minskPrice);
+		service.setMoscowPrice(moscowPrice);
 		service.setImageId(img.getImageId());
 		postServiceDAO.create(service);
 		
@@ -72,14 +74,15 @@ public class PostServicesController {
 						 Model model) {
 		PostService service = postServiceDAO.findById(id);
 		model.addAttribute("postService", service);
-		model.addAttribute("postRegions", postRegionDAO.getAll());
+//		model.addAttribute("postRegions", postRegionDAO.getAll());
 		return "post_services/update";
 	}
 	
 	@RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
 	public String doUpdate(@RequestParam ("id") int id,
 						   @RequestParam ("serviceName") String serviceName,
-						   @RequestParam ("price") double price,
+						   @RequestParam ("minskPrice") double minskPrice,
+						   @RequestParam ("moscowPrice") double moscowPrice,
 						   @RequestParam ("logo") MultipartFile logo) {
 		
 		PostService service = postServiceDAO.findById(id);
@@ -94,7 +97,8 @@ public class PostServicesController {
 		saveUploadedFile(logo);
 		
 		service.setServiceName(serviceName);
-		service.setPrice(price);
+		service.setMinskPrice(minskPrice);
+		service.setMoscowPrice(moscowPrice);
 		postServiceDAO.update(service);
 		
 		return "redirect:/admin/postServices";

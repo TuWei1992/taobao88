@@ -131,7 +131,7 @@
 							<div class="row-form">
 								<label>Количество:</label>
 								<div class="overflow">
-									<select class="form" name="count">
+									<select class="form" name="amount">
 										<c:forEach var="i" begin="1" end="${good.recomendation.count}">
    											<option value="${i}">${i}</option>
 										</c:forEach>

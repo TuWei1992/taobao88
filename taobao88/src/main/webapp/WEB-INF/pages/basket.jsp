@@ -23,6 +23,7 @@
 		$('#translate').click(function() {
         	translate();
         });
+		
 		$('#orderBtn').click(function() {
 		  var checkboxes = $('.orderIdCheckbox');
 		  var checkedStatus = false;
@@ -34,6 +35,41 @@
 		    } else {
 		      $('#fromBasketModal').modal('show');
 		      return false;
+		    }
+		  });
+		});
+		
+		$('.orderIdCheckbox').change(function() {
+		    var checkbox = $(this);
+		    var allChecked = $('.orderIdCheckbox:checked');
+		    var prices = $('.price');
+		    var orderId = $(checkbox).val();
+		    $(prices).each(function(i, item) {
+		    if ($(item).attr('for') == orderId) {
+		        var currSum = parseInt($('.price_without_delivery').text());
+		        
+		        var data = '';
+		        $(allChecked).each(function(i, item) {
+		        	data += $(item).attr('name') + '=' + $(item).val() + '&';
+		        });
+		        		        
+		      	if ($(checkbox).is(':checked')) {
+		          	currSum += parseInt($(item).text());
+		        } else {
+		           currSum -= parseInt($(item).text());
+	            };
+		        
+		        $('.price_without_delivery').text(currSum);
+		        data += 'price=' + currSum;
+	          	$.ajax({type:'POST',
+	          		    url:'${pageContext.request.contextPath}/price/addOrder',
+	          		    data: data,
+	          		    dataType: 'json',
+	          			complete: function(jsonData) {
+	          				$('.price_with_delivery').text(jsonData.responseText);
+	          				$('input[name="price"]').val(jsonData.responseText);
+	          			}
+	            });
 		    }
 		  });
 		});
@@ -204,7 +240,7 @@
 										</td>
 										<td>
 											<div>
-												<span>$ <span class="price">${order.fullPrice}</span></span>
+												<span>$ <span class="price" for="${order.idOrder}">${order.fullPrice}</span></span>
 											</div>
 										</td>
 										<td>
@@ -222,14 +258,15 @@
 											</c:choose>
 										</td>
 										<td>
-                                    		<img name="deleteNews" class="pull-left" src="${pageContext.request.contextPath}/resources/img/card.png" onclick="{document.deleteOrder.idOrderForDelete.value=${order.idOrder};document.deleteOrder.submit();}">
+                                    		<img name="deleteNews" class="pull-left" style="cursor: pointer;" src="${pageContext.request.contextPath}/resources/img/card.png" onclick="{document.deleteOrder.idOrderForDelete.value=${order.idOrder};document.deleteOrder.submit();}">
 										</td>
 									</tr>	
 								</c:forEach>
 							</tbody>
 						</table>
 						<div class="btn-card">
-                    		<p>Общая сумма без доставки: <span>$${totalPrice}</span></p>
+							<input type="hidden" name="price" value="0"> 
+                    		<p>Общая сумма без доставки: <span>$</span><span class="price_without_delivery">0</span></p>
                 		</div>
 					</form>
 					</c:when>
@@ -269,7 +306,7 @@
 			</div>
 			<div class="btn-card">
                     		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
-                    		<p>Итого ожидаемая сумма для оплаты: <span>$${totalPrice}</span></p>
+                    		<p>Итого ожидаемая сумма для оплаты: <span>$</span><span class="price_with_delivery">0</span></p>
                 		</div>
 		</div>	
 	</div>

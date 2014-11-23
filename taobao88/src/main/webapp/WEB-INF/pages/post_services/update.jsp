@@ -29,14 +29,19 @@
 					<input class="form-control" type="text" name="serviceName" id="serviceName" value="${postService.serviceName}" required>
 				</div>
 				
-				<div class="form-group">
+				<%-- <div class="form-group">
 					<label class="input" for="region">Регион доставки</label>
 					<input class="form-control" type="text" name="region" value="${postService.postRegion.regionName}" readonly>
+				</div> --%>
+				
+				<div class="form-group">
+					<label class="input" for="price">Стоимость доставки (до Минска)</label>
+					<input class="form-control" type="text" name="minskPrice" id="minskPrice" value="${postService.minskPrice}" required>
 				</div>
 				
 				<div class="form-group">
-					<label class="input" for="price">Стоимость доставки</label>
-					<input class="form-control" type="text" name="price" id="price" value="${postService.price}" required>
+					<label class="input" for="price">Стоимость доставки (до Москвы)</label>
+					<input class="form-control" type="text" name="moscowPrice" id="moscowPrice" value="${postService.moscowPrice}" required>
 				</div>
 				
 				<div class="form-group">

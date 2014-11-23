@@ -3,14 +3,21 @@ package org.taobao88.taobao.enterprise.service.impl;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.taobao88.taobao.enterprise.dao.GoodsDAO;
+import org.taobao88.taobao.enterprise.entity.Goods;
+import org.taobao88.taobao.enterprise.entity.OrderT;
 import org.taobao88.taobao.enterprise.entity.UserT;
 import org.taobao88.taobao.enterprise.service.PriceService;
 
 @Repository("priceService")
 public class PriceServiceImpl implements PriceService {
+	
+	@Autowired private GoodsDAO goodsDAO;
 
 	@Override
 	public double getPriceOfOrder(int amount, double priceForOne) {
@@ -78,7 +85,7 @@ public class PriceServiceImpl implements PriceService {
 
         for(Map.Entry<Double,Integer> entry : belarus.entrySet()){
             Double key = entry.getKey();
-            if(key == (Weight / 1000)){
+            if(key == (Weight)){
                 D = entry.getValue();
                 break;
             }
@@ -130,7 +137,7 @@ public class PriceServiceImpl implements PriceService {
 
         for(Map.Entry<Double,Integer> entry : belarus.entrySet()){
             Double key = entry.getKey();
-            if(key == (Weight / 1000)){
+            if(key == (Weight)){
                 D = entry.getValue();
                 break;
             }
@@ -182,7 +189,7 @@ public class PriceServiceImpl implements PriceService {
 
         for(Map.Entry<Double,Integer> entry : belarus.entrySet()){
             Double key = entry.getKey();
-            if(key == (Weight / 1000)){
+            if(key == (Weight)){
                 D = entry.getValue();
                 break;
             }
@@ -190,5 +197,33 @@ public class PriceServiceImpl implements PriceService {
 
         return D*0.19;
     }
+
+	@Override
+	public double getOrderPrice(OrderT order) {
+		Goods goods = goodsDAO.findEmployeeById(order.getIdGoods());
+		double price = (goods.getPriceGoods() + 10) * 1.1 * 0.19;
+		price *= goods.getAmountGoods();
+		price = new BigDecimal(price).setScale(2, RoundingMode.UP).doubleValue();
+		return price;
+	}
+
+	@Override
+	public double getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery) {
+		double totalWeight = 0;
+		double totalPrice = priceWithoutDelivery;
+		for (OrderT o : orders) {
+			totalWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
+		}
+		if(Integer.parseInt(user.getCountryUser()) == 248) {
+			totalPrice += getValueForBelarus((totalWeight / 1000));
+        } if(Integer.parseInt(user.getCountryUser()) == 3159) {
+        	totalPrice += getValueForRussia((totalWeight / 1000));
+        } if(Integer.parseInt(user.getCountryUser()) == 9908) {
+        	totalPrice += getValueForUkraine((totalWeight / 1000));
+        }
+		return totalPrice;
+	}
+	
+	
 
 }

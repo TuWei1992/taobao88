@@ -38,6 +38,7 @@ public class OfficeController extends  MainController{
     @Autowired private MessagesService messagesService;
     @Autowired private BalanceService balanceService;
     @Autowired private PagesContentDAO pagesContentDAO;
+    @Autowired private PriceService priceService;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -89,48 +90,93 @@ public class OfficeController extends  MainController{
 		return "redirect:/privateOffice/toPackages";
 	}
 	
-    @RequestMapping(value="/FromOrder", method = RequestMethod.POST)
-    public String privateOfficeFromOrder(HttpServletRequest request) throws UnsupportedEncodingException {
-        HttpSession session = request.getSession(true);
-        List<OrderT> newOrders = new ArrayList<OrderT>();
-
-        session.setAttribute("TIME",getCurrentDate());
-
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String name = user.getUsername();
-
-        int idUser = userDAO.getId(name).get(0).getIdUser();
-
-        session.setAttribute("currentIdUser",idUser);
-        session.setAttribute("HREFGOODS",(String)request.getParameter("HREFGOODS"));
-
-        String NULL = (String) session.getAttribute("HREFGOODS");
-        String NULLALL = null;
-
-        if(NULLALL != NULL){
-            Goods goods = getObjectGoods(request);
-            newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, idUser);
-            session.setAttribute("HREFGOODS","null");
-        }
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
-		double totalPrice = 0;
-		for (OrderT o : orders) {
-			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
-			totalPrice += o.getFullPrice();
+//    @RequestMapping(value="/FromOrder", method = RequestMethod.POST)
+//    public String privateOfficeFromOrder(HttpServletRequest request) throws UnsupportedEncodingException {
+//        HttpSession session = request.getSession(true);
+//        List<OrderT> newOrders = new ArrayList<OrderT>();
+//
+//        session.setAttribute("TIME",getCurrentDate());
+//
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String name = user.getUsername();
+//
+//        int idUser = userDAO.getId(name).get(0).getIdUser();
+//
+//        session.setAttribute("currentIdUser",idUser);
+//        session.setAttribute("HREFGOODS",(String)request.getParameter("HREFGOODS"));
+//
+//        String NULL = (String) session.getAttribute("HREFGOODS");
+//        String NULLALL = null;
+//
+//        if(NULLALL != NULL){
+//            Goods goods = getObjectGoods(request);
+//            newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, idUser);
+//            session.setAttribute("HREFGOODS","null");
+//        }
+//        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
+//		double totalPrice = 0;
+//		for (OrderT o : orders) {
+//			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+//			totalPrice += o.getFullPrice();
+//		}
+//		request.setAttribute("totalPrice", totalPrice);
+//		request.setAttribute("orders", orders);
+//        request.setAttribute("newOrders",newOrders);
+//        request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+//        request.getSession().setAttribute("basket", orders.size());
+//        
+//        clearOrderInSession(request);
+//        return "redirect:/basket";
+//    }
+	
+	@RequestMapping(value="/FromOrder", method = RequestMethod.POST)
+	public String fromOrder(@RequestParam ("HREFGOODS") String hrefGoods,
+							@RequestParam ("NAMEGOODS") String nameGoods,
+							@RequestParam ("AMOUNTGOODS") int amountGoods,
+							@RequestParam ("PRICEGOODS") double priceGoods,
+							@RequestParam ("CHINAGOODS") String chinaGoods,
+							@RequestParam ("WEIGHTGOODS") double weightGoods,
+							@RequestParam ("COLORGOODS") String colorGoods,
+							@RequestParam ("SIZEGOODS") String sizeGoods,
+							@RequestParam ("COMPLEXGOODS") String complexGoods,
+					        HttpServletRequest request) {
+		
+		int userId = (int) request.getSession().getAttribute("currentIdUser");
+		
+		Goods goods = new Goods();
+		goods.setHrefGoods(hrefGoods);
+		goods.setNameGoods(nameGoods);
+		goods.setAmountGoods(amountGoods);
+		goods.setPriceGoods(priceGoods);
+		goods.setChinaGoods(chinaGoods);
+		goods.setWeightGoods(weightGoods);
+		goods.setColorGoods(colorGoods);
+		goods.setSizeGoods(sizeGoods);
+		goods.setComplexGoods(complexGoods);
+		Object photoGoods = request.getParameter("PHOTOGOODS");
+		if (photoGoods != null) {
+			goods.setPhotoGoods("true");
+		} else {
+			goods.setPhotoGoods("false");
 		}
-		request.setAttribute("totalPrice", totalPrice);
-		request.setAttribute("orders", orders);
-        request.setAttribute("newOrders",newOrders);
-        request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
-        request.getSession().setAttribute("basket", orders.size());
-        
-        clearOrderInSession(request);
-        
-        RecomendationType recType = new RecomendationType();
-        recType.setTypeId(5);
-        request.setAttribute("banner", recomendationService.getAllRecomendations(recType));
-        return "redirect:/basket";
-    }
+		goods.setIdGoods(goodsDAO.saveGoods(goods));
+				
+		OrderStatus orderStatus = getOrderStatus();
+		orderStatusDAO.saveStatus(orderStatus);
+		
+		OrderT order = new OrderT();
+		order.setIdGoods(goods.getIdGoods());
+		order.setDateOrder(new Timestamp(new Date().getTime()));
+		order.setApprove("false");
+		order.setIdUser(userId);
+		order.setIdOrderStatus(orderStatus.getIdOrderStatus());
+		order.setFullPrice(priceService.getOrderPrice(order));
+		orderDAO.addOrder(order);
+		
+		clearOrderInSession(request);
+		request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
+		return "redirect:/basket";
+	}
 
     private List<PackageT> preparePackage(UserT user, List<OrderT> orders) {
     	List<PackageT> newPackages = new ArrayList<PackageT>();
@@ -144,12 +190,13 @@ public class OfficeController extends  MainController{
         for (OrderT order : orders) {
         	orderTList.add(orderDAO.findOrderById(order.getIdOrder()));
         }
-        newPackages = allPackagesForOneRequest(orderTList);
+//        newPackages = allPackagesForOneRequest(orderTList);
         return newPackages;
     }
     
     @RequestMapping(value="/toOrder", method = RequestMethod.GET)
-    public String toOrder(HttpServletRequest request){
+    public String toOrder(@RequestParam ("price") double price,
+    					  HttpServletRequest request){
         HttpSession session = request.getSession(true);
         List<PackageT> newPackages = new ArrayList<PackageT>();
 
@@ -170,7 +217,7 @@ public class OfficeController extends  MainController{
             orderTList.add(orderDAO.findOrderById(Integer.parseInt(idOrders[i])));
         }
 
-        newPackages = allPackagesForOneRequest(orderTList);
+        newPackages = allPackagesForOneRequest(orderTList, price);
         List<PackageT> packageTs = new ArrayList<PackageT>();
         List<OrderT> packages = orderDAO.getOrdersForPack(idUser);
 
@@ -286,25 +333,25 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/updateOrder", method = RequestMethod.POST)
     public String updateOrder(HttpServletRequest request) throws UnsupportedEncodingException {
-        HttpSession session = request.getSession(true);
-
-        session.setAttribute("TIME",getCurrentDate());
-
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String name = user.getUsername();
-
-        int idUser = userDAO.getId(name).get(0).getIdUser();
-
-        session.setAttribute("currentIdUser",idUser);
+        request.getSession().setAttribute("TIME",getCurrentDate());
 
         Goods goods = goodsDAO.findEmployeeById(Integer.parseInt(request.getParameter("goodsId")));
-        goods = getObjectGoodsForUpdate(request, goods);
-
+        goods.setHrefGoods(request.getParameter("HREFGOODS"));
+        goods.setAmountGoods(Integer.parseInt(request.getParameter("AMOUNTGOODS")));
+        goods.setWeightGoods(Double.parseDouble(request.getParameter("WEIGHTGOODS")));
+        goods.setPriceGoods(Double.parseDouble(request.getParameter("PRICEGOODS")));
+        goods.setColorGoods(request.getParameter("COLORGOODS"));
+        goods.setSizeGoods(request.getParameter("SIZEGOODS"));
+        goods.setNameGoods(request.getParameter("NAMEGOODS"));
+        goods.setChinaGoods(request.getParameter("CHINAGOODS"));
+        goods.setPhotoGoods(request.getParameter("PHOTOGOODS"));
+        goods.setComplexGoods(request.getParameter("COMPLEXGOODS"));
         goodsDAO.updateEmployee(goods);
-
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
-
-        request.setAttribute("orders", getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders)));
+        
+        OrderT order = orderDAO.findByGoods(goods);
+        order.setFullPrice(priceService.getOrderPrice(order));
+        orderDAO.updateOrder(order);
+        
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         return "redirect:/basket";
     }

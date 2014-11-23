@@ -36,6 +36,18 @@
 							<i class="icon count"></i>Мой счёт
 						</a>
 					</li>
+					<li><a href="${pageContext.request.contextPath}/privateOffice"><i class="icon office"></i>Мой аккаунт</a></li>
+					<li><a href="javascript:void(0);" class="orderHref" data-toggle="modal" data-target="#orderModal">Сделать заказ</a></li>
+					<li>
+						<c:choose>
+							<c:when test="${pageContext.request.userPrincipal.name != null}">
+								<a href="${pageContext.request.contextPath}/basket">Корзина: <span id="basket" style="font-size: 10pt; color: white;"></span></a>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/login" target="_blank">Корзина: <span id="basket" style="font-size: 10pt; color: white;"></span></a>
+							</c:otherwise>
+						</c:choose>
+					</li>
 					<!-- <li><a href="#"><i class="icon wish"></i>Мой лист желаний</a></li> -->
 					<li class="entre">
 						<c:choose>
@@ -47,16 +59,5 @@
 							</c:otherwise>
 						</c:choose>
 					</li>
-					<li class="entre">
-						<c:choose>
-							<c:when test="${pageContext.request.userPrincipal.name != null}">
-								<a href="${pageContext.request.contextPath}/basket">Корзина: <span id="basket" style="font-size: 10pt; color: white;"></span></a>
-							</c:when>
-							<c:otherwise>
-								<a href="${pageContext.request.contextPath}/login" target="_blank">Корзина: <span id="basket" style="font-size: 10pt; color: white;"></span></a>
-							</c:otherwise>
-						</c:choose>
-					</li>
-					<li class="entre"><a href="javascript:void(0);" class="orderHref" data-toggle="modal" data-target="#orderModal">Сделать заказ</a></li>
 				</ul>
 			</div>

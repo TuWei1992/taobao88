@@ -1,0 +1,4 @@
+USE taobao;
+
+ALTER TABLE ordert 
+CHANGE COLUMN date date DATETIME NULL DEFAULT NULL;

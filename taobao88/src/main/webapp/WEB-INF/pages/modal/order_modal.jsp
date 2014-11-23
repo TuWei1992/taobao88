@@ -99,7 +99,7 @@
 						<div class="input-group">
 							<label class="input" for="WEIGHTGOODS">Вес единицы
 								продукции (в граммах)</label> <input class="form-control order-control"
-								type="number" id="WEIGHTGOODS" max="1000000" name="WEIGHTGOODS"
+								type="text" id="WEIGHTGOODS" max="1000000" name="WEIGHTGOODS"
 								placeholder="Пример: 100, 150, 1100"
 								required="required"
 								value="${WEIGHTGOODS}" data-toggle="tooltip" data-placement="top" title="Вес товара влияет на итоговую стоимость посылки">
@@ -110,7 +110,8 @@
 								name="COLORGOODS" placeholder="" required="required" value="${COLORGOODS}">
 						</div>
 						<div class="input-group">
-							<label class="input" for="SIZEGOODS">Размер</label> <input
+							<label class="input" for="SIZEGOODS">Размер</label>
+							<input
 								class="form-control order-control" type="text" id="SIZEGOODS"
 								name="SIZEGOODS" placeholder="0" required="required" value="${SIZEGOODS}" data-toggle="tooltip" data-placement="top" title="Если размер не указан, ставьте 0">
 						</div>
