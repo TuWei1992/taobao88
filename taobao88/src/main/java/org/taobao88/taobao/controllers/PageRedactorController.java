@@ -314,7 +314,7 @@ public class PageRedactorController extends MainController {
 
 	@RequestMapping(value = "/createTopMenu", method = RequestMethod.GET)
 	public String createTopMenu(Model model) {
-		return "topMenuCreate";
+		return "top_menus/create";
 	}
 
 	@RequestMapping(value = "/createTopMenu/doCreate", method = RequestMethod.POST)
@@ -333,7 +333,7 @@ public class PageRedactorController extends MainController {
 	public String updateTopMenu(@RequestParam("id") int id, Model model) {
 		TopMenu topMenu = topMenuService.getTopMenuById(id);
 		model.addAttribute("topMenu", topMenu);
-		return "topMenuUpdate";
+		return "top_menus/update";
 	}
 
 	@RequestMapping(value = "/updateTopMenu/doUpdate", method = RequestMethod.POST)
