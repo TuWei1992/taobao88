@@ -105,11 +105,12 @@
 					
 				
 				<c:choose>
-					<c:when test="${orders.size() !=0 }">
+					<c:when test="${orders.size() != 0 }">
 						<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder">
 						<table class="orders">
 							<thead>
 								<tr>
+									<th>№</th>
 									<th colspan="2">Товар</th>
 									<th>В посылку</th>
 									<th>Стоимость</th>
@@ -118,8 +119,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${orders}" var="order">
+								<c:forEach begin="0" end="${orders.size()}" varStatus="loop" items="${orders}" var="order">
 									<tr>
+										<td><span>${loop.index + 1}</span></td>
 										<td>
 											<c:choose>
 												<c:when test="${order.goods.recomendation != null}">

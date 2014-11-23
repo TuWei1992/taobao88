@@ -41,6 +41,7 @@ public class ErrorController {
 	
 	private String getExceptionMessage(Throwable throwable, Integer statusCode) {
 		if (throwable != null) {
+			System.out.println(throwable.getMessage());
 			return throwable.getMessage();
 		}
 		HttpStatus httpStatus = HttpStatus.valueOf(statusCode);

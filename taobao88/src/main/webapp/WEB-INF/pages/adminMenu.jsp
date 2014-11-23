@@ -20,6 +20,8 @@
 						href="${pageContext.request.contextPath}/admin/showMessages">Сообщения</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/admin/showBalances">Счета</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/admin/postServices">Почтовые сервисы</a></li>
 					<li><a href="<c:url value="/j_spring_security_logout" />">
 							Выйти</a></li>
 				</ul>

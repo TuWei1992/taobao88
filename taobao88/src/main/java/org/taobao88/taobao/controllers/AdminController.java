@@ -35,22 +35,7 @@ public class AdminController extends MainController{
 	public String adminPage(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         session.setAttribute("TIME",getCurrentDate());
-        /*List<OrderT> resultOrderTs = new ArrayList<OrderT>();
-
-        session.setAttribute("TIME",getCurrentDate());
-
-        List<OrderT> orderTs = orderDAO.getOrdersForAdmin();
-
-        for(int i=0;i<orderTs.size();i++){
-            OrderStatus orderStatus = orderStatusDAO.findStatusById(orderTs.get(i).getIdOrderStatus());
-            if(!orderStatus.getDone().equals("true")){
-                resultOrderTs.add(orderTs.get(i));
-            }
-        }
-
-        request.setAttribute("orders",resultOrderTs);
-
-        return "admin";   */
+       
         List<PackageT> packageTList = packageDAO.getPackagesForAdmin();
         packageTList = getListForFirstPage(packageTList,request);
 
@@ -61,19 +46,6 @@ public class AdminController extends MainController{
 
     @RequestMapping(value="/orderHistory", method = RequestMethod.GET)
     public String adminHistoryPage(HttpServletRequest request) {
-       /* List<OrderT> resultOrderTs = new ArrayList<OrderT>();
-
-        List<OrderT> orderTs = orderDAO.getOrdersForAdmin();
-
-        for(int i=0;i<orderTs.size();i++){
-            OrderStatus orderStatus = orderStatusDAO.findStatusById(orderTs.get(i).getIdOrderStatus());
-            if(!orderStatus.getDone().equals("false")){
-                resultOrderTs.add(orderTs.get(i));
-            }
-        }
-
-        request.setAttribute("ordersHistory",resultOrderTs); */
-
         List<PackageT> packageTList = packageDAO.getPackagesForAdminHistory();
         packageTList = getListForFirstPage(packageTList,request);
         request.setAttribute("activePackages",packageTList);
@@ -131,8 +103,6 @@ public class AdminController extends MainController{
 
     @RequestMapping(value="/orderInformation", method = RequestMethod.GET)
     public String orderInformation(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
-
         int idOrder = Integer.parseInt(request.getParameter("idOrder"));
         OrderT orderT = orderDAO.findOrderById(idOrder);
 
@@ -148,10 +118,7 @@ public class AdminController extends MainController{
 
     @RequestMapping(value="/activePackages", method = RequestMethod.GET)
     public String activePackages(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
-
         request.setAttribute("activePackages",packageDAO.getPackagesForAdmin());
-
         return "activePackages";
     }
 
@@ -196,11 +163,6 @@ public class AdminController extends MainController{
     
     @RequestMapping(value = "showMessages", method = RequestMethod.GET)
     public String showMessages(HttpServletRequest request) {
-//    	UserT user = userService.findUserById(1);
-//    	List<Message> messages = messagesService.findAllUserMessages(user);
-//    	Map<Integer, Set<Message>> map = messagesService.getMessagesByPackages(messages);
-//    	request.setAttribute("mesMap", map);
-//    	request.setAttribute("mes", messages);
     	List<PackageT> packs = packageDAO.getPackagesForAdmin();
     	for (PackageT p : packs) {
     		p.setMessages(messagesService.findMessagesByPackage(p));
