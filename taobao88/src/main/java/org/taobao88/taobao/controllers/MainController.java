@@ -340,12 +340,12 @@ public class MainController {
         List<Integer> rezInt = new ArrayList<Integer>();
         double weightOfGoodsInOneOrder = 0;
         double pricePackage = 0;
-        double fullWeught = 0;
-        for(int i=0;i<orderTList.size();i++) {
-            Goods goods = goodsDAO.findEmployeeById(orderTList.get(i).getIdGoods());
-            fullWeught+=goods.getWeightGoods()*goods.getAmountGoods();
+        double fullWeight = 0;
+        for(OrderT o : orderTList) {
+            Goods goods = goodsDAO.findEmployeeById(o.getIdGoods());
+            fullWeight += goods.getWeightGoods() * goods.getAmountGoods();
         }
-        if(fullWeught > WEIGHT_LIMIT) {
+        if(fullWeight > WEIGHT_LIMIT) {
             for(int i=0;i<orderTList.size();i++) {
                 orderTList.get(i).setApprove("true");
                 Goods goods = goodsDAO.findEmployeeById(orderTList.get(i).getIdGoods());
@@ -361,6 +361,7 @@ public class MainController {
                         packageT.setIdPackageStatus(idPackageStatus);
                         packageT.setFullPrice(price);
                         packageT.setDatePackage(getCurrentDate());
+                        packageT.setWeight(fullWeight);
 
                         pricePackage = 0;
 
@@ -382,6 +383,7 @@ public class MainController {
                     packageT.setIdPackageStatus(idPackageStatus);
                     packageT.setFullPrice(price);
                     packageT.setDatePackage(getCurrentDate());
+                    packageT.setWeight(fullWeight);
 
                     pricePackage = 0;
 
@@ -404,6 +406,7 @@ public class MainController {
             PackageT packageT = new PackageT();
             packageT.setApprove("false");
             packageT.setIdPackageStatus(idPackageStatus);
+            packageT.setWeight(fullWeight);
             int idPackage = packageDAO.addPackage(packageT);
             rez.add(packageDAO.findPackageById(idPackage));
 

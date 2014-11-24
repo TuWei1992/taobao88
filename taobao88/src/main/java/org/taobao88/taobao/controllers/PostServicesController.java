@@ -16,7 +16,6 @@ import org.taobao88.taobao.enterprise.dao.ImagesDAO;
 import org.taobao88.taobao.enterprise.dao.PostRegionDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
 import org.taobao88.taobao.enterprise.entity.Images;
-import org.taobao88.taobao.enterprise.entity.PostRegion;
 import org.taobao88.taobao.enterprise.entity.PostService;
 
 @Controller

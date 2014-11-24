@@ -110,6 +110,9 @@
 					</div>
 				</div>
 				<div class="main">
+					<div class="col-md-offset-1">
+						<span>Сервис по отслеживанию посылок - </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span>
+					</div>
 					<div class="control">
 						<table class="orders">
                 			<thead>
@@ -117,6 +120,7 @@
                         			<th colspan="2">Товары в посылке</th>
                         			<th>Состояние</th>
                         			<th>Стоимость</th>
+                        			<th>Номер отправления</th>
 									<th></th>
                     			</tr>
                 			</thead>
@@ -159,6 +163,11 @@
 										<td>
 											<div>
 												<span>$ <span class="price">${order.fullPrice}</span></span>                            
+											</div>
+										</td>
+										<td>
+											<div>
+												<span>${packageT.tracknumber}</span>                  
 											</div>
 										</td>
 										<td>

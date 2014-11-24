@@ -200,15 +200,15 @@ public class OfficeController extends  MainController{
         HttpSession session = request.getSession(true);
         List<PackageT> newPackages = new ArrayList<PackageT>();
 
-        int idPackageStatus = packageStatusDAO.savePackageStatus(getPackageStatus());
+//        int idPackageStatus = packageStatusDAO.savePackageStatus(getPackageStatus());
 
-        PackageT packageT = new PackageT();
-        packageT.setApprove("false");
-        packageT.setIdPackageStatus(idPackageStatus);
+//        PackageT packageT = new PackageT();
+//        packageT.setApprove("false");
+//        packageT.setIdPackageStatus(idPackageStatus);
 
         int idUser = (int) session.getAttribute("currentIdUser");
 
-        int idPackage = packageService.addPackage(packageT);
+//        int idPackage = packageService.addPackage(packageT);
 
         String[] idOrders = request.getParameterValues("idOrder");
 

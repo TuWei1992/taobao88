@@ -78,6 +78,9 @@
 				<div class="control">
 					<div class="o_head">
 						<h3>Мои посылки</h3>
+						<div>
+							<span>Сервис по отслеживанию посылок - </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span>
+						</div>
 					</div>
 					<c:if test="${packages != null}">
 						<table class="orders">
@@ -86,6 +89,7 @@
                         			<th colspan="2">Посылка</th>
                         			<th>Состояние</th>
                         			<th>Стоимость</th>
+                        			<th>Номер отправления</th>
 									<th></th>
                     			</tr>
                 			</thead>
@@ -132,6 +136,11 @@
 										<td>
 											<div>
 												<span>$ <span class="price">${packageT.fullPrice}</span></span>                            
+											</div>
+										</td>
+										<td>
+											<div>
+												<span>${packageT.tracknumber}</span>
 											</div>
 										</td>
 									</tr>

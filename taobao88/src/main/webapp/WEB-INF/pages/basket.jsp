@@ -251,7 +251,7 @@
 													</a>
 												</c:when>
 												<c:otherwise>
-													<a onclick="{document.changeOrder.idOrderForChange.value=${order.idOrder};document.changeOrder.submit();}" style="cursor: pointer; color: blue">
+													<a onclick="{document.changeOrder.idOrderForChange.value=${order.idOrder};document.changeOrder.submit();}" target="_blank" style="cursor: pointer; color: blue">
 														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 													</a>
 												</c:otherwise>
@@ -291,10 +291,7 @@
 										</div>
 										<div class="item-meta">
 											<div class="item-ttl">
-												<span>${service.serviceName} (${service.postRegion.regionName}) </span><input type="radio" name="service" value="${service.id}">
-											</div>
-											<div class="item-prc">
-												<input type="hidden" name="price" value="${service.price}">
+												<span>${service.serviceName} </span><input type="radio" name="service" value="${service.id}">
 											</div>
 										</div>
 									</div>

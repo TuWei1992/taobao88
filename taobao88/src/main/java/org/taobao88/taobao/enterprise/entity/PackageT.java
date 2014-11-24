@@ -43,6 +43,12 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "packageT", cascade = CascadeType.REMOVE)
     private List<Message> messages;
+    
+    @Column(name = "tracknumber")
+    private String tracknumber;
+    
+    @Column(name = "weight")
+    private double weight;
 
     public String getApprove() {
         return approve;
@@ -106,6 +112,22 @@ public class PackageT implements Comparable<PackageT>, Serializable {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
+	}
+
+	public String getTracknumber() {
+		return tracknumber;
+	}
+
+	public void setTracknumber(String tracknumber) {
+		this.tracknumber = tracknumber;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 	@Override
