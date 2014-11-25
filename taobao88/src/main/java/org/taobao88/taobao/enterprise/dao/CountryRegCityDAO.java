@@ -16,7 +16,7 @@ public interface CountryRegCityDAO {
 
     List<City> getAllCity();
 
-    List<Country> getCountriesByID(int id);
+    Country getCountryByID(int id);
 
     List<Region> getRegionsByID(int id);
 

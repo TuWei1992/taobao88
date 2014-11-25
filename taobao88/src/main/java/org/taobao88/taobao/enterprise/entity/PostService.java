@@ -1,8 +1,9 @@
 package org.taobao88.taobao.enterprise.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "post_services")
@@ -38,9 +42,9 @@ public class PostService implements Serializable {
 	@Column(name = "image_id")
 	private int imageId;
 	
-	@ManyToOne
-	@JoinColumn(name = "", referencedColumnName = "type_id")
-	private Set<PostServicePrice> postServicesPrices;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "postService", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	private List<PostServicePrice> postServicesPrices;
 	
 	@Transient
 	private Images image;
@@ -89,11 +93,11 @@ public class PostService implements Serializable {
 		this.country = country;
 	}
 
-	public Set<PostServicePrice> getPostServicesPrices() {
+	public List<PostServicePrice> getPostServicesPrices() {
 		return postServicesPrices;
 	}
 
-	public void setPostServicesPrices(Set<PostServicePrice> postServicesPrices) {
+	public void setPostServicesPrices(List<PostServicePrice> postServicesPrices) {
 		this.postServicesPrices = postServicesPrices;
 	}
 

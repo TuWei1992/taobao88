@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.taobao88.taobao.enterprise.entity.PostServicePrice;
 
-public interface PostRegionDAO {
+public interface PostServicePriceDAO {
 
 	public PostServicePrice findById(int id);
 	
 	public List<PostServicePrice> getAll();
 	
-	public int create(PostServicePrice postRegion);
+	public int create(PostServicePrice postPrice);
 	
-	public void update(PostServicePrice postRegion);
+	public void update(PostServicePrice postPrice);
 	
-	public void delete(PostServicePrice postRegion);
+	public void delete(PostServicePrice postPrice);
 }

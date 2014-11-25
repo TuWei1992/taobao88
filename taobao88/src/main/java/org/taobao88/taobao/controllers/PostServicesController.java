@@ -3,7 +3,9 @@ package org.taobao88.taobao.controllers;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,19 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.ImagesDAO;
-import org.taobao88.taobao.enterprise.dao.PostRegionDAO;
+import org.taobao88.taobao.enterprise.dao.PostServicePriceDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
+import org.taobao88.taobao.enterprise.entity.Country;
 import org.taobao88.taobao.enterprise.entity.Images;
 import org.taobao88.taobao.enterprise.entity.PostService;
+import org.taobao88.taobao.enterprise.entity.PostServicePrice;
 
 @Controller
 @RequestMapping(value = "/admin/postServices")
 public class PostServicesController {
 
 	@Autowired private PostServiceDAO postServiceDAO;
-	@Autowired private PostRegionDAO postRegionDAO;
+	@Autowired private PostServicePriceDAO postRegionDAO;
 	@Autowired private ImagesDAO imagesDAO;
+	@Autowired private CountryRegCityDAO countryRegCityDAO;
+	@Autowired private PostServicePriceDAO postServicePriceDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
@@ -39,18 +46,18 @@ public class PostServicesController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create(Model model) {
 		model.addAttribute("postService", new PostService());
-		model.addAttribute("postRegions", postRegionDAO.getAll());
+		model.addAttribute("countries", countryRegCityDAO.getAllCountry());
 		return "post_services/create";
 	}
 	
 	@RequestMapping(value = "/doCreate", method = RequestMethod.POST)
 	public String doCreate(@RequestParam ("serviceName") String serviceName,
-//						   @RequestParam ("region") int regionId,
-						   @RequestParam ("minskPrice") double minskPrice,
-						   @RequestParam ("moscowPrice") double moscowPrice,
+						   @RequestParam ("countryId") int countryId,
+						   @RequestParam ("weight") double[] weight,
+						   @RequestParam ("price") double[] price,
 						   @RequestParam ("logo") MultipartFile logo) {
 		
-//		PostRegion region = postRegionDAO.findById(regionId);
+		Country country = countryRegCityDAO.getCountryByID(countryId);
 		PostService service = new PostService();		
 		saveUploadedFile(logo);
 		
@@ -58,11 +65,18 @@ public class PostServicesController {
 		img.setImageName(logo.getOriginalFilename());
 		img.setImageId(imagesDAO.addImage(img));
 		
-//		service.setPostRegion(region);
+		service.setCountry(country);
 		service.setServiceName(serviceName);
 		service.setImageId(img.getImageId());
-		postServiceDAO.create(service);
+		service.setId(postServiceDAO.create(service));
 		
+    	for (int i = 0; i < weight.length; i++) {
+			PostServicePrice p = new PostServicePrice();
+			p.setWeight(weight[i]);
+			p.setPrice(price[i]);
+			p.setPostService(service);
+			p.setId(postServicePriceDAO.create(p));
+		}
 		return "redirect:/admin/postServices";
 	}
 	
@@ -71,15 +85,14 @@ public class PostServicesController {
 						 Model model) {
 		PostService service = postServiceDAO.findById(id);
 		model.addAttribute("postService", service);
-//		model.addAttribute("postRegions", postRegionDAO.getAll());
 		return "post_services/update";
 	}
 	
 	@RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
 	public String doUpdate(@RequestParam ("id") int id,
 						   @RequestParam ("serviceName") String serviceName,
-						   @RequestParam ("minskPrice") double minskPrice,
-						   @RequestParam ("moscowPrice") double moscowPrice,
+						   @RequestParam ("weight") double[] weight,
+						   @RequestParam ("price") double[] price,
 						   @RequestParam ("logo") MultipartFile logo) {
 		
 		PostService service = postServiceDAO.findById(id);
@@ -96,13 +109,25 @@ public class PostServicesController {
 		service.setServiceName(serviceName);
 		postServiceDAO.update(service);
 		
+		for (int i = 0; i < weight.length; i++) {
+			PostServicePrice p = postServicePriceDAO.findById(service.getPostServicesPrices().get(i).getId());
+			p.setWeight(weight[i]);
+			p.setPrice(price[i]);
+			p.setPostService(service);
+			postServicePriceDAO.update(p);
+		}
+		
 		return "redirect:/admin/postServices";
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	public String delete(@RequestParam ("id") int id,
 			 			 Model model) {
-		postServiceDAO.delete(postServiceDAO.findById(id));
+		PostService service = postServiceDAO.findById(id);
+		for (PostServicePrice p : service.getPostServicesPrices()) {
+			postServicePriceDAO.delete(p);
+		}
+		postServiceDAO.delete(service);
 		return "redirect:/admin/postServices";
 	}
 	

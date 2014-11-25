@@ -39,11 +39,10 @@ public class CountryRegCityDAOImpl implements CountryRegCityDAO{
         return sessionFactory.getCurrentSession().createQuery("from City").list();
     }
 
-    @SuppressWarnings("unchecked")
-	@Override
-    public List<Country> getCountriesByID(int id) {
+    @Override
+    public Country getCountryByID(int id) {
         String query = "from Country where idCountry = "+id;
-        return sessionFactory.getCurrentSession().createQuery(query).list();
+        return (Country) sessionFactory.getCurrentSession().createQuery(query).uniqueResult();
     }
 
     @SuppressWarnings("unchecked")

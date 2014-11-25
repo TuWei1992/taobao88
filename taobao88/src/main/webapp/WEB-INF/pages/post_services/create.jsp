@@ -7,6 +7,22 @@
 <meta charset="utf-8">
 <jsp:include page="../adminStyles.jsp"/>
 <title>Добавить сервис</title>
+<script type="text/javascript">
+	$(function() {
+		var groupToAppend = '<div class="col-md-6">' + 
+        						'<label class="input" for="weight">Вес</label>' + 
+        						'<input class="form-control" type="text" name="weight" required>' + 
+      						'</div>' +
+      						'<div class="col-md-6">' + 
+        						'<label class="input" for="price">Цена</label>' +
+				        		'<input class="form-control" type="text" name="price" required>' + 
+      						'</div>';
+		$('#add_input').click(function() {
+			var weightPriceGroup = $('.weight_price');
+			$(weightPriceGroup).append(groupToAppend);
+		});	
+	});
+</script>
 </head>
 <body>
 	<jsp:include page="../adminMenu.jsp" />
@@ -28,24 +44,32 @@
 					<input class="form-control" type="text" name="serviceName" id="serviceName" required>
 				</div>
 				
-				<%-- <div class="form-group">
-					<label class="input" for="region">Регион доставки</label>
-					<select class="form-control" name="region" id="region" required>
-						<c:forEach items="${postRegions}" var="region">
-							<option value="${region.id}">${region.regionName}</option>
+				<div class="form-group">
+					<label class="input" for="countryId">Регион доставки</label>
+					<select class="form-control" name="countryId" id="countryId" required>
+						<c:forEach items="${countries}" var="country">
+							<option value="${country.idCountry}">${country.nameCountry}</option>
 						</c:forEach>
 					</select>
-				</div> --%>
-				
-				<div class="form-group">
-					<label class="input" for="price">Стоимость доставки (до Минска)</label>
-					<input class="form-control" type="text" name="minskPrice" id="minskPrice" required>
 				</div>
 				
 				<div class="form-group">
-					<label class="input" for="price">Стоимость доставки (до Москвы)</label>
-					<input class="form-control" type="text" name="moscowPrice" id="moscowPrice" required>
-				</div>
+					<div class="weight_price">
+						<div class="col-md-5">
+							<label class="input" for="weight">Вес</label>
+							<input class="form-control" type="text" name="weight" required>
+						</div>
+						<div class="col-md-5">
+							<label class="input" for="price">Цена</label>
+							<input class="form-control" type="text" name="price" required>
+						</div>
+					</div>
+						<div>
+							<label class="input" for="add_input">Добавить</label>
+							<button role="button" type="button" id="add_input" class="btn glyphicon glyphicon-plus-sign"></button>
+						</div>
+					
+				</div><br>
 				
 				<div class="form-group">
 					<label class="input" for="logo">Логотип</label> 

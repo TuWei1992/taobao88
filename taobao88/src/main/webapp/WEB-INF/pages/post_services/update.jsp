@@ -29,20 +29,23 @@
 					<input class="form-control" type="text" name="serviceName" id="serviceName" value="${postService.serviceName}" required>
 				</div>
 				
-				<%-- <div class="form-group">
-					<label class="input" for="region">Регион доставки</label>
-					<input class="form-control" type="text" name="region" value="${postService.postRegion.regionName}" readonly>
-				</div> --%>
-				
 				<div class="form-group">
-					<label class="input" for="price">Стоимость доставки (до Минска)</label>
-					<input class="form-control" type="text" name="minskPrice" id="minskPrice" value="${postService.minskPrice}" required>
+					<label class="input" for="countryId">Регион доставки</label>
+					<span>${postService.country.nameCountry}</span>
 				</div>
 				
-				<div class="form-group">
-					<label class="input" for="price">Стоимость доставки (до Москвы)</label>
-					<input class="form-control" type="text" name="moscowPrice" id="moscowPrice" value="${postService.moscowPrice}" required>
-				</div>
+				<c:forEach items="${postService.postServicesPrices}" var="postPrice">
+					<div class="weight_price">
+						<div class="col-md-6">
+							<label class="input" for="weight">Вес</label>
+							<input class="form-control" type="text" name="weight" value="${postPrice.weight}" required>
+						</div>
+						<div class="col-md-6">
+							<label class="input" for="price">Цена</label>
+							<input class="form-control" type="text" name="price" value="${postPrice.price}" required>
+						</div>
+					</div>
+				</c:forEach>
 				
 				<div class="form-group">
 					<label class="input" for="logo">Логотип</label> 

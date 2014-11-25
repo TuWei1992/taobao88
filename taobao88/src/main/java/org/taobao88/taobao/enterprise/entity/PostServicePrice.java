@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "post_regions")
+@Table(name = "post_services_prices")
 public class PostServicePrice implements Serializable {
 
 	/**
@@ -25,7 +25,8 @@ public class PostServicePrice implements Serializable {
 	@Column(name = "id")
 	private int id;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "postServicesPrices")
+	@ManyToOne
+	@JoinColumn(name = "post_service_id", referencedColumnName = "id")
 	private PostService postService;
 	
 	@Column(name = "weight")
@@ -44,6 +45,30 @@ public class PostServicePrice implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public PostService getPostService() {
+		return postService;
+	}
+
+	public void setPostService(PostService postService) {
+		this.postService = postService;
+	}
+
+	public double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	@Override
