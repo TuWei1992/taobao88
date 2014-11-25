@@ -1,9 +1,11 @@
 package org.taobao88.taobao.enterprise.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,17 +32,15 @@ public class PostService implements Serializable {
 	private String serviceName;
 	
 	@ManyToOne
-    @JoinColumn(name = "post_region_id", referencedColumnName = "id")
-	private PostRegion postRegion;
-	
-	@Column(name = "minsk_price")
-	private double minskPrice;
-	
-	@Column(name = "moscow_price")
-	private double moscowPrice;
+    @JoinColumn(name = "country_id", referencedColumnName = "country_id")
+	private Country country;
 	
 	@Column(name = "image_id")
 	private int imageId;
+	
+	@ManyToOne
+	@JoinColumn(name = "", referencedColumnName = "type_id")
+	private Set<PostServicePrice> postServicesPrices;
 	
 	@Transient
 	private Images image;
@@ -65,31 +65,7 @@ public class PostService implements Serializable {
 		this.serviceName = serviceName;
 	}
 
-	public PostRegion getPostRegion() {
-		return postRegion;
-	}
-
-	public void setPostRegion(PostRegion postRegion) {
-		this.postRegion = postRegion;
-	}
-
-	public double getMinskPrice() {
-		return minskPrice;
-	}
-
-	public void setMinskPrice(double minskPrice) {
-		this.minskPrice = minskPrice;
-	}
-
-	public double getMoscowPrice() {
-		return moscowPrice;
-	}
-
-	public void setMoscowPrice(double moscowPrice) {
-		this.moscowPrice = moscowPrice;
-	}
-
-	public int getImageId() {
+    public int getImageId() {
 		return imageId;
 	}
 
@@ -105,17 +81,28 @@ public class PostService implements Serializable {
 		this.image = image;
 	}
 
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
+	public Set<PostServicePrice> getPostServicesPrices() {
+		return postServicesPrices;
+	}
+
+	public void setPostServicesPrices(Set<PostServicePrice> postServicesPrices) {
+		this.postServicesPrices = postServicesPrices;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
 		result = prime * result + imageId;
-		long temp;
-		temp = Double.doubleToLongBits(minskPrice);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(moscowPrice);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result
 				+ ((serviceName == null) ? 0 : serviceName.hashCode());
 		return result;
@@ -133,12 +120,6 @@ public class PostService implements Serializable {
 		if (id != other.id)
 			return false;
 		if (imageId != other.imageId)
-			return false;
-		if (Double.doubleToLongBits(minskPrice) != Double
-				.doubleToLongBits(other.minskPrice))
-			return false;
-		if (Double.doubleToLongBits(moscowPrice) != Double
-				.doubleToLongBits(other.moscowPrice))
 			return false;
 		if (serviceName == null) {
 			if (other.serviceName != null)

@@ -60,8 +60,6 @@ public class PostServicesController {
 		
 //		service.setPostRegion(region);
 		service.setServiceName(serviceName);
-		service.setMinskPrice(minskPrice);
-		service.setMoscowPrice(moscowPrice);
 		service.setImageId(img.getImageId());
 		postServiceDAO.create(service);
 		
@@ -96,8 +94,6 @@ public class PostServicesController {
 		saveUploadedFile(logo);
 		
 		service.setServiceName(serviceName);
-		service.setMinskPrice(minskPrice);
-		service.setMoscowPrice(moscowPrice);
 		postServiceDAO.update(service);
 		
 		return "redirect:/admin/postServices";

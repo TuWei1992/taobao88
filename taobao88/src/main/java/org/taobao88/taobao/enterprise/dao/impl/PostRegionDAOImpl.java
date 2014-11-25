@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.taobao88.taobao.enterprise.dao.PostRegionDAO;
-import org.taobao88.taobao.enterprise.entity.PostRegion;
+import org.taobao88.taobao.enterprise.entity.PostServicePrice;
 
 @Repository("postRegionDAO")
 @Transactional
@@ -16,28 +16,28 @@ public class PostRegionDAOImpl implements PostRegionDAO {
 	@Autowired private SessionFactory sessionFactory;
 	
 	@Override
-	public PostRegion findById(int id) {
-		return (PostRegion) sessionFactory.getCurrentSession().createQuery("from PostRegion where id = :id").setParameter("id", id).uniqueResult();
+	public PostServicePrice findById(int id) {
+		return (PostServicePrice) sessionFactory.getCurrentSession().createQuery("from PostRegion where id = :id").setParameter("id", id).uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PostRegion> getAll() {
-		return (List<PostRegion>) sessionFactory.getCurrentSession().createQuery("from PostRegion").list();
+	public List<PostServicePrice> getAll() {
+		return (List<PostServicePrice>) sessionFactory.getCurrentSession().createQuery("from PostRegion").list();
 	}
 
 	@Override
-	public int create(PostRegion postRegion) {
+	public int create(PostServicePrice postRegion) {
 		return (int) sessionFactory.getCurrentSession().save(postRegion);
 	}
 
 	@Override
-	public void update(PostRegion postRegion) {
+	public void update(PostServicePrice postRegion) {
 		sessionFactory.getCurrentSession().update(postRegion);
 	}
 
 	@Override
-	public void delete(PostRegion postRegion) {
+	public void delete(PostServicePrice postRegion) {
 		sessionFactory.getCurrentSession().delete(postRegion);
 	}
 

@@ -1,7 +1,6 @@
 package org.taobao88.taobao.enterprise.entity;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "post_regions")
-public class PostRegion implements Serializable {
+public class PostServicePrice implements Serializable {
 
 	/**
 	 * 
@@ -26,13 +25,16 @@ public class PostRegion implements Serializable {
 	@Column(name = "id")
 	private int id;
 	
-	@Column(name = "region_name")
-	private String regionName;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "postServicesPrices")
+	private PostService postService;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "postRegion")
-	private Set<PostService> postServices;
+	@Column(name = "weight")
+	private double weight;
 	
-	public PostRegion() {
+	@Column(name = "price")
+	private double price;
+	
+	public PostServicePrice() {
 		
 	}
 
@@ -44,29 +46,16 @@ public class PostRegion implements Serializable {
 		this.id = id;
 	}
 
-	public String getRegionName() {
-		return regionName;
-	}
-
-	public void setRegionName(String regionName) {
-		this.regionName = regionName;
-	}
-
-	public Set<PostService> getPostServices() {
-		return postServices;
-	}
-
-	public void setPostServices(Set<PostService> postServices) {
-		this.postServices = postServices;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
-		result = prime * result
-				+ ((regionName == null) ? 0 : regionName.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(weight);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -78,13 +67,14 @@ public class PostRegion implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PostRegion other = (PostRegion) obj;
+		PostServicePrice other = (PostServicePrice) obj;
 		if (id != other.id)
 			return false;
-		if (regionName == null) {
-			if (other.regionName != null)
-				return false;
-		} else if (!regionName.equals(other.regionName))
+		if (Double.doubleToLongBits(price) != Double
+				.doubleToLongBits(other.price))
+			return false;
+		if (Double.doubleToLongBits(weight) != Double
+				.doubleToLongBits(other.weight))
 			return false;
 		return true;
 	}

@@ -1,5 +1,7 @@
 package org.taobao88.taobao.enterprise.entity;
 
+import java.util.Set;
+
 import javax.persistence.*;
 
 /**
@@ -19,6 +21,9 @@ public class Country {
 
     @Column(name = "name", nullable = false)
     private String nameCountry;
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
+    private Set<PostService> postServices;
 
     public int getIdCountry() {
         return idCountry;
@@ -44,7 +49,15 @@ public class Country {
         this.nameCountry = nameCountry;
     }
 
-    @Override
+    public Set<PostService> getPostServices() {
+		return postServices;
+	}
+
+	public void setPostServices(Set<PostService> postServices) {
+		this.postServices = postServices;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

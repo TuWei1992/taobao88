@@ -2,17 +2,17 @@ package org.taobao88.taobao.enterprise.dao;
 
 import java.util.List;
 
-import org.taobao88.taobao.enterprise.entity.PostRegion;
+import org.taobao88.taobao.enterprise.entity.PostServicePrice;
 
 public interface PostRegionDAO {
 
-	public PostRegion findById(int id);
+	public PostServicePrice findById(int id);
 	
-	public List<PostRegion> getAll();
+	public List<PostServicePrice> getAll();
 	
-	public int create(PostRegion postRegion);
+	public int create(PostServicePrice postRegion);
 	
-	public void update(PostRegion postRegion);
+	public void update(PostServicePrice postRegion);
 	
-	public void delete(PostRegion postRegion);
+	public void delete(PostServicePrice postRegion);
 }
