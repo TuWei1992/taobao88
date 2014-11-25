@@ -18,6 +18,36 @@ USE `taobao`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `balance_operations`
+--
+
+DROP TABLE IF EXISTS `balance_operations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `balance_operations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `amount` double NOT NULL,
+  `reason` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_op_user_id_idx` (`user_id`),
+  CONSTRAINT `fk_op_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `balance_operations`
+--
+
+LOCK TABLES `balance_operations` WRITE;
+/*!40000 ALTER TABLE `balance_operations` DISABLE KEYS */;
+INSERT INTO `balance_operations` VALUES (1,52,50,'Increment by Admin','2014-11-01 14:07:45','2014-11-01 14:07:45'),(2,52,-25,'Decrement by Admin','2014-11-01 14:09:57','2014-11-01 14:09:57'),(3,52,25,'Increment by Admin','2014-11-01 14:14:31','2014-11-01 14:14:31'),(4,52,25,'Increment by Admin','2014-11-01 14:14:57','2014-11-01 14:14:57'),(5,52,-25,'Decrement by Admin','2014-11-01 14:15:02','2014-11-01 14:15:02'),(6,52,-25,'Decrement by Admin','2014-11-01 14:15:04','2014-11-01 14:15:04'),(7,51,50,'Increment by Admin','2014-11-01 14:20:15','2014-11-01 14:20:15'),(8,51,-25,'Decrement by Admin','2014-11-01 14:20:19','2014-11-01 14:20:19'),(9,52,50,'Increment by Admin','2014-11-01 14:24:44','2014-11-01 14:24:44'),(10,51,-25,'Decrement by Admin','2014-11-01 14:24:49','2014-11-01 14:24:49');
+/*!40000 ALTER TABLE `balance_operations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `brands`
 --
 
@@ -130,7 +160,7 @@ DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `country` (
-  `country_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `country_id` int(11) NOT NULL AUTO_INCREMENT,
   `city_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`country_id`),
@@ -172,7 +202,7 @@ CREATE TABLE `goods` (
   PRIMARY KEY (`goods_id`),
   KEY `fk_recomendation_id_idx` (`recomendation_id`),
   CONSTRAINT `fk_recomendation_id` FOREIGN KEY (`recomendation_id`) REFERENCES `recomendations` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3919 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +211,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (3917,'http://arsenal-bl.com/images/uploads/511-71309.jpg',209,1,NULL,'Тестовый товар','черный','52',NULL,'true',150,'ac_dc_highway_to_hell.jpg',1),(3918,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function',313.51,1,NULL,'Новый товар','черный','52',NULL,'true',50,'ac_dc_highway_to_hell.jpg',16);
+INSERT INTO `goods` VALUES (2,'http://catalog.onliner.by/canon/can1100d1855iii/',300,5,'10','Майка','красный','XL','dfxg','true',10,NULL,NULL),(3,'http://www.aliexpress.com/item/Cute-Girls-Women-Sexy-Sheer-Pantyhose-Hose-Tights-Silk-Stockings-Butterfly/1538942200.html',150,10,'10','Майка','красный','XL','','true',1000,NULL,NULL);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +226,7 @@ CREATE TABLE `images` (
   `image_id` int(11) NOT NULL AUTO_INCREMENT,
   `image_name` varchar(255) NOT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -205,7 +235,7 @@ CREATE TABLE `images` (
 
 LOCK TABLES `images` WRITE;
 /*!40000 ALTER TABLE `images` DISABLE KEYS */;
-INSERT INTO `images` VALUES (38,'turbo.jpg'),(39,'turbo.jpg'),(42,'turbo.jpg'),(44,'turbo.jpg'),(45,'adidas.jpg'),(46,'adidas.jpg'),(47,'reebok.png'),(52,'adidas.jpg'),(53,'reebok.png'),(57,'adidas.jpg'),(58,'reebok.png'),(61,'adidas.jpg'),(62,'reebok.png'),(64,'puma.jpg'),(65,'lacoste.jpg'),(66,'nike.jpg'),(67,'vans.jpg'),(68,'lacoste.jpg'),(69,'apple.jpg'),(70,'blackberry.png'),(71,'microsoft.png'),(72,'htc.jpg'),(74,'adidas.jpg'),(83,'adidas.jpg'),(84,'microsoft.png'),(85,''),(86,'puma.jpg'),(87,'reebok.png'),(88,'htc.jpg'),(89,'nike.jpg'),(90,'lacoste.jpg'),(91,'vans.jpg'),(100,'adidas.jpg'),(101,'adidas.jpg'),(102,'lacoste.jpg'),(103,'apple.jpg'),(104,'iron_maideneddie.jpg'),(108,'adidas.jpg'),(117,'adidas.jpg'),(118,'reebok.png'),(119,'lacoste.jpg'),(152,'adidas.jpg'),(153,'reebok.png'),(154,'lacoste.jpg'),(155,'puma.jpg'),(156,'htc.jpg'),(157,'microsoft.png'),(158,'nike.jpg'),(159,'vans.jpg'),(160,'blackberry.png'),(161,'acdc-by-gerard-huerta.jpg'),(164,'watches.jpg'),(165,'ac_dc_highway_to_hell.jpg'),(167,'ac_dc_highway_to_hell.jpg'),(168,'ac_dc_highway_to_hell.jpg');
+INSERT INTO `images` VALUES (38,'turbo.jpg'),(39,'turbo.jpg'),(42,'turbo.jpg'),(44,'turbo.jpg'),(45,'adidas.jpg'),(46,'adidas.jpg'),(47,'reebok.png'),(52,'adidas.jpg'),(53,'reebok.png'),(57,'adidas.jpg'),(58,'reebok.png'),(61,'adidas.jpg'),(62,'reebok.png'),(64,'puma.jpg'),(65,'lacoste.jpg'),(66,'nike.jpg'),(67,'vans.jpg'),(68,'lacoste.jpg'),(69,'apple.jpg'),(70,'blackberry.png'),(71,'microsoft.png'),(72,'htc.jpg'),(74,'adidas.jpg'),(83,'adidas.jpg'),(84,'microsoft.png'),(85,''),(86,'puma.jpg'),(87,'reebok.png'),(88,'htc.jpg'),(89,'nike.jpg'),(90,'lacoste.jpg'),(91,'vans.jpg'),(100,'adidas.jpg'),(101,'adidas.jpg'),(102,'lacoste.jpg'),(103,'apple.jpg'),(104,'iron_maideneddie.jpg'),(108,'adidas.jpg'),(117,'adidas.jpg'),(118,'reebok.png'),(119,'lacoste.jpg'),(152,'adidas.jpg'),(153,'reebok.png'),(154,'lacoste.jpg'),(155,'puma.jpg'),(156,'htc.jpg'),(157,'microsoft.png'),(158,'nike.jpg'),(159,'vans.jpg'),(160,'blackberry.png'),(161,'acdc-by-gerard-huerta.jpg'),(164,'watches.jpg'),(165,'ac_dc_highway_to_hell.jpg'),(167,'ac_dc_highway_to_hell.jpg'),(169,'acdc-by-gerard-huerta.jpg'),(170,'80s3.jpg'),(171,'apple.jpg'),(172,'ac-dc-black_ice_world_tour-live.jpg'),(173,'ac_dc_highway_to_hell.jpg'),(174,'british_steel.jpg'),(175,'Bon+Jovi+-+Livin\'+On+A+Prayer+-+12\'+RECORD_MAXI+SINGLE-27845.jpg'),(176,'british_steel.jpg'),(177,'Bon+Jovi+-+Livin\'+On+A+Prayer+-+12\'+RECORD_MAXI+SINGLE-27845.jpg'),(178,'british_steel.jpg'),(179,'80s3.jpg'),(180,'alt_rock.jpg'),(181,'blackberry.png'),(182,'bob.jpg'),(183,'ac_dc_highway_to_hell.jpg'),(184,'дауни.jpg'),(185,'ironmaiden_killers_massive.jpg'),(186,'ems_logo.png'),(187,'ems_logo.png'),(188,'ems_logo.png'),(189,'ems_logo.png'),(190,'ems_logo.png'),(191,'ems_logo.png'),(192,'ems_logo.png'),(193,'ems_logo.png'),(194,'ems_logo.png'),(195,'ems_logo.png'),(196,'ems_logo.png'),(197,'ems_logo.png'),(198,'usps_logo.png'),(199,'usps_logo.png'),(200,'SU_postal_china.jpg'),(201,'SU_postal_china.jpg'),(202,'usps_logo_200.jpg'),(203,'usps_logo_200.jpg'),(204,'ems_logo.png'),(205,'ems_logo.png');
 /*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +260,7 @@ CREATE TABLE `messages` (
   KEY `fk_idpackage_idx` (`idpackage`),
   CONSTRAINT `fk_from_user_Id` FOREIGN KEY (`from_user`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_to_user_id` FOREIGN KEY (`to_user`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +269,6 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
-INSERT INTO `messages` VALUES (1,52,1,180,'Hello world!','2014-10-24 07:53:59','2014-10-24 07:53:59'),(2,52,1,180,'Hi!','2014-10-24 08:26:20','2014-10-24 08:26:20'),(3,52,1,180,'Hey ho!','2014-10-24 08:26:40','2014-10-24 08:26:40');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,7 +287,7 @@ CREATE TABLE `orderstatus` (
   `ready` varchar(45) DEFAULT NULL,
   `import` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idOrderStatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=3855 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -267,7 +296,7 @@ CREATE TABLE `orderstatus` (
 
 LOCK TABLES `orderstatus` WRITE;
 /*!40000 ALTER TABLE `orderstatus` DISABLE KEYS */;
-INSERT INTO `orderstatus` VALUES (3740,'true','true','true','true','true'),(3741,'true','true','true','false','false'),(3745,'false','false','false','false','false'),(3746,'false','false','false','false','false'),(3747,'false','false','false','false','false'),(3748,'false','false','false','false','false'),(3749,'false','false','false','false','false'),(3750,'false','false','false','false','false'),(3751,'false','false','false','false','false'),(3752,'false','false','false','false','false'),(3753,'false','false','false','false','false'),(3754,'false','false','false','false','false'),(3755,'false','false','false','false','false'),(3756,'false','false','false','false','false'),(3757,'false','false','false','false','false'),(3758,'false','false','false','false','false'),(3759,'false','false','false','false','false'),(3760,'false','false','false','false','false'),(3761,'false','false','false','false','false'),(3762,'false','false','false','false','false'),(3763,'false','false','false','false','false'),(3764,'false','false','false','false','false'),(3765,'false','false','false','false','false'),(3766,'false','false','false','false','false'),(3767,'false','false','false','false','false'),(3768,'false','false','false','false','false'),(3769,'false','false','false','false','false'),(3770,'false','false','false','false','false'),(3771,'false','false','false','false','false'),(3772,'false','false','false','false','false'),(3773,'false','false','false','false','false'),(3774,'false','false','false','false','false'),(3775,'false','false','false','false','false'),(3776,'false','false','false','false','false'),(3777,'false','false','false','false','false'),(3778,'false','false','false','false','false'),(3779,'false','false','false','false','false'),(3780,'false','false','false','false','false'),(3781,'false','false','false','false','false'),(3782,'false','false','false','false','false'),(3783,'false','false','false','false','false'),(3784,'false','false','false','false','false'),(3785,'false','false','false','false','false'),(3786,'false','false','false','false','false'),(3787,'false','false','false','false','false'),(3788,'false','false','false','false','false'),(3789,'false','false','false','false','false'),(3790,'false','false','false','false','false'),(3791,'false','false','false','false','false'),(3792,'false','false','false','false','false'),(3793,'false','false','false','false','false'),(3794,'false','false','false','false','false'),(3795,'false','false','false','false','false'),(3797,'false','false','false','false','false'),(3798,'false','false','false','false','false'),(3800,'false','false','false','false','false'),(3801,'false','false','false','false','false'),(3802,'false','false','false','false','false'),(3803,'false','false','false','false','false'),(3805,'false','false','false','false','false'),(3806,'false','false','false','false','false'),(3807,'false','false','false','false','false'),(3808,'false','false','false','false','false'),(3809,'false','false','false','false','false'),(3810,'false','false','false','false','false'),(3811,'false','false','false','false','false'),(3812,'false','false','false','false','false'),(3813,'false','false','false','false','false'),(3814,'false','false','false','false','false'),(3815,'false','false','false','false','false'),(3816,'false','false','false','false','false'),(3817,'false','false','false','false','false'),(3819,'false','false','false','false','false'),(3820,'false','false','false','false','false'),(3822,'false','false','false','false','false'),(3823,'true','true','false','false','false'),(3824,'false','false','false','false','false'),(3825,'false','false','false','false','false'),(3826,'false','false','false','false','false'),(3827,'false','false','false','false','false'),(3828,'false','false','false','false','false'),(3829,'false','false','false','false','false'),(3831,'false','false','false','false','false'),(3832,'false','false','false','false','false'),(3833,'false','false','false','false','false'),(3835,'false','false','false','false','false'),(3836,'false','false','false','false','false'),(3839,'false','false','false','false','false'),(3840,'false','false','false','false','false'),(3843,'false','false','false','false','false'),(3845,'false','false','false','false','false'),(3846,'false','false','false','false','false'),(3847,'false','false','false','false','false'),(3848,'false','false','false','false','false'),(3851,'false','false','false','false','false'),(3852,'false','false','false','false','false'),(3853,'true','true','false','false','false'),(3854,'true','true','false','false','false');
+INSERT INTO `orderstatus` VALUES (2,'false','false','false','false','false'),(3,'false','false','false','false','false');
 /*!40000 ALTER TABLE `orderstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,13 +315,13 @@ CREATE TABLE `ordert` (
   `approve` varchar(45) DEFAULT NULL,
   `idOrderStatus` int(11) NOT NULL,
   `idpackage` int(11) DEFAULT NULL,
-  `date` varchar(45) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   PRIMARY KEY (`orderT_id`),
   KEY `fk_order_users1` (`user_id`),
   KEY `fk_order_goods1` (`goods_id`),
   CONSTRAINT `fk_order_goods1` FOREIGN KEY (`goods_id`) REFERENCES `goods` (`goods_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,7 +330,7 @@ CREATE TABLE `ordert` (
 
 LOCK TABLES `ordert` WRITE;
 /*!40000 ALTER TABLE `ordert` DISABLE KEYS */;
-INSERT INTO `ordert` VALUES (85,52,3917,216,'false',3851,NULL,NULL),(86,52,3918,317,'false',3852,NULL,NULL),(87,52,3917,216,'true',3853,180,NULL),(88,52,3918,317,'true',3854,180,NULL);
+INSERT INTO `ordert` VALUES (2,52,2,323.96,'true',2,3,'2014-11-24 07:44:42'),(3,52,3,334.4,'true',3,4,'2014-11-24 08:03:44');
 /*!40000 ALTER TABLE `ordert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,11 +348,13 @@ CREATE TABLE `package` (
   `approve` varchar(45) DEFAULT NULL,
   `date` varchar(45) DEFAULT NULL,
   `message_id` int(11) DEFAULT '0',
+  `tracknumber` varchar(100) DEFAULT NULL,
+  `weight` double DEFAULT '0',
   PRIMARY KEY (`idpackage`),
   KEY `fk_package_status_idx` (`idpackageStatus`),
   KEY `fk_message_id_idx` (`message_id`),
   CONSTRAINT `fk_package_status` FOREIGN KEY (`idpackageStatus`) REFERENCES `packagestatus` (`idpackageStatus`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,7 +363,7 @@ CREATE TABLE `package` (
 
 LOCK TABLES `package` WRITE;
 /*!40000 ALTER TABLE `package` DISABLE KEYS */;
-INSERT INTO `package` VALUES (180,533,376,'false','24.10.2014',0);
+INSERT INTO `package` VALUES (3,326.42,3,'false','24.11.2014',0,NULL,50),(4,459.78,4,'false','24.11.2014',0,NULL,10000);
 /*!40000 ALTER TABLE `package` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +383,7 @@ CREATE TABLE `packagestatus` (
   `import` varchar(45) DEFAULT NULL,
   `endPoint` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idpackageStatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=377 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -361,8 +392,89 @@ CREATE TABLE `packagestatus` (
 
 LOCK TABLES `packagestatus` WRITE;
 /*!40000 ALTER TABLE `packagestatus` DISABLE KEYS */;
-INSERT INTO `packagestatus` VALUES (352,'false','false','false','false','false','false'),(353,'false','false','false','false','false','false'),(354,'false','false','false','false','false','false'),(355,'false','false','false','false','false','false'),(356,'false','false','false','false','false','false'),(357,'true','true','false','false','false','false'),(358,'false','false','false','false','false','false'),(359,'false','false','false','false','false','false'),(360,'false','false','false','false','false','false'),(361,'false','false','false','false','false','false'),(362,'false','false','false','false','false','false'),(363,'false','false','false','false','false','false'),(364,'false','false','false','false','false','false'),(365,'false','false','false','false','false','false'),(366,'false','false','false','false','false','false'),(367,'false','false','false','false','false','false'),(368,'false','false','false','false','false','false'),(369,'false','false','false','false','false','false'),(370,'false','false','false','false','false','false'),(371,'false','false','false','false','false','false'),(372,'false','false','false','false','false','false'),(373,'false','false','false','false','false','false'),(374,'false','false','false','false','false','false'),(375,'false','false','false','false','false','false'),(376,'true','true','false','false','false','false');
+INSERT INTO `packagestatus` VALUES (3,'false','false','false','false','false','false'),(4,'false','false','false','false','false','false');
 /*!40000 ALTER TABLE `packagestatus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pages_content`
+--
+
+DROP TABLE IF EXISTS `pages_content`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pages_content` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pages_content`
+--
+
+LOCK TABLES `pages_content` WRITE;
+/*!40000 ALTER TABLE `pages_content` DISABLE KEYS */;
+INSERT INTO `pages_content` VALUES (1,'privateOffice','<p>test content from admin!</p>','2014-11-06 05:58:24','2014-11-06 05:58:24');
+/*!40000 ALTER TABLE `pages_content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_services`
+--
+
+DROP TABLE IF EXISTS `post_services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post_services` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `service_name` varchar(100) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `image_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_post_services_country_idx` (`country_id`),
+  CONSTRAINT `fk_post_services_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_services`
+--
+
+LOCK TABLES `post_services` WRITE;
+/*!40000 ALTER TABLE `post_services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_services_prices`
+--
+
+DROP TABLE IF EXISTS `post_services_prices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post_services_prices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_service_id` int(11) NOT NULL,
+  `weight` double NOT NULL,
+  `price` double NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_post_service_idx` (`post_service_id`),
+  CONSTRAINT `fk_post_service` FOREIGN KEY (`post_service_id`) REFERENCES `post_services` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_services_prices`
+--
+
+LOCK TABLES `post_services_prices` WRITE;
+/*!40000 ALTER TABLE `post_services_prices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_services_prices` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -410,7 +522,7 @@ CREATE TABLE `recomendations` (
   PRIMARY KEY (`id`),
   KEY `type_id_fk_idx` (`type`),
   CONSTRAINT `type_id_fk` FOREIGN KEY (`type`) REFERENCES `recomendation_type` (`type_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -419,7 +531,7 @@ CREATE TABLE `recomendations` (
 
 LOCK TABLES `recomendations` WRITE;
 /*!40000 ALTER TABLE `recomendations` DISABLE KEYS */;
-INSERT INTO `recomendations` VALUES (1,'Тестовый товар','<p><img src=\"http://arsenal-bl.com/images/uploads/511-71309.jpg\" alt=\"\" width=\"320\" height=\"320\" /></p>\r\n<p>Майки!</p>',100,'http://arsenal-bl.com/images/uploads/511-71309.jpg','ac_dc_highway_to_hell.jpg',150,5,0),(14,'Новая тема',NULL,100,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function','best_album_cover.jpg',0,0,1),(15,'Новая тема',NULL,150,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function','acdc-by-gerard-huerta.jpg',0,0,5),(16,'Новый товар','<p>годный</p>',150,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function','ac_dc_highway_to_hell.jpg',50,5,0);
+INSERT INTO `recomendations` VALUES (1,'Новая тема','<p>Тра ли ва ли</p>',150,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function','ironmaiden_killers_massive.jpg',150,10,0);
 /*!40000 ALTER TABLE `recomendations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +558,7 @@ CREATE TABLE `recomendations_colors` (
 
 LOCK TABLES `recomendations_colors` WRITE;
 /*!40000 ALTER TABLE `recomendations_colors` DISABLE KEYS */;
-INSERT INTO `recomendations_colors` VALUES (1,15),(16,15),(16,13),(16,14);
+INSERT INTO `recomendations_colors` VALUES (1,15),(1,13),(1,14);
 /*!40000 ALTER TABLE `recomendations_colors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,7 +611,7 @@ CREATE TABLE `recomendations_images` (
 
 LOCK TABLES `recomendations_images` WRITE;
 /*!40000 ALTER TABLE `recomendations_images` DISABLE KEYS */;
-INSERT INTO `recomendations_images` VALUES (1,167),(16,168);
+INSERT INTO `recomendations_images` VALUES (1,184),(1,185);
 /*!40000 ALTER TABLE `recomendations_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -526,7 +638,7 @@ CREATE TABLE `recomendations_sizes` (
 
 LOCK TABLES `recomendations_sizes` WRITE;
 /*!40000 ALTER TABLE `recomendations_sizes` DISABLE KEYS */;
-INSERT INTO `recomendations_sizes` VALUES (1,9),(16,9),(16,8),(16,7);
+INSERT INTO `recomendations_sizes` VALUES (1,9),(1,8),(1,7);
 /*!40000 ALTER TABLE `recomendations_sizes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -573,7 +685,7 @@ CREATE TABLE `side_menu` (
   `parent_id` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -582,7 +694,7 @@ CREATE TABLE `side_menu` (
 
 LOCK TABLES `side_menu` WRITE;
 /*!40000 ALTER TABLE `side_menu` DISABLE KEYS */;
-INSERT INTO `side_menu` VALUES (9,'Женская одежда','http://s.taobao.com/search?q=女人的衣服',1,0),(10,'Нижнее белье','http://s.taobao.com/search?q=内衣',1,9),(11,'Майки','http://s.taobao.com/search?q=女性的t恤',2,9),(12,'Авто','http://s.taobao.com/search?q=汽车',1,0),(13,'Chevrolet','http://s.taobao.com/search?q=雪佛兰',1,12);
+INSERT INTO `side_menu` VALUES (9,'Женская одежда','http://s.taobao.com/search?q=女人的衣服',1,0),(10,'Нижнее белье','http://s.taobao.com/search?q=内衣',1,9),(11,'Майки','http://s.taobao.com/search?q=女性的t恤',2,9),(12,'Авто','http://s.taobao.com/search?q=汽车',1,0),(13,'Chevrolet','http://s.taobao.com/search?q=雪佛兰',1,12),(14,'Нижнее белье','http://tut.by',4,0),(15,'Контакты','http://s.taobao.com/search?q=内衣',6,0);
 /*!40000 ALTER TABLE `side_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -687,7 +799,8 @@ CREATE TABLE `users` (
   `house` varchar(100) DEFAULT NULL,
   `room` varchar(100) DEFAULT NULL,
   `indexUserT` varchar(90) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -736,4 +849,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-24  8:27:46
+-- Dump completed on 2014-11-25  8:19:36
