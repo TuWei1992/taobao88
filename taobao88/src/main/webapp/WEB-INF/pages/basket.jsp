@@ -39,6 +39,8 @@
 		  });
 		});
 		
+		var data = '';
+		
 		$('.orderIdCheckbox').change(function() {
 		    var checkbox = $(this);
 		    var allChecked = $('.orderIdCheckbox:checked');
@@ -47,8 +49,7 @@
 		    $(prices).each(function(i, item) {
 		    if ($(item).attr('for') == orderId) {
 		        var currSum = parseInt($('.price_without_delivery').text());
-		        
-		        var data = '';
+		      
 		        $(allChecked).each(function(i, item) {
 		        	data += $(item).attr('name') + '=' + $(item).val() + '&';
 		        });
@@ -61,17 +62,21 @@
 		        
 		        $('.price_without_delivery').text(currSum);
 		        data += 'price=' + currSum;
-	          	$.ajax({type:'POST',
-	          		    url:'${pageContext.request.contextPath}/price/addOrder',
-	          		    data: data,
-	          		    dataType: 'json',
-	          			complete: function(jsonData) {
-	          				$('.price_with_delivery').text(jsonData.responseText);
-	          				$('input[name="price"]').val(jsonData.responseText);
-	          			}
-	            });
 		    }
 		  });
+		});
+		
+		$('.service').change(function() {
+			var dataDelivery = data + '&postServiceId=' + $(this).val();
+          	$.ajax({type:'POST',
+          		    url:'${pageContext.request.contextPath}/price/adjustPrice',
+          		    data: dataDelivery,
+          		    dataType: 'json',
+          			complete: function(jsonData) {
+          				$('.price_with_delivery').text(jsonData.responseText);
+          				$('input[name="price"]').val(jsonData.responseText);
+          			}
+            });
 		});
 	});
 </script>
@@ -291,7 +296,7 @@
 										</div>
 										<div class="item-meta">
 											<div class="item-ttl">
-												<span>${service.serviceName} </span><input type="radio" name="service" value="${service.id}">
+												<span>${service.serviceName} </span><input type="radio" name="service" class="service" value="${service.id}">
 											</div>
 										</div>
 									</div>

@@ -46,6 +46,9 @@ public class PostService implements Serializable {
 	@Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private List<PostServicePrice> postServicesPrices;
 	
+	@OneToMany
+	private List<PackageT> packages;
+	
 	@Transient
 	private Images image;
 	

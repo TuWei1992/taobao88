@@ -49,6 +49,9 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     
     @Column(name = "weight")
     private double weight;
+    
+    @ManyToOne
+    private PostService postService;
 
     public String getApprove() {
         return approve;

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
 import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.OrderT;
+import org.taobao88.taobao.enterprise.entity.PostService;
+import org.taobao88.taobao.enterprise.entity.PostServicePrice;
 import org.taobao88.taobao.enterprise.entity.UserT;
 import org.taobao88.taobao.enterprise.service.PriceService;
 
@@ -208,19 +210,24 @@ public class PriceServiceImpl implements PriceService {
 	}
 
 	@Override
-	public double getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery) {
+	public double getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService) {
 		double totalWeight = 0;
 		double totalPrice = priceWithoutDelivery;
 		for (OrderT o : orders) {
 			totalWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
 		}
-		if(Integer.parseInt(user.getCountryUser()) == 248) {
-			totalPrice += getValueForBelarus((totalWeight / 1000));
-        } if(Integer.parseInt(user.getCountryUser()) == 3159) {
-        	totalPrice += getValueForRussia((totalWeight / 1000));
-        } if(Integer.parseInt(user.getCountryUser()) == 9908) {
-        	totalPrice += getValueForUkraine((totalWeight / 1000));
-        }
+		totalWeight = totalWeight / 1000;
+		if (totalWeight < 1.0) {
+			totalWeight = new BigDecimal(totalWeight).setScale(1, RoundingMode.UP).doubleValue();
+		} else {
+			totalWeight = new BigDecimal(totalWeight).setScale(0, RoundingMode.UP).doubleValue();
+		}
+		
+		for (PostServicePrice postPrice : postService.getPostServicesPrices()) {
+			if (totalWeight == postPrice.getWeight()) {
+				totalPrice += postPrice.getPrice() * 0.19;
+			}
+		}
 		return totalPrice;
 	}
 	
