@@ -51,6 +51,7 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     private double weight;
     
     @ManyToOne
+    @JoinColumn(name = "post_service_id", referencedColumnName = "id")
     private PostService postService;
 
     public String getApprove() {
@@ -131,6 +132,14 @@ public class PackageT implements Comparable<PackageT>, Serializable {
 
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+
+	public PostService getPostService() {
+		return postService;
+	}
+
+	public void setPostService(PostService postService) {
+		this.postService = postService;
 	}
 
 	@Override

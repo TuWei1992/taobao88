@@ -23,6 +23,7 @@
 		$('#translate').click(function() {
         	translate();
         });
+		$('[data-toggle="tooltip"]').tooltip();
 		
 		$('#orderBtn').click(function() {
 		  var checkboxes = $('.orderIdCheckbox');
@@ -66,8 +67,21 @@
 		  });
 		});
 		
-		$('.service').change(function() {
-			var dataDelivery = data + '&postServiceId=' + $(this).val();
+		$('#countryId').change(function() {
+			var dataDelivery = data + '&postServiceId=' + $('.service').val() + '&countryId=' + $('#countryId').val();
+          	$.ajax({type:'POST',
+          		    url:'${pageContext.request.contextPath}/price/adjustPrice',
+          		    data: dataDelivery,
+          		    dataType: 'json',
+          			complete: function(jsonData) {
+          				$('.price_with_delivery').text(jsonData.responseText);
+          				$('input[name="price"]').val(jsonData.responseText);
+          			}
+            });
+		});
+		
+		$('.service').click(function() {
+			var dataDelivery = data + '&postServiceId=' + $(this).val() + '&countryId=' + $('#countryId').val();
           	$.ajax({type:'POST',
           		    url:'${pageContext.request.contextPath}/price/adjustPrice',
           		    data: dataDelivery,
@@ -144,10 +158,10 @@
 					Для того, чтобы отправить заказы продавцу, выделите галочкой те, которые хотите заказать и нажмите кнопку отправить.
 				</div>
 					
-				
+			<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder">	
 				<c:choose>
 					<c:when test="${orders.size() != 0 }">
-						<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder">
+						
 						<table class="orders">
 							<thead>
 								<tr>
@@ -273,7 +287,7 @@
 							<input type="hidden" name="price" value="0"> 
                     		<p>Общая сумма без доставки: <span>$</span><span class="price_without_delivery">0</span></p>
                 		</div>
-					</form>
+					
 					</c:when>
 					<c:otherwise>
                     	<div class="o_head">
@@ -286,6 +300,21 @@
 			<hr>
 			<div>
 				<div class="goods-list">
+						<fieldset style="border:none;">
+						<div class="row-form col-md-2">
+							<label>Регион доставки:</label>
+							<div class="overflow">
+								<select class="form in form-control" name="countryId" id="countryId" data-toggle="tooltip" data-placement="top" title="Если Вашей страны нет в списке, напишите нам вопрос о возможности доставки в свою страну!">
+									<c:forEach items="${countries}" var="c">
+										<option value="${c.idCountry}">${c.nameCountry}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+						</fieldset>
+				</div><br>
+				
+				<div class="goods-list">
        				<c:forEach items="${postServices}" var="service">
 						<div id="${service.id}">
 							<div class="shop-item">
@@ -296,7 +325,7 @@
 										</div>
 										<div class="item-meta">
 											<div class="item-ttl">
-												<span>${service.serviceName} </span><input type="radio" name="service" class="service" value="${service.id}">
+												<span>${service.serviceName} </span><input type="radio" name="serviceId" class="service" value="${service.id}">
 											</div>
 										</div>
 									</div>
@@ -306,6 +335,7 @@
 					</c:forEach>	
 				</div>
 			</div>
+		</form>
 			<div class="btn-card">
                     		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
                     		<p>Итого ожидаемая сумма для оплаты: <span>$</span><span class="price_with_delivery">0</span></p>

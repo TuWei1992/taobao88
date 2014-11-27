@@ -20,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.taobao88.taobao.beans.OrderBEAN;
+import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
 import org.taobao88.taobao.enterprise.dao.ImagesDAO;
 import org.taobao88.taobao.enterprise.dao.OrderDAO;
 import org.taobao88.taobao.enterprise.dao.OrderStatusDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
+import org.taobao88.taobao.enterprise.entity.Country;
 import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.OrderT;
 import org.taobao88.taobao.enterprise.entity.PostService;
@@ -51,6 +53,7 @@ public class IndexController extends MainController {
 	@Autowired private GoodsDAO goodsDAO;
 	@Autowired private PostServiceDAO postServiceDAO;
 	@Autowired private ImagesDAO imagesDAO;
+	@Autowired private CountryRegCityDAO countryDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(HttpServletRequest request,
@@ -111,22 +114,21 @@ public class IndexController extends MainController {
 	@RequestMapping(value = "basket", method = RequestMethod.GET)
 	public String basket(HttpServletRequest request, Model model) {
 		List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
-//		double totalPrice = 0;
 		for (OrderT o : orders) {
 			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
-//			totalPrice += o.getFullPrice();
 		}
         model.addAttribute("orders", orders);
-//        model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		RecomendationType recType = recomendationTypeService.getTypeById(0);
 		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
 		
-		List<PostService> services = postServiceDAO.getAll();
+		List<Country> countries = countryDAO.getAllCountry();
+		List<PostService> services = postServiceDAO.findByCountry(countries.get(0).getIdCountry());
 		for (PostService s : services) {
 			s.setImage(imagesDAO.getImagesById(s.getImageId()));
 		}
 		model.addAttribute("postServices", services);
+		model.addAttribute("countries", countries);
 		
 		int basket = 0;
 		if (!orders.isEmpty()) {

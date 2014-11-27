@@ -24,7 +24,7 @@ public class PriceServiceImpl implements PriceService {
 	@Override
 	public double getPriceOfOrder(int amount, double priceForOne) {
 		double price = 0;
-        price = (priceForOne * 10) * 1.1 * 0.19;
+        price = (priceForOne + 10) * 1.1 * 0.19;
         price *= amount;
         price = new BigDecimal(price).setScale(2, RoundingMode.UP).doubleValue();
         return price;

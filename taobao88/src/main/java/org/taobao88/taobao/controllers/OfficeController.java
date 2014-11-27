@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
+import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 
@@ -39,6 +40,7 @@ public class OfficeController extends  MainController{
     @Autowired private BalanceService balanceService;
     @Autowired private PagesContentDAO pagesContentDAO;
     @Autowired private PriceService priceService;
+    @Autowired private PostServiceDAO postServiceDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -190,52 +192,48 @@ public class OfficeController extends  MainController{
         for (OrderT order : orders) {
         	orderTList.add(orderDAO.findOrderById(order.getIdOrder()));
         }
-//        newPackages = allPackagesForOneRequest(orderTList);
         return newPackages;
     }
     
     @RequestMapping(value="/toOrder", method = RequestMethod.GET)
     public String toOrder(@RequestParam ("price") double price,
+    					  @RequestParam ("countryId") int countryId,
+    					  @RequestParam ("serviceId") int serviceId,
     					  HttpServletRequest request){
         HttpSession session = request.getSession(true);
         List<PackageT> newPackages = new ArrayList<PackageT>();
 
-//        int idPackageStatus = packageStatusDAO.savePackageStatus(getPackageStatus());
-
-//        PackageT packageT = new PackageT();
-//        packageT.setApprove("false");
-//        packageT.setIdPackageStatus(idPackageStatus);
-
         int idUser = (int) session.getAttribute("currentIdUser");
-
-//        int idPackage = packageService.addPackage(packageT);
-
         String[] idOrders = request.getParameterValues("idOrder");
 
+        double packageWeight = 0;
         List<OrderT> orderTList = new ArrayList<OrderT>();
         for(int i=0 ; i < idOrders.length; i++) {
-            orderTList.add(orderDAO.findOrderById(Integer.parseInt(idOrders[i])));
+        	OrderT o = orderDAO.findOrderById(Integer.parseInt(idOrders[i]));
+            orderTList.add(o);
+            packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
         }
-
-        newPackages = allPackagesForOneRequest(orderTList, price);
-        List<PackageT> packageTs = new ArrayList<PackageT>();
-        List<OrderT> packages = orderDAO.getOrdersForPack(idUser);
-
-        for(int i=0; i < packages.size(); i++){
-            PackageT packageT1 = packageService.findPackageById(packages.get(i).getPackageT().getIdPackage());
-            if(packageT1.getApprove().equals("false")) {
-                packageTs.add(packageT1);
-            }
-        }
-        Collections.sort(packageTs, Collections.reverseOrder());
         
+        PackageT packageT = new PackageT();
+        packageT.setApprove("false");
+        packageT.setIdPackageStatus(packageStatusDAO.savePackageStatus(getPackageStatus()));
+        packageT.setFullPrice(price);
+        packageT.setDatePackage(getCurrentDate());
+        packageT.setWeight(packageWeight/1000);
+        packageT.setPostService(postServiceDAO.findById(serviceId));
+        packageT.setIdPackage(packageService.addPackage(packageT));
+        
+        for (OrderT o : orderTList) {
+        	o.setApprove("true");
+        	o.setPackageT(packageT);
+        	orderDAO.updateOrder(o);
+        }
+        
+        newPackages.add(packageT);
+        
+        sendMessage(userDAO.findUserById(orderTList.get(0).getIdUser()), packageT, packageT.getIdPackage());
         List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
         request.getSession().setAttribute("basket", orders.size());
-
-        packageTs = getListForFirstPage(packageTs,request);
-        request.setAttribute("packages",packageTs);
-        request.setAttribute("newPackage",newPackages);
-        request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         return "redirect:/privateOffice/toPackages";
     }
 

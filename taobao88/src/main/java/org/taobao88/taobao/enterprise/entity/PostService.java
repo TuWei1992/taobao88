@@ -46,7 +46,7 @@ public class PostService implements Serializable {
 	@Cascade(value = {org.hibernate.annotations.CascadeType.SAVE_UPDATE})
 	private List<PostServicePrice> postServicesPrices;
 	
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "postService")
 	private List<PackageT> packages;
 	
 	@Transient
@@ -102,6 +102,14 @@ public class PostService implements Serializable {
 
 	public void setPostServicesPrices(List<PostServicePrice> postServicesPrices) {
 		this.postServicesPrices = postServicesPrices;
+	}
+
+	public List<PackageT> getPackages() {
+		return packages;
+	}
+
+	public void setPackages(List<PackageT> packages) {
+		this.packages = packages;
 	}
 
 	@Override

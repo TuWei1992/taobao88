@@ -19,7 +19,7 @@
 					<li><a href="${pageContext.request.contextPath}/brands"	id="brandsBtn"><i class="icon brend"></i>Бренды</a></li>
 					<li><a href="${pageContext.request.contextPath}/discount"><i class="icon rea"></i>Товары со скидками</a></li>
 					<li><a href="${pageContext.request.contextPath}/comments"><i class="icon social"></i>Товары с отзывами</a></li>
-					<li><a href="${pageContext.request.contextPath}/free"><i class="icon free"></i>Бесплатная доставка!</a></li>
+					<!-- <li><a href="${pageContext.request.contextPath}/free"><i class="icon free"></i>Бесплатная доставка!</a></li> -->
 					<li><a href="${pageContext.request.contextPath}/privateOffice"><i class="icon office"></i>Мой аккаунт</a></li>
 					<li><a href="javascript:void(0);" class="orderHref" data-toggle="modal" data-target="#orderModal">Сделать заказ</a></li>
 					<li>

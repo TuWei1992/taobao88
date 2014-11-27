@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
 import org.taobao88.taobao.enterprise.dao.OrderDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
 import org.taobao88.taobao.enterprise.dao.UserDAO;
 import org.taobao88.taobao.enterprise.entity.OrderT;
+import org.taobao88.taobao.enterprise.entity.PostService;
 import org.taobao88.taobao.enterprise.entity.UserT;
 import org.taobao88.taobao.enterprise.service.PriceService;
 
@@ -29,12 +31,17 @@ public class PriceController {
 	@Autowired private UserDAO userDAO;
 	@Autowired private GoodsDAO goodsDAO;
 	@Autowired private PostServiceDAO postServiceDAO;
+	@Autowired private CountryRegCityDAO countryRegCityDAO;
 	
 	@RequestMapping(value = "adjustPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody double addOrder(@RequestParam ("idOrder") int[] orderIds,
 									     @RequestParam ("price") double price,
 									     @RequestParam ("postServiceId") int postServiceId,
+									     @RequestParam ("countryId") int countryId,
 									     HttpServletRequest request) {
+		
+		PostService service = postServiceDAO.findById(postServiceId);
+		PostService chosenService = postServiceDAO.findByNameAndCountry(service.getServiceName(), countryId);
 		
 		List<OrderT> orders = new ArrayList<>();
 		for (int id : orderIds) {
@@ -46,6 +53,6 @@ public class PriceController {
 		int userId = (int) request.getSession().getAttribute("currentIdUser");
 		UserT user = userDAO.findUserById(userId);
 				
-		return priceService.getDeliveryPrice(orders, user, price, postServiceDAO.findById(postServiceId));
+		return priceService.getDeliveryPrice(orders, user, price, chosenService);
 	}
 }

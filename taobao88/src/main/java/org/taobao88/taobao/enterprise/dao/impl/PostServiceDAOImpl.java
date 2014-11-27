@@ -41,4 +41,17 @@ public class PostServiceDAOImpl implements PostServiceDAO {
 		sessionFactory.getCurrentSession().delete(postService);
 	}
 
+	@Override
+	public PostService findByNameAndCountry(String serviceName, int countryId) {
+		return (PostService) sessionFactory.getCurrentSession().createQuery("from PostService where serviceName = :serviceName and country.idCountry = :countryId")
+				.setParameter("serviceName", serviceName).setParameter("countryId", countryId).uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PostService> findByCountry(int countryId) {
+		return (List<PostService>) sessionFactory.getCurrentSession().createQuery("from PostService where country.idCountry = :countryId")
+				.setParameter("countryId", countryId).list();
+	}
+
 }

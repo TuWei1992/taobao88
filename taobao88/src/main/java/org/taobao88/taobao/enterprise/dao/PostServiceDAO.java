@@ -8,6 +8,10 @@ public interface PostServiceDAO {
 
 	public PostService findById(int id);
 	
+	public PostService findByNameAndCountry(String serviceName, int countryId);
+	
+	public List<PostService> findByCountry(int countryId);
+	
 	public List<PostService> getAll();
 	
 	public int create(PostService postService);
