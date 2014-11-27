@@ -255,7 +255,9 @@
 
 				</div>
 				<tr>
-					<td><input type="submit" class="btn btn-success" value="Сохранить" /></td>
+					<td><input type="submit" class="btn btn-success" value="Сохранить" />
+						<a href="${pageContext.request.contextPath}/admin/packages/update?idPackage=${currentIdPackage}" class="btn btn-success"><span>Редактировать</span></a>
+					</td>
 				</tr>
 				</form>
 			</table>

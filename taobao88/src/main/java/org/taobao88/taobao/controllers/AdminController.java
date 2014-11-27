@@ -2,6 +2,7 @@ package org.taobao88.taobao.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -198,6 +199,30 @@ public class AdminController extends MainController{
     		bo.setReason("Decrement by Admin");
     	}
     	balanceService.adjustBalance(bo);
+    }
+    
+    @RequestMapping(value = "packages/update", method = RequestMethod.GET)
+    public String updatePackage(@RequestParam ("idPackage") int idPackage,
+    							Model model) {
+    	model.addAttribute("packageT", packageDAO.findPackageById(idPackage));    	
+    	return "packages/update";
+    }
+    
+    @RequestMapping(value = "packages/doUpdate", method = RequestMethod.POST)
+    public String doUpdatePackage(HttpServletRequest request) {
+    	
+    	int idPackage = Integer.parseInt(request.getParameter("idPackage"));
+    	double fullPrice = Double.parseDouble(request.getParameter("fullPrice"));
+    	double weight = Double.parseDouble(request.getParameter("weight"));
+    	String tracknumber = request.getParameter("tracknumber");
+    	
+    	PackageT p = packageDAO.findPackageById(idPackage);
+    	p.setFullPrice(fullPrice);
+    	p.setWeight(weight);
+    	p.setTracknumber(tracknumber);
+    	packageDAO.updatePackage(p);
+    	
+    	return "redirect:/admin";
     }
     
     private OrderStatus getStatus(HttpServletRequest request, OrderStatus orderStatus){
