@@ -231,7 +231,7 @@ public class PriceServiceImpl implements PriceService {
 			}
 		}
 		if (!found) {
-			return 0;
+			return 0.0;
 		} else {		
 			return totalPrice;
 		}

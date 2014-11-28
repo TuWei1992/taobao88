@@ -26,17 +26,9 @@
 		$('[data-toggle="tooltip"]').tooltip();
 		
 		$('#orderBtn').click(function() {
-		  var checkboxes = $('.orderIdCheckbox');
-		  var checkedStatus = false;
-		  $(checkboxes).each(function(i, item) {
-		    if (item.checked) {
-		      document.toOrder.submit();
-		      return false;
-		    } else {
-		      $('#fromBasketModal').modal('show');
-		      return false;
-		    }
-		  });
+		  if (validateCheckedGoods() && validateDeliveryPrice()) {
+			  document.toOrder.submit();
+		  }
 		});
 		
 		var data = '';
@@ -78,6 +70,31 @@
 		});
 	});
 		
+	function validateCheckedGoods() {
+		var checkboxes = $('.orderIdCheckbox');
+		var checkedStatus = false;
+		$(checkboxes).each(function(i, item) {
+			if (item.checked) {
+			  checkedStatus = true;
+		    } 
+		});
+		if (checkedStatus) {
+			return checkedStatus;
+		} else {
+			$('#fromBasketModal').modal('show');
+			return false;
+		}
+	}
+	
+	function validateDeliveryPrice() {
+		if ($('input[name="price"]').val() == 0) {
+			$('#badPriceModal').modal('show');
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	function send(dataDelivery) {
 		$.ajax({type:'POST',
   		    url:'${pageContext.request.contextPath}/price/adjustPrice',
@@ -106,6 +123,7 @@
 	
 	<jsp:include page="./modal/basket_alert_modal.jsp"/>
 	<jsp:include page="./modal/weight_limit_modal.jsp"/>
+	<jsp:include page="./modal/basket_bad_price_modal.jsp"/>
 	
 	<div id="wrapper">
  	<!-- HEADER -->
