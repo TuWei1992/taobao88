@@ -128,10 +128,6 @@ public class IndexController extends MainController {
 		List<Country> countries = countryDAO.getAllCountry();
 		List<Country> countriesToJsp = new ArrayList<>();
 		List<PostService> allServices = postServiceDAO.getAll();
-//		List<PostService> services = postServiceDAO.findByCountry(countries.get(0).getIdCountry());
-//		for (PostService s : services) {
-//			s.setImage(imagesDAO.getImagesById(s.getImageId()));
-//		}
 		for (Country c : countries) {
 			if (c.getIdCountry() != 1) {
 				countriesToJsp.add(c);
@@ -139,6 +135,7 @@ public class IndexController extends MainController {
 		}
 		Map<String, PostService> serviceMap = new HashMap<>();
 		for (PostService p : allServices) {
+			p.setImage(imagesDAO.getImagesById(p.getImageId()));
 			serviceMap.put(p.getServiceName(), p);
 		}
 		

@@ -340,7 +340,7 @@
 								<div>
 									<div class="item-box">
 										<div class="item-thumb">
-											<img src="/images/${service.value.image.imageName}" alt="post service" class="thumbnail post_service" width="200">
+											<img src="/images/${service.value.image.imageName}" alt="post service" class="thumbnail" width="200">
 										</div>
 										<div class="item-meta">
 											<div class="item-ttl">
