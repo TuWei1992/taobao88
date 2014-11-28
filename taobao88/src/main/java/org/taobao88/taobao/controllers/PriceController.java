@@ -35,7 +35,7 @@ public class PriceController {
 	
 	@RequestMapping(value = "adjustPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody double addOrder(@RequestParam ("idOrder") int[] orderIds,
-									     @RequestParam ("price") double price,
+									     @RequestParam ("price") double[] price,
 									     @RequestParam ("postServiceId") int postServiceId,
 									     @RequestParam ("countryId") int countryId,
 									     HttpServletRequest request) {
@@ -50,9 +50,14 @@ public class PriceController {
 			orders.add(o);
 		}
 		
+		double priceWithoutDelivery = 0;
+		for (double p : price) {
+			priceWithoutDelivery += p;
+		}
+		
 		int userId = (int) request.getSession().getAttribute("currentIdUser");
 		UserT user = userDAO.findUserById(userId);
 				
-		return priceService.getDeliveryPrice(orders, user, price, chosenService);
+		return priceService.getDeliveryPrice(orders, user, priceWithoutDelivery, chosenService);
 	}
 }

@@ -149,7 +149,7 @@ public class OfficeController extends  MainController{
 		goods.setHrefGoods(hrefGoods);
 		goods.setNameGoods(nameGoods);
 		goods.setAmountGoods(amountGoods);
-		goods.setPriceGoods(priceGoods);
+		goods.setPriceGoods((priceGoods + 10) * 1.1 * 0.19);
 		goods.setChinaGoods(chinaGoods);
 		goods.setWeightGoods(weightGoods);
 		goods.setColorGoods(colorGoods);
@@ -210,6 +210,7 @@ public class OfficeController extends  MainController{
         List<OrderT> orderTList = new ArrayList<OrderT>();
         for(int i=0 ; i < idOrders.length; i++) {
         	OrderT o = orderDAO.findOrderById(Integer.parseInt(idOrders[i]));
+        	o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
             orderTList.add(o);
             packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
         }

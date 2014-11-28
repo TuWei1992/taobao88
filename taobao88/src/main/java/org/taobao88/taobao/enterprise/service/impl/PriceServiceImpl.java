@@ -203,8 +203,8 @@ public class PriceServiceImpl implements PriceService {
 	@Override
 	public double getOrderPrice(OrderT order) {
 		Goods goods = goodsDAO.findEmployeeById(order.getIdGoods());
-		double price = (goods.getPriceGoods() + 10) * 1.1 * 0.19;
-		price *= goods.getAmountGoods();
+		double price = goods.getPriceGoods() * goods.getAmountGoods();
+//		price *= goods.getAmountGoods();
 		price = new BigDecimal(price).setScale(2, RoundingMode.UP).doubleValue();
 		return price;
 	}
@@ -223,12 +223,18 @@ public class PriceServiceImpl implements PriceService {
 			totalWeight = new BigDecimal(totalWeight).setScale(0, RoundingMode.UP).doubleValue();
 		}
 		
+		boolean found = false;
 		for (PostServicePrice postPrice : postService.getPostServicesPrices()) {
 			if (totalWeight == postPrice.getWeight()) {
 				totalPrice += postPrice.getPrice() * 0.19;
+				found = true;
 			}
 		}
-		return totalPrice;
+		if (!found) {
+			return 0;
+		} else {		
+			return totalPrice;
+		}
 	}
 	
 	

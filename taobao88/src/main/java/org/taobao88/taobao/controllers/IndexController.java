@@ -28,6 +28,7 @@ import org.taobao88.taobao.enterprise.dao.OrderStatusDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
 import org.taobao88.taobao.enterprise.entity.Country;
 import org.taobao88.taobao.enterprise.entity.Goods;
+import org.taobao88.taobao.enterprise.entity.OrderStatus;
 import org.taobao88.taobao.enterprise.entity.OrderT;
 import org.taobao88.taobao.enterprise.entity.PostService;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
@@ -50,6 +51,7 @@ public class IndexController extends MainController {
 	@Autowired private OrderService orderService;
 	@Autowired private OrderDAO orderDAO;
 	@Autowired private OrderStatusDAO orderStatusDAO;
+	@Autowired private OrderStatusService orderStatusService;
 	@Autowired private GoodsDAO goodsDAO;
 	@Autowired private PostServiceDAO postServiceDAO;
 	@Autowired private ImagesDAO imagesDAO;
@@ -159,18 +161,32 @@ public class IndexController extends MainController {
 										   Model model) throws UnsupportedEncodingException {
 		
 		Recomendation rec = recomendationService.getRecomendationById(id);
-		int goodsId = goodsService.saveGoods(goodsService.convertFromRecomendationToGoods(rec));
+//		int goodsId = goodsService.saveGoods(goodsService.convertFromRecomendationToGoods(rec));
 		int userId = (int) request.getSession().getAttribute("currentIdUser");
 		
-		Goods goods = goodsService.findEmployeeById(goodsId);
-		List<OrderT> newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, userId);
+		Goods goods = goodsService.convertFromRecomendationToGoods(rec);
+//		List<OrderT> newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, userId);
+		OrderStatus orderStatus = getOrderStatus();
+		orderStatus.setIdOrderStatus(orderStatusService.saveStatus(orderStatus));
+		OrderT order = new OrderT();
+		order.setApprove("false");
+//		order.setGoods(goods);
+        order.setIdUser(userId);
+        order.setFullPrice(goods.getPriceGoods());
+        order.setIdOrderStatus(orderStatus.getIdOrderStatus());
+//        orderDAO.addOrder(order);
+        goods.setOrderT(order);
+        goods.setIdGoods(goodsDAO.saveGoods(goods));
+        order.setIdGoods(goods.getIdGoods());
+        orderDAO.addOrder(order);
+		
 		List<OrderT> orders = orderDAO.getOrdersOnStartPage(userId);
         List<OrderBEAN> orderBEANList = getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders));
         Collections.sort(orderBEANList, Collections.reverseOrder());
         orderBEANList = getListForFirstPageOrder(orderBEANList,request);
         
         request.setAttribute("orders", orderBEANList);
-        request.setAttribute("newOrders",newOrders);
+//        request.setAttribute("newOrders",newOrders);
 		model.addAttribute("basket", orders.size());
 			
 		return orders.size() + "";

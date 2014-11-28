@@ -29,7 +29,6 @@
 		  var checkboxes = $('.orderIdCheckbox');
 		  var checkedStatus = false;
 		  $(checkboxes).each(function(i, item) {
-		    console.log('la ' + i);
 		    if (item.checked) {
 		      document.toOrder.submit();
 		      return false;
@@ -43,6 +42,7 @@
 		var data = '';
 		
 		$('.orderIdCheckbox').change(function() {
+			data = '';
 		    var checkbox = $(this);
 		    var allChecked = $('.orderIdCheckbox:checked');
 		    var prices = $('.price');
@@ -69,30 +69,30 @@
 		
 		$('#countryId').change(function() {
 			var dataDelivery = data + '&postServiceId=' + $('.service').val() + '&countryId=' + $('#countryId').val();
-          	$.ajax({type:'POST',
-          		    url:'${pageContext.request.contextPath}/price/adjustPrice',
-          		    data: dataDelivery,
-          		    dataType: 'json',
-          			complete: function(jsonData) {
-          				$('.price_with_delivery').text(jsonData.responseText);
-          				$('input[name="price"]').val(jsonData.responseText);
-          			}
-            });
+			send(dataDelivery);
 		});
 		
 		$('.service').click(function() {
 			var dataDelivery = data + '&postServiceId=' + $(this).val() + '&countryId=' + $('#countryId').val();
-          	$.ajax({type:'POST',
-          		    url:'${pageContext.request.contextPath}/price/adjustPrice',
-          		    data: dataDelivery,
-          		    dataType: 'json',
-          			complete: function(jsonData) {
-          				$('.price_with_delivery').text(jsonData.responseText);
-          				$('input[name="price"]').val(jsonData.responseText);
-          			}
-            });
+          	send(dataDelivery);
 		});
 	});
+		
+	function send(dataDelivery) {
+		$.ajax({type:'POST',
+  		    url:'${pageContext.request.contextPath}/price/adjustPrice',
+  		    data: dataDelivery,
+  		    dataType: 'json',
+  			complete: function(jsonData) {
+  				if (jsonData.responseText == 0.0) {
+  					$('#weightLimitModal').modal('show');
+  				} else {
+  					$('.price_with_delivery').text(jsonData.responseText);
+  					$('input[name="price"]').val(jsonData.responseText);
+  				}
+  			}
+    	});
+	}
 </script>
 <!--[if IE 6]>
 <link rel="stylesheet" type="text/css" href="/css/ie6.css"/>
@@ -105,6 +105,7 @@
 <body>
 	
 	<jsp:include page="./modal/basket_alert_modal.jsp"/>
+	<jsp:include page="./modal/weight_limit_modal.jsp"/>
 	
 	<div id="wrapper">
  	<!-- HEADER -->
