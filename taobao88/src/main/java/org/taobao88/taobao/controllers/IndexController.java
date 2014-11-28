@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -125,12 +126,24 @@ public class IndexController extends MainController {
 		model.addAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
 		
 		List<Country> countries = countryDAO.getAllCountry();
-		List<PostService> services = postServiceDAO.findByCountry(countries.get(0).getIdCountry());
-		for (PostService s : services) {
-			s.setImage(imagesDAO.getImagesById(s.getImageId()));
+		List<Country> countriesToJsp = new ArrayList<>();
+		List<PostService> allServices = postServiceDAO.getAll();
+//		List<PostService> services = postServiceDAO.findByCountry(countries.get(0).getIdCountry());
+//		for (PostService s : services) {
+//			s.setImage(imagesDAO.getImagesById(s.getImageId()));
+//		}
+		for (Country c : countries) {
+			if (c.getIdCountry() != 1) {
+				countriesToJsp.add(c);
+			}
 		}
-		model.addAttribute("postServices", services);
-		model.addAttribute("countries", countries);
+		Map<String, PostService> serviceMap = new HashMap<>();
+		for (PostService p : allServices) {
+			serviceMap.put(p.getServiceName(), p);
+		}
+		
+		model.addAttribute("postServices", serviceMap);
+		model.addAttribute("countries", countriesToJsp);
 		
 		int basket = 0;
 		if (!orders.isEmpty()) {

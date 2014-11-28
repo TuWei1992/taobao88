@@ -335,16 +335,16 @@
 				
 				<div class="goods-list">
        				<c:forEach items="${postServices}" var="service">
-						<div id="${service.id}">
+						<div id="${service.value.id}">
 							<div class="shop-item">
 								<div>
 									<div class="item-box">
 										<div class="item-thumb">
-											<img src="/images/${service.image.imageName}" alt="post service" class="thumbnail post_service" width="200">
+											<img src="/images/${service.value.image.imageName}" alt="post service" class="thumbnail post_service" width="200">
 										</div>
 										<div class="item-meta">
 											<div class="item-ttl">
-												<span>${service.serviceName} </span><input type="radio" name="serviceId" class="service" value="${service.id}">
+												<span>${service.key} </span><input type="radio" name="serviceId" class="service" value="${service.value.id}">
 											</div>
 										</div>
 									</div>

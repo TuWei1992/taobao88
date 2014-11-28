@@ -40,8 +40,13 @@ public class PriceController {
 									     @RequestParam ("countryId") int countryId,
 									     HttpServletRequest request) {
 		
+		PostService chosenService = null;
 		PostService service = postServiceDAO.findById(postServiceId);
-		PostService chosenService = postServiceDAO.findByNameAndCountry(service.getServiceName(), countryId);
+		if (service.getCountry().getIdCountry() == 1) {
+			chosenService = service;
+		} else {
+			chosenService = postServiceDAO.findByNameAndCountry(service.getServiceName(), countryId);
+		}
 		
 		List<OrderT> orders = new ArrayList<>();
 		for (int id : orderIds) {
