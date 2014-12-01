@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
+import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
+import org.taobao88.taobao.enterprise.dao.StatusesDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 
@@ -41,6 +44,9 @@ public class OfficeController extends  MainController{
     @Autowired private PagesContentDAO pagesContentDAO;
     @Autowired private PriceService priceService;
     @Autowired private PostServiceDAO postServiceDAO;
+    @Autowired private StatusesDAO statusesDAO;
+    @Autowired private OrdersStatusesDAO ordersStatusesDAO;
+    @Autowired private PackagesStatusesDAO packagesStatusesDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -175,6 +181,13 @@ public class OfficeController extends  MainController{
 		order.setFullPrice(priceService.getOrderPrice(order));
 		orderDAO.addOrder(order);
 		
+		Status status = statusesDAO.findById(1);
+		OrdersStatuses os = new OrdersStatuses();
+		os.setStatus(status);
+		os.setOrderT(order);
+		os.setCreatedAt(new Timestamp(new Date().getTime()));
+		ordersStatusesDAO.add(os);
+		
 		clearOrderInSession(request);
 		request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
 		return "redirect:/basket";
@@ -224,6 +237,13 @@ public class OfficeController extends  MainController{
         packageT.setPostService(postServiceDAO.findById(serviceId));
         packageT.setIdPackage(packageService.addPackage(packageT));
         
+        Status status = statusesDAO.findById(1);
+        PackagesStatuses ps = new PackagesStatuses();
+        ps.setPackageT(packageT);
+        ps.setStatus(status);
+        ps.setCreatedAt(new Timestamp(new Date().getTime()));
+        packagesStatusesDAO.add(ps);
+        
         for (OrderT o : orderTList) {
         	o.setApprove("true");
         	o.setPackageT(packageT);
@@ -259,6 +279,7 @@ public class OfficeController extends  MainController{
         }
         RecomendationType recType = new RecomendationType();
         recType.setTypeId(0);
+        request.setAttribute("allStatuses", statusesDAO.getAll());
         request.setAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
         request.setAttribute("packages",packageTs);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
@@ -267,14 +288,12 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/showPackage", method = RequestMethod.GET)
     public ModelAndView showPackage(HttpServletRequest request){
-//        int idUser = (int) session.getAttribute("currentIdUser");
-
         int idPackage = Integer.parseInt(request.getParameter("idPackage"));
         PackageT packageT = packageService.findPackageById(idPackage);
         packageT.setStatus(packageStatusDAO.findPackageStatusById(packageT.getIdPackageStatus()));
-        
+                
+        request.setAttribute("allStatuses", statusesDAO.getAll());
         request.setAttribute("packageT", packageT);
-        request.setAttribute("orders",getOrders(orderDAO.getOrdersForPackages(idPackage),goodsDAO.getAll(orderDAO.getOrdersForPackages(idPackage)), orderStatusDAO.getOrdersStatuses(orderDAO.getOrdersByPackages(idPackage))));
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         return new ModelAndView("showPackage");
     }
@@ -289,6 +308,7 @@ public class OfficeController extends  MainController{
         Goods goods = goodsDAO.findEmployeeById(orderT.getIdGoods());
         OrderStatus orderStatus = orderStatusDAO.findStatusById(orderT.getIdOrderStatus());
         
+        request.setAttribute("allStatuses", statusesDAO.getAll());
         request.setAttribute("orderT", orderT);
         request.setAttribute("goods", goods);
         request.setAttribute("status",orderStatus);

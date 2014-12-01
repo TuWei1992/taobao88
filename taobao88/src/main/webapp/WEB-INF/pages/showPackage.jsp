@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
@@ -31,6 +32,7 @@
             $('#translate').click(function() {
             	translate();
             });
+            $('[data-toggle="tooltip"]').tooltip();
         });      
     </script>
 </head>
@@ -53,59 +55,21 @@
 					<div class="side-chek">
 						<p>Состояние посылки:</p>
 						<ul>
-							<li>
-								<c:choose>
-									<c:when test="${packageT.status.approvePackage == 'true'}">
-										Посылка подтверждена<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Ожидает подтверждения<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<li>
-								<c:choose>
-									<c:when test="${packageT.status.payPackage == 'true'}">
-										Платёж совершен<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Ожидается платёж<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<li>
-								<c:choose>
-									<c:when test="${packageT.status.ransomPackage == 'true'}">
-										Товар выкуплен<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Происходит выкуп товара<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<li>
-								<c:choose>
-									<c:when test="${packageT.status.readyPackage == 'true'}">
-										Товар находится на офисе отправки<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Товар находится на офисе отправки<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<!-- <li>Ожидает ответа на спорные впоросы<i class ="chek"></i></li>
-							<li>Посылка дополняется<i class ="chek"></i></li>
-							<li>Посылка подготовлена<i class ="error"></i></li> -->
-							<li>
-								<c:choose>
-									<c:when test="${packageT.status.importPackage == 'true'}">
-										Посылка отправлена заказчику<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Подготовка к отправке заказчику<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
+							<c:forEach begin="0" end="${packageT.packagesStatuses.size() - 1}" var="loop">
+								<c:forEach items="${allStatuses}" var="status">
+									<c:set var="pStatus" value="${packageT.packagesStatuses.get(loop)}"/>
+									<c:if test="${status.id == pStatus.status.id}">
+										<li>
+											${pStatus.status.statusName} <fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${pStatus.createdAt}"/>
+											<c:if test="${loop == packageT.packagesStatuses.size() - 1}"><i class ="error"></i></c:if>
+											<c:if test="${loop != packageT.packagesStatuses.size() - 1}"><i class ="chek"></i></c:if>
+										</li>
+									</c:if>
+								</c:forEach>
+							</c:forEach>
+							<c:if test="${not empty packageT.tracknumber}">
+								<li>Номер отправления: ${packageT.tracknumber}</li>
+							</c:if>						
     					</ul>
 					</div>
 				</div>
@@ -120,44 +84,29 @@
                         			<th colspan="2">Товары в посылке</th>
                         			<th>Состояние</th>
                         			<th>Стоимость</th>
-                        			<th>Номер отправления</th>
-									<th></th>
+                        			<th></th>
                     			</tr>
                 			</thead>
 							<tbody>
-								<c:forEach items="${orders}" var="order">
+								<c:forEach items="${packageT.orders}" var="order">
                        				<tr>
 										<td><a href="${pageContext.request.contextPath}/privateOffice/toOrderStatus?idOrder=${order.idOrder}" class="product-img">
 												<img src="${pageContext.request.contextPath}/resources/img/buy.png"/>
 											</a>
 										</td>
 								    	<td class="product">
-											<h2><a href="${pageContext.request.contextPath}/privateOffice/toOrderStatus?idOrder=${order.idOrder}">${order.nameGoods}</a></h2>
+											<h2><a href="${pageContext.request.contextPath}/privateOffice/toOrderStatus?idOrder=${order.idOrder}">${order.goods.nameGoods}</a></h2>
 						     				<div class="property">
 												<span class="order">№: ${order.idOrder}</span>  
-												<div> Цвет: <span class="color">${order.colorGoods}</span></div>
-												<div> Количество: <span class="size">${order.amountGoods}</span></div>
+												<div> Цвет: <span class="color">${order.goods.colorGoods}</span></div>
+												<div> Количество: <span class="size">${order.goods.amountGoods}</span></div>
 											</div>
 					        			</td>  
 										<td>
 											<span>
-												<c:choose>
-													<c:when test="${packageT.status.approvePackage == 'false'}">
-														Подтверждение наличия всех товаров в посылке
-													</c:when>
-													<c:when test="${packageT.status.payPackage == 'false'}">
-														Ожидание Вашей оплаты за все товары посылки
-													</c:when>
-													<c:when test="${packageT.status.ransomPackage == 'false'}">
-														Товар находится на стадии выкупа
-													</c:when>
-													<c:when test="${packageT.status.readyPackage == 'false'}">
-														Посылка готова и находится на офисе
-													</c:when>
-													<c:when test="${packageT.status.importPackage == 'false'}">
-														Посылка отправлена заказчику
-													</c:when>
-												</c:choose>
+												<c:set var="i" value="${order.ordersStatuses.size()}"/>
+												${order.ordersStatuses.get(i - 1).status.statusName}<br>
+												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${order.ordersStatuses.get(i - 1).createdAt}"/></span>							
 											</span>
 										</td>
 										<td>
@@ -166,12 +115,13 @@
 											</div>
 										</td>
 										<td>
-											<div>
-												<span>${packageT.tracknumber}</span>                  
-											</div>
-										</td>
-										<td>
-											<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+											<c:set var="i" value="${order.ordersStatuses.size()}"/>
+											<c:if test="${order.ordersStatuses.get(i - 1).status.id == 7}">
+											<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
+														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
+													</a>
+													</c:if>
+											<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
 										</td>
 									</tr>
 								</c:forEach>
@@ -179,7 +129,7 @@
        					</table>
 	    				<div class="btn-card">
 							<a href="${pageContext.request.contextPath}/privateOffice/payment?idPackage=${packageT.idPackage}">Оплатить</a>
-							<p>Итого: <span>$ ${packageT.fullPrice}</span></p>
+							<p>Общий вес: <span>${packageT.weight}кг</span> Метод доставки: <span>${packageT.postService.serviceName}</span> Итого: <span>$ ${packageT.fullPrice}</span></p>
 						</div>
 					</div>			
 				</div>

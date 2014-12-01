@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -57,59 +58,18 @@
 					<div class="side-chek">
 						<p>Состояние заказа:</p>
 						<ul>
-							<li>
-								<c:choose>
-									<c:when test="${status.approve == 'true'}">
-										Наличие товара подтверждено<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Подтверждение наличия товара<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<li>
-								<c:choose>
-									<c:when test="${status.pay == 'true'}">
-										Платёж совершен<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Ожидается платёж<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<li>
-								<c:choose>
-									<c:when test="${status.ransom == 'true'}">
-										Товар выкуплен<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Происходит выкуп товара<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<li>
-								<c:choose>
-									<c:when test="${status.ready == 'true'}">
-										Товар находится на офисе отправки<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Товар находится на офисе отправки<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
-							<!-- <li>Ожидает ответа на спорные впоросы<i class ="chek"></i></li>
-							<li>Посылка дополняется<i class ="chek"></i></li>
-							<li>Посылка подготовлена<i class ="error"></i></li> -->
-							<li>
-								<c:choose>
-									<c:when test="${status.done == 'true'}">
-										Посылка отправлена заказчику<i class ="chek"></i>
-									</c:when>
-									<c:otherwise>
-										Подготовка к отправке заказчику<i class ="error"></i>
-									</c:otherwise>
-								</c:choose>
-							</li>
+							<c:forEach begin="0" end="${orderT.ordersStatuses.size() - 1}" var="loop">
+								<c:forEach items="${allStatuses}" var="status">
+									<c:set var="oStatus" value="${orderT.ordersStatuses.get(loop)}"/>
+									<c:if test="${status.id == oStatus.status.id}">
+										<li>
+											${oStatus.status.statusName} <fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${oStatus.createdAt}"/>
+											<c:if test="${loop == orderT.ordersStatuses.size() - 1}"><i class ="error"></i></c:if>
+											<c:if test="${loop != orderT.ordersStatuses.size() - 1}"><i class ="chek"></i></c:if>
+										</li>
+									</c:if>
+								</c:forEach>
+							</c:forEach>
     					</ul>
 					</div>
 				</div>
@@ -140,23 +100,8 @@
 					        			</td>  
 										<td>
 											<span>
-												<c:choose>
-													<c:when test="${status.approve == 'false'}">
-														Подтверждение наличия товара
-													</c:when>
-													<c:when test="${status.pay == 'false'}">
-														Ожидание Вашей оплаты
-													</c:when>
-													<c:when test="${status.ransom == 'false'}">
-														Товар находится на стадии выкупа
-													</c:when>
-													<c:when test="${status.ready == 'false'}">
-														Посылка готова и находится на офисе
-													</c:when>
-													<c:when test="${status.done == 'false'}">
-														Посылка отправлена заказчику
-													</c:when>
-												</c:choose>
+												<c:set var="i" value="${orderT.ordersStatuses.size()}"/>
+												${orderT.ordersStatuses.get(i - 1).status.statusName}
 											</span>
 										</td>
 										<td>
@@ -170,6 +115,12 @@
 									</tr>
            					</tbody>
        					</table>
+       					<c:set var="i" value="${orderT.ordersStatuses.size()}"/>
+							<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7}">
+							<div class="btn-card">
+								<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}">Заменить</a>
+							</div>
+							</c:if>
 					</div>		
 				</div>
 			</div>

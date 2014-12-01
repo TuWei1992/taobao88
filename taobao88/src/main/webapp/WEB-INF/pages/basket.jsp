@@ -41,16 +41,16 @@
 		    var orderId = $(checkbox).val();
 		    $(prices).each(function(i, item) {
 		    if ($(item).attr('for') == orderId) {
-		        var currSum = parseInt($('.price_without_delivery').text());
+		        var currSum = parseFloat($('.price_without_delivery').text());
 		      
 		        $(allChecked).each(function(i, item) {
 		        	data += $(item).attr('name') + '=' + $(item).val() + '&';
 		        });
 		        		        
 		      	if ($(checkbox).is(':checked')) {
-		          	currSum += parseInt($(item).text());
+		          	currSum += parseFloat($(item).text());
 		        } else {
-		           currSum -= parseInt($(item).text());
+		           currSum -= parseFloat($(item).text());
 	            };
 		        
 		        $('.price_without_delivery').text(currSum);

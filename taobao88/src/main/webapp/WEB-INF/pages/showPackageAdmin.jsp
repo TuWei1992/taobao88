@@ -1,7 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
 <html>
 <head>
 <link href="${pageContext.request.contextPath}/resources/css/bootstrap.css" rel="stylesheet" media="screen">
@@ -18,14 +18,18 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-
-<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-<!-- Checking for empty fields -->
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 </head>
 <body>
 	<jsp:include page="adminMenu.jsp" />
+	
+	<div class="container">
+		<div class="row">
+			<div class="page-header">
+  				<h1>Информация о посылке</h1>
+			</div>
+		</div>
+	</div>
+	
 	<div class="container">
 		<div class="row">
 			<form name="toOrderStatus" action="${pageContext.request.contextPath}/admin/toAdminStatus">
@@ -34,235 +38,152 @@
 			<form name="deleteOrder" action="${pageContext.request.contextPath}/admin/deleteOrder">
 				<input type="hidden" name="idOrderForDelete" />
 			</form>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Названия состояний</th>
-						<th>Состояние посылки</th>
-					</tr>
-				</thead>
-					<tr>
-						<td>Подтверждение наличия всех товаров в послыке</td>
-						<c:if test="${statusPackage.approvePackage  == 'true'}">
-							<td><span class="label label-success" disabled>ok</span></td>
-						</c:if>
-						<c:if test="${statusPackage.approvePackage  == 'false'}">
-							<td><span class="label label-danger" disabled>waiting</span></td>
-						</c:if>
-					</tr>
-					<tr>
-						<td>Ожидание оплаты за все товары посылки</td>
-						<c:if test="${statusPackage.payPackage  == 'true'}">
-							<td><span class="label label-success" disabled>ok</span></td>
-						</c:if>
-						<c:if test="${statusPackage.payPackage  == 'false'}">
-							<td><span class="label label-danger" disabled>waiting</span></td>
-						</c:if>
-					</tr>
-					<tr>
-						<td>Товары посылки находятся на стадии выкупа</td>
-						<c:if test="${statusPackage.ransomPackage  == 'true'}">
-							<td><span class="label label-success" disabled>ok</span></td>
-						</c:if>
-						<c:if test="${statusPackage.ransomPackage  == 'false'}">
-							<td><span class="label label-danger" disabled>waiting</span></td>
-						</c:if>
-					</tr>
-					<tr>
-						<td>Посылка готова и находится на офисе</td>
-						<c:if test="${statusPackage.readyPackage  == 'true'}">
-							<td><span class="label label-success" disabled>ok</span></td>
-						</c:if>
-						<c:if test="${statusPackage.readyPackage  == 'false'}">
-							<td><span class="label label-danger" disabled>waiting</span></td>
-						</c:if>
-					</tr>
-					<tr>
-						<td>Посылка отправлена заказчику</td>
-						<c:if test="${statusPackage.importPackage == 'true'}">
-							<td><span class="label label-success" disabled>ok</span></td>
-						</c:if>
-						<c:if test="${statusPackage.importPackage == 'false'}">
-							<td><span class="label label-danger" disabled>waiting</span></td>
-						</c:if>
-					</tr>
-			</table>
-			<h1>
-				Посылка от пользователя <a style="color: blue; cursor: pointer;"
-					href="${pageContext.request.contextPath}/admin/userInformation">${userOfCurrentPackage.nameUser}</a>,
-					почта <span style="color: blue">${userOfCurrentPackage.gmail}</span>
-			</h1>
-				<a href="${pageContext.request.contextPath}/privateOffice/sendMessage?toUser=${userOfCurrentPackage.idUser}&idpackage=${currentIdPackage}" type="button" class="btn btn-primary">Написать сообщение пользователю</a>
+			
+			<div class="jumbotron">
+  				<p>Посылка #${packageT.idPackage} от пользователя <a style="color: blue; cursor: pointer;" href="${pageContext.request.contextPath}/admin/userInformation">${userOfCurrentPackage.nameUser}</a>, почта <span style="color: blue">${userOfCurrentPackage.gmail}</span></p>
+  				<p>
+  					<ul class="list-group">
+						<c:forEach begin="0" end="${packageT.packagesStatuses.size() - 1}" var="loop">
+							<c:forEach items="${allStatuses}" var="status">
+								<c:set var="pStatus" value="${packageT.packagesStatuses.get(loop)}"/>
+								<c:if test="${status.id == pStatus.status.id}">
+									<li class="list-group-item">
+										<c:if test="${loop == packageT.packagesStatuses.size() - 1}"><i class="glyphicon glyphicon-plus"></i></c:if>
+										<c:if test="${loop != packageT.packagesStatuses.size() - 1}"><i class="glyphicon glyphicon-ok"></i></c:if>
+										${pStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${pStatus.createdAt}"/></label>
+									</li>
+								</c:if>
+							</c:forEach>
+						</c:forEach>									
+					</ul>
+  				</p>
+  				<p>
+  					Полная стоимость посылки: <span class="label label-primary">${packageT.fullPrice} $</span>
+  				</p>
+  				<p>
+  					Вес посылки: <span class="label label-primary">${packageT.weight} кг</span>
+  				</p>
+  				<p>
+  					Метод доставки: <span class="label label-primary">${packageT.postService.serviceName}</span>
+  				</p>
+  			</div>
+				<a href="${pageContext.request.contextPath}/privateOffice/sendMessage?toUser=${userOfCurrentPackage.idUser}&idpackage=${packageT.idPackage}" type="button" class="btn btn-primary">Написать сообщение пользователю</a>
 				
 				<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/saveOrderStatus">
+				<input type="hidden" name="idPackage" value="${packageT.idPackage}">
 				<h3>Посылка включает следующие заказы :</h3>
-				<div class="panel-group" id="accordion">
-					<table class="simple-little-table" cellspacing='0' style="width: 90%">
-						<thead>
-							<tr>
-								<th>№</th>
-								<th>Отправка заказа на почту</th>
-								<th>Состояние заказа</th>
-							</tr>
-						</thead>
-						<c:forEach items="${orders}" var="order">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-									<tr>
-										<td><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne${order.idOrder}" style="cursor: pointer; color: blue"> 
-											Заказ №${order.idOrder}</a>
-											<p></p>
-											<div id="collapseOne${order.idOrder}" class="panel-collapse collapse">
-												<div class="panel-body">
-													<table class="simple-little-table">
-														<tr>
-															<td colspan="2"><a href="${order.hrefGoods}">Ссылка	на заказ</a></td>
-														</tr>
-														<tr>
-															<td>Название продукции :</td>
-															<td>${order.nameGoods}</td>
-														</tr>
-														<tr>
-															<td>Количество единиц продукции :</td>
-															<td>${order.amountGoods}</td>
-														</tr>
-														<tr>
-															<td>Вес единицы продукции :</td>
-															<td>${order.weightGoods}</td>
-														</tr>
-														<tr>
-															<td>Стоимость единицы продукции :</td>
-															<td>${order.priceGoods}</td>
-														</tr>
-														<tr>
-															<td>Доставка по китаю :</td>
-															<td><c:if test="${order.chinaGoods == null}">
-                                                            Не нужна
-                                                        </c:if> <c:if
-																	test="${order.chinaGoods != null}">
-                                                            ${order.chinaGoods} $
-                                                        </c:if></td>
-														</tr>
-														<c:if test="${order.colorGoods != ''}">
-															<tr>
-																<td>Цвет продукции :</td>
-																<td>${order.colorGoods}</td>
-															</tr>
-														</c:if>
-														<c:if test="${order.sizeGoods != ''}">
-															<tr>
-																<td>Размер продукции :</td>
-																<td>${order.sizeGoods}</td>
-															</tr>
-														</c:if>
-														<tr>
-															<td>Фотоотчет :</td>
-															<td><c:if test="${order.photoGoods == 'true'}">
-                                                            Нужен
-                                                        </c:if> <c:if
-																	test="${order.photoGoods != 'true'}">
-                                                            Не нужен
-                                                        </c:if></td>
-														</tr>
-													</table>
-												</div>
-											</div>
-										</div>
-						
-								</td>
-						<td><c:if test="${order.approve == 'true'}">
-								<span class="label label-success" disabled>Заказ сделан</span>
-							</c:if> <c:if test="${order.approve == 'false'}">
-								<span class="label label-warning">Сделать заказ</span>
-							</c:if></td>
-						<td><a data-toggle="collapse" data-parent="#accordion"
-							href="#collapseOne${order.idOrderStatus+1}"
-							style="cursor: pointer; color: blue"> Просмотреть</a>
-							<div id="collapseOne${order.idOrderStatus+1}"
-								class="panel-collapse in collapse">
-								<div class="panel-body">
-									<table>
-										<tr>
-											<td><b>Подтверждение наличия товара</b></td>
-											<td><c:if test="${order.approveStatus == 'true'}">
-													<span class="label label-success" disabled>ok</span>
-													<td><input type="checkbox"
-														name="approve${order.idOrderStatus}" value="false" /></td>
-												</c:if> <c:if test="${order.approveStatus == 'false'}">
-													<span class="label label-danger" disabled>waiting</span>
-													<td><input type="checkbox"
-														name="approve${order.idOrderStatus}" value="true" /></td>
-												</c:if></td>
-										</tr>
-										<tr>
-											<td><b>Ожидание Вышей оплаты за товар</b></td>
-											<td><c:if test="${order.payStatus == 'true'}">
-													<span class="label label-success" disabled>ok</span>
-													<td><input type="checkbox"
-														name="pay${order.idOrderStatus}" value="false" /></td>
-												</c:if> <c:if test="${order.payStatus == 'false'}">
-													<span class="label label-danger" disabled>waiting</span>
-													<td><input type="checkbox"
-														name="pay${order.idOrderStatus}" value="true" /></td>
-												</c:if></td>
-										</tr>
-										<tr>
-											<td><b>Товар на стадии выкупа</b></td>
-											<td><c:if test="${order.ransomStatus == 'true'}">
-													<span class="label label-success" disabled>ok</span>
-													<td><input type="checkbox"
-														name="ransom${order.idOrderStatus}" value="false" /></td>
-												</c:if> <c:if test="${order.ransomStatus == 'false'}">
-													<span class="label label-danger" disabled>waiting</span>
-													<td><input type="checkbox"
-														name="ransom${order.idOrderStatus}" value="true" /></td>
-												</c:if></td>
-										</tr>
-										<tr>
-											<td><b>Товар готов и находится на офисе</b></td>
-											<td><c:if test="${order.readyStatus == 'true'}">
-													<span class="label label-success" disabled>ok</span>
-													<td><input type="checkbox"
-														name="ready${order.idOrderStatus}" value="false" /></td>
-												</c:if> <c:if test="${order.readyStatus == 'false'}">
-													<span class="label label-danger" disabled>waiting</span>
-													<td><input type="checkbox"
-														name="ready${order.idOrderStatus}" value="true" /></td>
-												</c:if></td>
-										</tr>
-										<tr>
-											<td><b>Посылка отправлена заказчику</b></td>
-											<td><c:if test="${order.doneStatus == 'true'}">
-													<span class="label label-success" disabled>ok</span>
-													<td><input type="checkbox"
-														name="done${order.idOrderStatus}" value="false" /></td>
-												</c:if> <c:if test="${order.doneStatus == 'false'}">
-													<span class="label label-danger" disabled>waiting</span>
-													<td><input type="checkbox"
-														name="done${order.idOrderStatus}" value="true" /></td>
-												</c:if></td>
-										</tr>
-									</table>
-								</div>
-							</div></td>
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>№</th>
+							<th>Статус заказа</th>
+							<th>Смена статуса</th>
 						</tr>
-						</h4>
-
-					</div>
-
-				</c:forEach>
-
-				</div>
-				<tr>
-					<td><input type="submit" class="btn btn-success" value="Сохранить" />
-						<a href="${pageContext.request.contextPath}/admin/packages/update?idPackage=${currentIdPackage}" class="btn btn-success"><span>Редактировать</span></a>
-					</td>
-				</tr>
-				</form>
-			</table>
-			</div>
-			</div>
+					</thead>
+					<tfoot>
+						<tr>
+							<td><input type="submit" class="btn btn-primary" value="Сохранить"> <a href="${pageContext.request.contextPath}/admin/packages/update?idPackage=${packageT.idPackage}" class="btn btn-success"><span>Редактировать</span></a></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tfoot>
+					<tbody>
+						<c:forEach items="${packageT.orders}" var="orderT">
+						<tr>
+							<td>
+								<input type="hidden" name="idOrder" value="${orderT.idOrder}">
+								<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  									<div class="panel panel-primary">
+    									<div class="panel-heading" role="tab" id="heading${orderT.idOrder}">
+      										<h4 class="panel-title">
+        										<a data-toggle="collapse" data-parent="#accordion" href="#collapse${orderT.idOrder}" aria-expanded="true" aria-controls="collapse${orderT.idOrder}">
+          											Заказ #${orderT.idOrder}
+        										</a>
+      										</h4>
+    									</div>
+    									<div>
+      										<div class="panel-body">
+        										<table class="table table-hover">
+        											<tr>
+        												<td>Название продукции</td>
+        												<td>${orderT.goods.nameGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Количество</td>
+        												<td>${orderT.goods.amountGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Вес единицы продукции</td>
+        												<td>${orderT.goods.weightGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Стоимость единицы продукции</td>
+        												<td>${orderT.goods.priceGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Доставка по Китаю</td>
+        												<td>${orderT.goods.chinaGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Цвет</td>
+        												<td>${orderT.goods.colorGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Размер</td>
+        												<td>${orderT.goods.sizeGoods}</td>
+        											</tr>
+        											<tr>
+        												<td>Фотоотчет</td>
+        												<td>
+        													<c:if test="${orderT.goods.photoGoods == 'true'}">Нужен</c:if>
+        													<c:if test="${orderT.goods.photoGoods == 'false'}">Не нужен</c:if>
+        												</td>
+        											</tr>
+        										</table>
+      										</div>
+    									</div>
+  									</div>
+  								</div>
+							</td>
+							<td>
+								<c:set var="i" value="${orderT.ordersStatuses.size() - 1}"/>
+								<div>
+									<h4><span class="label label-primary">${orderT.ordersStatuses.get(i).status.statusName}</span></h4>
+								</div>
+							</td>
+							<td>
+								<ul class="list-group">
+									<c:forEach begin="0" end="${orderT.ordersStatuses.size() - 1}" var="loop">
+										<c:forEach items="${allStatuses}" var="status">
+											<c:set var="oStatus" value="${orderT.ordersStatuses.get(loop)}"/>
+											<c:if test="${status.id == oStatus.status.id}">
+												<li class="list-group-item">
+													<c:if test="${loop == orderT.ordersStatuses.size() - 1}"><i class="glyphicon glyphicon-plus"></i></c:if>
+													<c:if test="${loop != orderT.ordersStatuses.size() - 1}"><i class="glyphicon glyphicon-ok"></i></c:if>
+													${oStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${oStatus.createdAt}"/></label>
+												</li>
+											</c:if>
+										</c:forEach>
+									</c:forEach>									
+								</ul>
+								<div class="col-md-10 col-md-offset-1">
+									<div class="form-group">
+										<select class="form-control" name="statusId">
+										<c:set var="i" value="${orderT.ordersStatuses.size() - 1}"/>
+											<option value="${orderT.ordersStatuses.get(i).status.id}">${orderT.ordersStatuses.get(i).status.statusName}</option>
+											<c:forEach items="${allStatuses}" var="status">
+												<option value="${status.id}">${status.statusName}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</div>
+							</td>
+						</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</form>
 		</div>
+	</div>
 </body>
 </html>

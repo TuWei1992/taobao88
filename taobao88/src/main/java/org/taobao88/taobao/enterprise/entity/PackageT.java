@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.IndexColumn;
+
 /**
  * Created by User on 15.06.14.
  */
@@ -53,6 +55,10 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     @ManyToOne
     @JoinColumn(name = "post_service_id", referencedColumnName = "id")
     private PostService postService;
+        
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "packageT")
+    @IndexColumn(name = "id")
+    private List<PackagesStatuses> packagesStatuses;
 
     public String getApprove() {
         return approve;
@@ -140,6 +146,14 @@ public class PackageT implements Comparable<PackageT>, Serializable {
 
 	public void setPostService(PostService postService) {
 		this.postService = postService;
+	}
+
+	public List<PackagesStatuses> getPackagesStatuses() {
+		return packagesStatuses;
+	}
+
+	public void setPackagesStatuses(List<PackagesStatuses> packagesStatuses) {
+		this.packagesStatuses = packagesStatuses;
 	}
 
 	@Override

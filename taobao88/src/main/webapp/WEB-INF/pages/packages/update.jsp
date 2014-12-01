@@ -30,11 +30,21 @@
 					</div>
 					<div class="form-group">
 						<label class="input" for="serviceName">Трек-номер</label>
-						<input class="form-control" type="text" name="tracknumber" id="tracknumbere" value="${packageT.tracknumber}" required>
+						<input class="form-control" type="text" name="tracknumber" id="tracknumbere" value="${packageT.tracknumber}">
 					</div>
 					<div class="form-group">
 						<label class="input" for="serviceName">Вес</label>
 						<input class="form-control" type="text" name="weight" id="weight" value="${packageT.weight}" required>
+					</div>
+					<div class="form-group">
+						<label class="input" for="statusId">Статус</label>
+						<select class="form-control" name="statusId" id="statusId">
+							<c:set var="i" value="${packageT.packagesStatuses.size() - 1}"/>
+							<option value="${packageT.packagesStatuses.get(i).status.id}">${packageT.packagesStatuses.get(i).status.statusName}</option>
+							<c:forEach items="${allStatuses}" var="status">
+								<option value="${status.id}">${status.statusName}</option>
+							</c:forEach>
+						</select>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-success">Обновить</button>

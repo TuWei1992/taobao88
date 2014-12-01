@@ -1,8 +1,9 @@
 package org.taobao88.taobao.controllers;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,20 +21,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.taobao88.taobao.beans.OrderBEAN;
 import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
 import org.taobao88.taobao.enterprise.dao.ImagesDAO;
 import org.taobao88.taobao.enterprise.dao.OrderDAO;
 import org.taobao88.taobao.enterprise.dao.OrderStatusDAO;
+import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
+import org.taobao88.taobao.enterprise.dao.StatusesDAO;
 import org.taobao88.taobao.enterprise.entity.Country;
 import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.OrderStatus;
 import org.taobao88.taobao.enterprise.entity.OrderT;
+import org.taobao88.taobao.enterprise.entity.OrdersStatuses;
 import org.taobao88.taobao.enterprise.entity.PostService;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
+import org.taobao88.taobao.enterprise.entity.Status;
 import org.taobao88.taobao.enterprise.service.*;
 
 @Controller
@@ -57,6 +61,8 @@ public class IndexController extends MainController {
 	@Autowired private PostServiceDAO postServiceDAO;
 	@Autowired private ImagesDAO imagesDAO;
 	@Autowired private CountryRegCityDAO countryDAO;
+	@Autowired private StatusesDAO statusesDAO;
+	@Autowired private OrdersStatusesDAO ordersStatusesDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String get(HttpServletRequest request,
@@ -171,34 +177,30 @@ public class IndexController extends MainController {
 										   Model model) throws UnsupportedEncodingException {
 		
 		Recomendation rec = recomendationService.getRecomendationById(id);
-//		int goodsId = goodsService.saveGoods(goodsService.convertFromRecomendationToGoods(rec));
 		int userId = (int) request.getSession().getAttribute("currentIdUser");
 		
 		Goods goods = goodsService.convertFromRecomendationToGoods(rec);
-//		List<OrderT> newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, userId);
 		OrderStatus orderStatus = getOrderStatus();
 		orderStatus.setIdOrderStatus(orderStatusService.saveStatus(orderStatus));
+				
 		OrderT order = new OrderT();
 		order.setApprove("false");
-//		order.setGoods(goods);
         order.setIdUser(userId);
         order.setFullPrice(goods.getPriceGoods());
         order.setIdOrderStatus(orderStatus.getIdOrderStatus());
-//        orderDAO.addOrder(order);
         goods.setOrderT(order);
         goods.setIdGoods(goodsDAO.saveGoods(goods));
         order.setIdGoods(goods.getIdGoods());
         orderDAO.addOrder(order);
+        
+        Status status = statusesDAO.findById(1);
+		OrdersStatuses os = new OrdersStatuses();
+		os.setStatus(status);
+		os.setOrderT(order);
+		os.setCreatedAt(new Timestamp(new Date().getTime()));
+		ordersStatusesDAO.add(os);
 		
 		List<OrderT> orders = orderDAO.getOrdersOnStartPage(userId);
-        List<OrderBEAN> orderBEANList = getOrders(orders, goodsDAO.getAll(orders), orderStatusDAO.getOrdersStatuses(orders));
-        Collections.sort(orderBEANList, Collections.reverseOrder());
-        orderBEANList = getListForFirstPageOrder(orderBEANList,request);
-        
-        request.setAttribute("orders", orderBEANList);
-//        request.setAttribute("newOrders",newOrders);
-		model.addAttribute("basket", orders.size());
-			
 		return orders.size() + "";
 	}
 	
@@ -244,10 +246,8 @@ public class IndexController extends MainController {
 		goods.setColorGoods(request.getParameter("color"));
 		goods.setSizeGoods(request.getParameter("size"));
 		goods.setAmountGoods(Integer.parseInt(request.getParameter("amount")));
-//		good.setPriceGoods(priceService.getPriceOfOrder(good.getAmountGoods(), good.getRecomendation().getPrice()));
 		goodsService.updateEmployee(goods);
 		
-//		allOrdersForOneRequest(good.getAmountGoods(), good, userId);
 		OrderT order = orderDAO.findByGoods(goods);
 		order.setFullPrice(priceService.getOrderPrice(order));
 		orderDAO.updateOrder(order);

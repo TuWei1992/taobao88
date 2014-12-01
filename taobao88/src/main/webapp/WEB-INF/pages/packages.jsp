@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -114,23 +115,9 @@
 					        			</td>  
 										<td>
 											<span>
-												<c:choose>
-													<c:when test="${packageT.status.approvePackage == 'false'}">
-														Подтверждение наличия всех товаров в посылке
-													</c:when>
-													<c:when test="${packageT.status.payPackage == 'false'}">
-														Ожидание Вашей оплаты за все товары посылки
-													</c:when>
-													<c:when test="${packageT.status.ransomPackage == 'false'}">
-														Товары посылки находятся на стадии выкупа
-													</c:when>
-													<c:when test="${packageT.status.readyPackage == 'false'}">
-														Посылка готова и находится на офисе
-													</c:when>
-													<c:when test="${packageT.status.importPackage == 'false'}">
-														Посылка отправлена заказчику
-													</c:when>
-												</c:choose>
+												<c:set var="i" value="${packageT.packagesStatuses.size()}"/>
+												${packageT.packagesStatuses.get(i - 1).status.statusName}<br>
+												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${packageT.packagesStatuses.get(i - 1).createdAt}"/></span>
 											</span>
 										</td>
 										<td>

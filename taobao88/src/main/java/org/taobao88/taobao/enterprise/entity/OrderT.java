@@ -2,8 +2,11 @@ package org.taobao88.taobao.enterprise.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * Created by User on 03.06.14.
@@ -46,6 +49,10 @@ public class OrderT implements Serializable {
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "orderT")
     private Goods goods;
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "orderT")
+    @IndexColumn(name = "id")
+    private List<OrdersStatuses> ordersStatuses;
     
     public Timestamp getDateOrder() {
         return dateOrder;
@@ -118,6 +125,14 @@ public class OrderT implements Serializable {
 
 	public void setGoods(Goods goods) {
 		this.goods = goods;
+	}
+
+	public List<OrdersStatuses> getOrdersStatuses() {
+		return ordersStatuses;
+	}
+
+	public void setOrdersStatuses(List<OrdersStatuses> ordersStatuses) {
+		this.ordersStatuses = ordersStatuses;
 	}
 
 	@Override
