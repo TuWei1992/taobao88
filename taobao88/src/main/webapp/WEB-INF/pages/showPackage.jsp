@@ -33,10 +33,24 @@
             	translate();
             });
             $('[data-toggle="tooltip"]').tooltip();
+
+			$('.pay_btn').click(function() {
+				var balance = ${balance};
+				var fullPrice = ${packageT.fullPrice};
+				if (balance < fullPrice) {
+					$('#notEnoughMoneyModal').modal('show');
+				} else {
+					$('#paymentAgreeModal').modal('show');
+				}
+			});
         });      
     </script>
 </head>
 <body>
+
+	<jsp:include page="modal/not_enough_money_modal.jsp"/>
+	<jsp:include page="modal/payment_agree_modal.jsp"/>
+	
 	<div id="wrapper">
 		<jsp:include page="partials/index_header.jsp"/>
 		<div class="content">
@@ -75,7 +89,8 @@
 				</div>
 				<div class="main">
 					<div class="col-md-offset-1">
-						<span>Сервис по отслеживанию посылок - </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span>
+						<span>Сервис по отслеживанию посылок: </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span><br>
+						<span>Ваш баланс: </span><span class="label label-success">$${balance}</span>
 					</div>
 					<div class="control">
 						<table class="orders">
@@ -84,7 +99,7 @@
                         			<th colspan="2">Товары в посылке</th>
                         			<th>Состояние</th>
                         			<th>Стоимость</th>
-                        			<th></th>
+                        			<th>Действия</th>
                     			</tr>
                 			</thead>
 							<tbody>
@@ -117,19 +132,29 @@
 										<td>
 											<c:set var="i" value="${order.ordersStatuses.size()}"/>
 											<c:if test="${order.ordersStatuses.get(i - 1).status.id == 7}">
-											<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
-														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
-													</a>
-													</c:if>
-											<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
+													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
+												</a>
+											</c:if>
+											<c:if test="${packageT.purchased == 0}">
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>
            					</tbody>
        					</table>
 	    				<div class="btn-card">
-							<a href="${pageContext.request.contextPath}/privateOffice/payment?idPackage=${packageT.idPackage}">Оплатить</a>
-							<p>Общий вес: <span>${packageT.weight}кг</span> Метод доставки: <span>${packageT.postService.serviceName}</span> Итого: <span>$ ${packageT.fullPrice}</span></p>
+	    					<c:if test="${packageT.purchased == 0}">
+								<a href="javascript:void(0);" class="pay_btn">Оплатить</a>
+							</c:if>
+							<p>Общий вес: <span>${packageT.weight}кг</span> 
+							   Метод доставки: <span>${packageT.postService.serviceName}</span> 
+							   Итого: <span>$ ${packageT.fullPrice}</span>
+							   <c:if test="${packageT.purchased == 1}">
+							      <label class="label label-success">Оплачено</label>
+							   </c:if>
+							</p>
 						</div>
 					</div>			
 				</div>

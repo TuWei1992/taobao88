@@ -275,6 +275,8 @@ public class MainController {
                 "                <td>"+packageT.getFullPrice()+"</td></tr>\n" +
                 "        <tr><th>Date of order</th>\n" +
                 "                <td>"+packageT.getDatePackage()+"</td></tr>\n" +
+                "        <tr><th>Post service</th>\n" + 
+                "				 <td>"+packageT.getPostService().getServiceName()+"</td></tr>\n" + 
                 "</table></body></html>";
         mailService.sendSimpleMessage(from,to,"PACKAGE № "+idPackage,html);
     }

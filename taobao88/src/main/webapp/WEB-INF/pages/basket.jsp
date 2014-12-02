@@ -174,7 +174,7 @@
 					</c:if>
 				</c:if>
 				<div class="alert alert-warning">
-					Для того, чтобы отправить заказы продавцу, выделите галочкой те, которые хотите заказать и нажмите кнопку отправить.
+					Для того, чтобы оформить заказ, выделите галочкой те товары, которые хотите заказать, и нажмите кнопку "Оформить заказ".
 				</div>
 					
 			<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder">	

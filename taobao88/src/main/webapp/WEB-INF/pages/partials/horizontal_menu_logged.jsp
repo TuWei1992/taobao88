@@ -33,7 +33,7 @@
 					</li>
 					<li>
 						<a href="${pageContext.request.contextPath}/privateOffice/showBalance">
-							<i class="icon count"></i>Мой счёт
+							<i class="icon count"></i>Пополнить счёт
 						</a>
 					</li>
 					<li><a href="${pageContext.request.contextPath}/privateOffice"><i class="icon office"></i>Мой аккаунт</a></li>

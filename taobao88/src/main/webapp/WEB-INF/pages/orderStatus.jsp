@@ -32,6 +32,7 @@
             $('#translate').click(function() {
             	translate();
             });
+            $('[data-toggle="tooltip"]').tooltip();
         });      
     </script>
 </head>
@@ -81,7 +82,7 @@
                         			<th colspan="2">Товар</th>
                         			<th>Состояние</th>
                         			<th>Стоимость</th>
-									<th></th>
+									<th>Действия</th>
                     			</tr>
                 			</thead>
 							<tbody>
@@ -101,7 +102,8 @@
 										<td>
 											<span>
 												<c:set var="i" value="${orderT.ordersStatuses.size()}"/>
-												${orderT.ordersStatuses.get(i - 1).status.statusName}
+												${orderT.ordersStatuses.get(i - 1).status.statusName}<br>
+												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${orderT.ordersStatuses.get(i - 1).createdAt}"/></span>
 											</span>
 										</td>
 										<td>
@@ -110,17 +112,27 @@
 											</div>
 										</td>
 										<td>
-											<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+											<c:if test="${orderT.packageT.purchased == 0}">
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+											</c:if>
+											<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7}">
+												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
+													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
+												</a>
+											</c:if>
 										</td>
 									</tr>
            					</tbody>
        					</table>
        					<c:set var="i" value="${orderT.ordersStatuses.size()}"/>
-							<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7}">
-							<div class="btn-card">
-								<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}">Заменить</a>
+       						<div class="btn-card">
+								<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7}">
+									<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}">Заменить</a>
+								</c:if>
+								<c:if test="${orderT.packageT.purchased == 1}">
+									<h3><label class="label label-success pull-right">Посылка оплачена</label></h3>
+								</c:if>
 							</div>
-							</c:if>
 					</div>		
 				</div>
 			</div>

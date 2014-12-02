@@ -92,7 +92,7 @@ public class OfficeController extends  MainController{
         String from = getPath.getString("mailAdmin");
         String to = getPath.getString("mailReceiver");
         
-		mailService.sendOrderMessage(from, to, "order test", user, goods);
+//		mailService.sendOrderMessage(from, to, "order test", user, goods);
 		request.getSession().setAttribute("basket", new ArrayList<Goods>());
 		request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
 		return "redirect:/privateOffice/toPackages";
@@ -288,6 +288,8 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/showPackage", method = RequestMethod.GET)
     public ModelAndView showPackage(HttpServletRequest request){
+    	UserT user = userDAO.findUserById((int)request.getSession().getAttribute("currentIdUser"));
+    	
         int idPackage = Integer.parseInt(request.getParameter("idPackage"));
         PackageT packageT = packageService.findPackageById(idPackage);
         packageT.setStatus(packageStatusDAO.findPackageStatusById(packageT.getIdPackageStatus()));
@@ -295,6 +297,7 @@ public class OfficeController extends  MainController{
         request.setAttribute("allStatuses", statusesDAO.getAll());
         request.setAttribute("packageT", packageT);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.setAttribute("balance", balanceService.getBalance(user));
         return new ModelAndView("showPackage");
     }
 
@@ -523,10 +526,6 @@ public class OfficeController extends  MainController{
     @RequestMapping(value = "/showMessages", method = RequestMethod.GET)
     public String showMessages(HttpServletRequest request, Model model) {
     	UserT user = userService.findUserById((int) request.getSession().getAttribute("currentIdUser"));
-//    	List<PackageT> packs = packageService.getPackagesByUser(user);
-//    	for (PackageT p : packs) {
-//    		p.setMessages(messagesService.findMessagesByPackage(p));
-//    	}
     	List<Message> messages = messagesService.findAllUserMessages(user);
     	List<PackageT> packs = new ArrayList<>();
     	for (Message m : messages) {

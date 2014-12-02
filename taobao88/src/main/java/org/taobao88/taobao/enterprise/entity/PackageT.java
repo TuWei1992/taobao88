@@ -59,6 +59,9 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "packageT")
     @IndexColumn(name = "id")
     private List<PackagesStatuses> packagesStatuses;
+    
+    @Column(name = "purchased")
+    private int purchased;
 
     public String getApprove() {
         return approve;
@@ -154,6 +157,14 @@ public class PackageT implements Comparable<PackageT>, Serializable {
 
 	public void setPackagesStatuses(List<PackagesStatuses> packagesStatuses) {
 		this.packagesStatuses = packagesStatuses;
+	}
+
+	public int getPurchased() {
+		return purchased;
+	}
+
+	public void setPurchased(int purchased) {
+		this.purchased = purchased;
 	}
 
 	@Override
