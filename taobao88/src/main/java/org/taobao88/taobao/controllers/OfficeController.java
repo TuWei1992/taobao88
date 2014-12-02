@@ -293,6 +293,9 @@ public class OfficeController extends  MainController{
         int idPackage = Integer.parseInt(request.getParameter("idPackage"));
         PackageT packageT = packageService.findPackageById(idPackage);
         packageT.setStatus(packageStatusDAO.findPackageStatusById(packageT.getIdPackageStatus()));
+        for (OrderT o : packageT.getOrders()) {
+        	o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+        }
                 
         request.setAttribute("allStatuses", statusesDAO.getAll());
         request.setAttribute("packageT", packageT);
