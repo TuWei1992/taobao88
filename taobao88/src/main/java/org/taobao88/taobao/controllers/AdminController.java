@@ -82,32 +82,6 @@ public class AdminController extends MainController{
     					     @RequestParam ("idPackage") int idPackage,
     					     Model model,
     						 HttpServletRequest request) {
-//        HttpSession session = request.getSession(true);
-//
-//        List<OrderT> orderTList = (List<OrderT>) session.getAttribute("ordersInCurrentPackage");
-//
-//        for(int i=0;i<orderTList.size();i++) {
-//            OrderStatus orderStatus = getStatus(request,orderStatusDAO.findStatusById(orderTList.get(i).getIdOrderStatus()));
-//            orderStatusDAO.updateOrderStatus(orderStatus);
-//        }
-//
-//        int idPackage = (int)session.getAttribute("currentIdPackage");
-//        PackageStatus packageStatus = packageStatusDAO.findPackageStatusById(packageDAO.findPackageById(idPackage).getIdPackageStatus());
-//        packageStatus = checkOnReady(orderDAO.getOrdersForPackages(idPackage),packageStatus);
-//
-//        session.setAttribute("ordersInCurrentPackage",orderDAO.getOrdersForPackages(idPackage));
-//
-//        packageStatusDAO.updatePackageStatus(packageStatus);
-//
-//        request.setAttribute("orders",getOrders(orderDAO.getOrdersForPackages(idPackage),goodsDAO.getAll(orderDAO.getOrdersForPackages(idPackage)), orderStatusDAO.getOrdersStatuses(orderDAO.getOrdersByPackages(idPackage))));
-//        request.setAttribute("statusPackage",packageStatus);
-//        request.setAttribute("activePackages",packageDAO.getPackagesForAdmin());
-//
-//        if(orderDAO.getOrdersForPackages(idPackage) != null) {
-//            request.setAttribute("userOfCurrentPackage",userDAO.findUserById(orderDAO.getOrdersForPackages(idPackage).get(0).getIdUser()));
-//            session.setAttribute("currentUserOfPackage",userDAO.findUserById(orderDAO.getOrdersForPackages(idPackage).get(0).getIdUser()));
-//        }
-    	
     	UserT user = null;
     	
     	for (int i = 0; i < idOrder.length; i++) {
@@ -133,8 +107,13 @@ public class AdminController extends MainController{
     		}
     	}
     	
+    	PackageT packageT = packageDAO.findPackageById(idPackage);
+    	for (OrderT o : packageT.getOrders()) {
+    		o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+    	}
+    	
     	model.addAttribute("allStatuses", statusesDAO.getAll());
-    	model.addAttribute("packageT", packageDAO.findPackageById(idPackage));
+    	model.addAttribute("packageT", packageT);
     	model.addAttribute("userOfCurrentPackage", user);
         
         return "showPackageAdmin";
@@ -168,8 +147,10 @@ public class AdminController extends MainController{
         PackageT packageT = packageDAO.findPackageById(idPackage);
         UserT user = null;
         for (OrderT o : packageT.getOrders()) {
-        	user = userDAO.findUserById(o.getIdUser());
-        	break;
+        	if (user == null) {
+        		user = userDAO.findUserById(o.getIdUser());
+        	}
+        	o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
         }
         
         request.setAttribute("allStatuses", statusesDAO.getAll());
