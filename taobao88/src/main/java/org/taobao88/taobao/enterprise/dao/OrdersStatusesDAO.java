@@ -7,6 +7,8 @@ import org.taobao88.taobao.enterprise.entity.OrdersStatuses;
 
 public interface OrdersStatusesDAO {
 
+	public OrdersStatuses findById(int id);
+	
 	public List<OrdersStatuses> findByOrder(OrderT orderT);
 	
 	public int add(OrdersStatuses os);

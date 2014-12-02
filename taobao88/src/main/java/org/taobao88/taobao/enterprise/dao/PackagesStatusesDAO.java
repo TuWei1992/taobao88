@@ -7,6 +7,8 @@ import org.taobao88.taobao.enterprise.entity.PackagesStatuses;
 
 public interface PackagesStatusesDAO {
 
+	public PackagesStatuses findById(int id);
+	
 	public List<PackagesStatuses> findByOrder(PackageT packageT);
 	
 	public int add(PackagesStatuses ps);

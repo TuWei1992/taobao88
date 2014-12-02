@@ -16,6 +16,11 @@ public class OrdersStatusesDAOImpl implements OrdersStatusesDAO {
 
 	@Autowired private SessionFactory sessionFactory;
 	
+	@Override
+	public OrdersStatuses findById(int id) {
+		return (OrdersStatuses) sessionFactory.getCurrentSession().createQuery("from OrdersStatuses where id = :id").setParameter("id", id).uniqueResult();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<OrdersStatuses> findByOrder(OrderT orderT) {

@@ -37,4 +37,9 @@ public class PackagesStatusesDAOImpl implements PackagesStatusesDAO {
 		sessionFactory.getCurrentSession().update(ps);	
 	}
 
+	@Override
+	public PackagesStatuses findById(int id) {
+		return (PackagesStatuses) sessionFactory.getCurrentSession().createQuery("from PackagesStatuses where id = :id").setParameter("id", id).uniqueResult();
+	}
+
 }

@@ -1,11 +1,13 @@
 package org.taobao88.taobao.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.StatusesDAO;
@@ -251,8 +253,29 @@ public class AdminController extends MainController{
     		ps.setCreatedAt(new Timestamp(new Date().getTime()));
     		packagesStatusesDAO.add(ps);
     	}
+    	   	
+    	return "redirect:/admin/showPackageAdmin?idPackage=" + p.getIdPackage();
+    }
+    
+    @RequestMapping(value = "/removeStatus", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String removeOrdersStatuses(@RequestParam ("id") int id,
+    											     @RequestParam ("action") String action) {
     	
-    	return "redirect:/admin";
+    	boolean success = false;
+    	if (action.equals("removeOrdersStatuses")) {
+    		OrdersStatuses os = ordersStatusesDAO.findById(id);
+    		if (os != null) {
+    			ordersStatusesDAO.delete(os);
+    		}
+    		success = ordersStatusesDAO.findById(id) == null;
+    	} else if (action.equals("removePackagesStatuses")) {
+    		PackagesStatuses ps = packagesStatusesDAO.findById(id);
+    		if (ps != null) {
+    			packagesStatusesDAO.delete(ps);
+    		}
+    		success = packagesStatusesDAO.findById(id) == null;
+    	}
+    	return "{\"success\":" + success + ",\"message\":\"ok\"}";
     }
     
     private OrderStatus getStatus(HttpServletRequest request, OrderStatus orderStatus){

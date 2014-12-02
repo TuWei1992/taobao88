@@ -43,7 +43,7 @@
 				</p>
 					<ul class="list-group">
 						<c:forEach items="${packageT.orders}" var="order">
-							<li class="list-group-item">${order.goods.nameGoods}</li>
+							<li class="list-group-item">${order.goods.nameGoods} (${order.goods.amountGoods}шт.)</li>
 						</c:forEach>
 					</ul>
 				<p>

@@ -9,7 +9,7 @@
 				<button type="button" class="close" data-dismiss="modal">
 					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 				</button>
-				<h2 class="modal-title" id="notEnoughMoneyModalLabel">Недостаточно средств на счёте.</h2>
+				<h2 class="modal-title" id="notEnoughMoneyModalLabel">Недостаточно средств на счете.</h2>
 			</div>
 			<div class="modal-body">
 				<p>
@@ -19,6 +19,9 @@
 					Пройдите в меню <b>"Пополнить счет"</b> для пополнения счета.
 				</p>
 			</div>
+			<div class="modal-footer">
+        		<a href="${pageContext.request.contextPath}/privateOffice/showBalance" type="button" class="btn btn-primary add_btn">Пополнить счет</a>
+      		</div>
 		</div>
 	</div>
 </div>

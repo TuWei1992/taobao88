@@ -18,6 +18,31 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$('.remove_order_status').click(function() {
+			send($(this).attr('id'), 'removeOrdersStatuses');
+	  	});
+		$('.remove_package_status').click(function() {
+			send($(this).attr('id'), 'removePackagesStatuses');
+	  	});
+	});
+	
+	function send(id, action) {
+		var data = 'id=' + id + '&action=' + action;
+		$.ajax({type:'POST',
+  		    url:'${pageContext.request.contextPath}/admin/removeStatus',
+  		    data: data,
+  		    dataType: 'json',
+  			complete: function(jsonData) {
+  				var response = JSON.parse(jsonData.responseText);
+  				if (response.success) {
+  					window.location.href = '${pageContext.request.contextPath}/admin/showPackageAdmin?idPackage=${packageT.idPackage}';
+  				} 
+  			}
+    	});
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="adminMenu.jsp" />
@@ -51,6 +76,7 @@
 										<c:if test="${loop == packageT.packagesStatuses.size() - 1}"><i class="glyphicon glyphicon-plus"></i></c:if>
 										<c:if test="${loop != packageT.packagesStatuses.size() - 1}"><i class="glyphicon glyphicon-ok"></i></c:if>
 										${pStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${pStatus.createdAt}"/></label>
+										<button type="button" role="button" id="${pStatus.id}" class="glyphicon glyphicon-remove remove_package_status pull-right"></button>
 									</li>
 								</c:if>
 							</c:forEach>
@@ -161,6 +187,7 @@
 													<c:if test="${loop == orderT.ordersStatuses.size() - 1}"><i class="glyphicon glyphicon-plus"></i></c:if>
 													<c:if test="${loop != orderT.ordersStatuses.size() - 1}"><i class="glyphicon glyphicon-ok"></i></c:if>
 													${oStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${oStatus.createdAt}"/></label>
+													<button type="button" role="button" id="${oStatus.id}" class="glyphicon glyphicon-remove remove_order_status pull-right"></button>
 												</li>
 											</c:if>
 										</c:forEach>
