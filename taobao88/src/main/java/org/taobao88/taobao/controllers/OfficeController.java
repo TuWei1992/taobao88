@@ -155,7 +155,7 @@ public class OfficeController extends  MainController{
 		goods.setHrefGoods(hrefGoods);
 		goods.setNameGoods(nameGoods);
 		goods.setAmountGoods(amountGoods);
-		goods.setPriceGoods((priceGoods + 10) * 1.1 * 0.19);
+		goods.setPriceGoods(priceGoods);
 		goods.setChinaGoods(chinaGoods);
 		goods.setWeightGoods(weightGoods);
 		goods.setColorGoods(colorGoods);
@@ -369,11 +369,17 @@ public class OfficeController extends  MainController{
         goods.setSizeGoods(request.getParameter("SIZEGOODS"));
         goods.setNameGoods(request.getParameter("NAMEGOODS"));
         goods.setChinaGoods(request.getParameter("CHINAGOODS"));
-        goods.setPhotoGoods(request.getParameter("PHOTOGOODS"));
         goods.setComplexGoods(request.getParameter("COMPLEXGOODS"));
+        Object photoGoods = request.getParameter("PHOTOGOODS");
+		if (photoGoods != null) {
+			goods.setPhotoGoods("true");
+		} else {
+			goods.setPhotoGoods("false");
+		}        
         goodsDAO.updateEmployee(goods);
         
         OrderT order = orderDAO.findByGoods(goods);
+        order.setIdGoods(goods.getIdGoods());
         order.setFullPrice(priceService.getOrderPrice(order));
         orderDAO.updateOrder(order);
         

@@ -130,7 +130,7 @@
 									<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}">Заменить</a>
 								</c:if>
 								<c:if test="${orderT.packageT.purchased == 1}">
-									<h3><label class="label label-success pull-right">Посылка оплачена</label></h3>
+									<h3><label class="label label-success pull-right">Оплачено</label></h3>
 								</c:if>
 							</div>
 					</div>		

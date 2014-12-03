@@ -152,7 +152,7 @@
 							   Метод доставки: <span>${packageT.postService.serviceName}</span> 
 							   Итого: <span>$ ${packageT.fullPrice}</span>
 							   <c:if test="${packageT.purchased == 1}">
-							      <label class="label label-success">Оплачено</label>
+							      <label class="label label-success pull-right">Оплачено</label>
 							   </c:if>
 							</p>
 						</div>

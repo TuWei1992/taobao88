@@ -188,8 +188,8 @@
 									<th colspan="2">Товар</th>
 									<th>В посылку</th>
 									<th>Стоимость</th>
-									<th>Редактировать</th>
-									<th>Удалить</th>
+									<th>Действия</th>
+									
 								</tr>
 							</thead>
 							<tbody>
@@ -282,22 +282,24 @@
 											</div>
 										</td>
 										<td>
+											
 											<c:choose>
 												<c:when test="${order.goods.recomendation != null}">
-													<a href="${pageContext.request.contextPath}/fill?id=${order.goods.idGoods}" target="_blank">
+													<a href="${pageContext.request.contextPath}/fill?id=${order.goods.idGoods}" data-toggle="tooltip" data-placement="top" title="Изменить">
 														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 													</a>
 												</c:when>
 												<c:otherwise>
-													<a onclick="{document.changeOrder.idOrderForChange.value=${order.idOrder};document.changeOrder.submit();}" target="_blank" style="cursor: pointer; color: blue">
+													<a href="javascript:void(0);" onclick="{document.changeOrder.idOrderForChange.value=${order.idOrder};document.changeOrder.submit();}" data-toggle="tooltip" data-placement="top" title="Изменить">
 														<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 													</a>
 												</c:otherwise>
 											</c:choose>
+											<a href="javascript:void(0);" onclick="{document.deleteOrder.idOrderForDelete.value=${order.idOrder};document.deleteOrder.submit();}" data-toggle="tooltip" data-placement="top" title="Удалить">
+												<img name="deleteNews" src="${pageContext.request.contextPath}/resources/img/card.png">
+											</a>
 										</td>
-										<td>
-                                    		<img name="deleteNews" class="pull-left" style="cursor: pointer;" src="${pageContext.request.contextPath}/resources/img/card.png" onclick="{document.deleteOrder.idOrderForDelete.value=${order.idOrder};document.deleteOrder.submit();}">
-										</td>
+										
 									</tr>	
 								</c:forEach>
 							</tbody>

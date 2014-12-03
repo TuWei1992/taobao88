@@ -180,17 +180,17 @@ public class IndexController extends MainController {
 		int userId = (int) request.getSession().getAttribute("currentIdUser");
 		
 		Goods goods = goodsService.convertFromRecomendationToGoods(rec);
+		goods.setIdGoods(goodsDAO.saveGoods(goods));
 		OrderStatus orderStatus = getOrderStatus();
 		orderStatus.setIdOrderStatus(orderStatusService.saveStatus(orderStatus));
 				
 		OrderT order = new OrderT();
 		order.setApprove("false");
         order.setIdUser(userId);
-        order.setFullPrice(goods.getPriceGoods());
+        order.setIdGoods(goods.getIdGoods());
+        order.setFullPrice(priceService.getOrderPrice(order));
         order.setIdOrderStatus(orderStatus.getIdOrderStatus());
         goods.setOrderT(order);
-        goods.setIdGoods(goodsDAO.saveGoods(goods));
-        order.setIdGoods(goods.getIdGoods());
         orderDAO.addOrder(order);
         
         Status status = statusesDAO.findById(1);

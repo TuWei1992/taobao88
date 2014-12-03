@@ -64,10 +64,11 @@ public class GoodsServiceImpl implements GoodsService{
 		good.setHrefGoods(recomendation.getHref());
 		good.setAmountGoods(1);
 		good.setWeightGoods(recomendation.getWeight());
-		good.setPriceGoods(priceService.getPriceOfOrder(good.getAmountGoods(), recomendation.getPrice()));
+//		good.setPriceGoods(priceService.getPriceOfOrder(good.getAmountGoods(), recomendation.getPrice()));
+		good.setPriceGoods(recomendation.getPrice());
 		good.setNameGoods(recomendation.getDescription());
 		good.setChinaGoods(null);
-		good.setPhotoGoods("true");
+		good.setPhotoGoods("false");
 		good.setPhoto(recomendation.getPhoto());
 		good.setRecomendation(recomendation);
 		return good;
