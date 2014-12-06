@@ -546,49 +546,9 @@ public class OfficeController extends  MainController{
     	}
      	model.addAttribute("packages", packs);
     	model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
-    	return "messagesUser";
+    	return "messages/messagesUser";
     }
-    
-    @RequestMapping(value = "sendMessage", method = RequestMethod.GET)
-    public String sendMessage(@RequestParam ("toUser") int toUser,
-    						  @RequestParam ("idpackage") int idpackage,
-    						  HttpServletRequest request, Model model) {
-    	UserT fromUser = null;
-    	if (request.getSession().getAttribute("currentIdUser") == null) {
-    		fromUser = userService.findUserById(1);
-    	} else {
-    		fromUser = userService.findUserById((int) request.getSession().getAttribute("currentIdUser"));
-    	}
-    	if (fromUser.getIdUser() == 1) {
-    		model.addAttribute("fromUser", fromUser);
-    		model.addAttribute("toUser", userService.findUserById(toUser));
-    		model.addAttribute("packageT", packageService.findPackageById(idpackage));
-    		return "messageAdmin";
-    	} else {
-    		return "messageUser";
-    	}
-    }
-    
-    @RequestMapping(value = "confirmMessage", method = RequestMethod.POST)
-    public String confirmMessage(@RequestParam ("toUser") int toUser, 
-    							 @RequestParam ("fromUser") int fromUser, 
-    							 @RequestParam("idpackage") int idpackage, 
-    							 @RequestParam ("message") String message, HttpServletRequest request, Model model) {
-    	Message m = new Message();
-    	m.setFromUser(userService.findUserById(fromUser));
-		m.setToUser(userService.findUserById(toUser));
-		m.setMessage(message);
-		m.setPackageT(packageService.findPackageById(idpackage));
-		m.setCreatedAt(new Timestamp(new Date().getTime()));
-		m.setUpdatedAt(new Timestamp(new Date().getTime()));
-		messagesService.createMessage(m);
-    	if (fromUser == 1) {
-    		return "redirect:/admin/showMessages";
-    	} else {
-    		return "redirect:/privateOffice/showMessages";
-    	}
-    }
-    
+        
     @RequestMapping(value = "showBalance", method = RequestMethod.GET)
     public String showBalance(HttpServletRequest request) {	
     	int userId = (int) request.getSession().getAttribute("currentIdUser");

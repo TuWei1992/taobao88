@@ -26,6 +26,7 @@
 		$('.remove_package_status').click(function() {
 			send($(this).attr('id'), 'removePackagesStatuses');
 	  	});
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 	
 	function send(id, action) {
@@ -93,7 +94,7 @@
   					Метод доставки: <span class="label label-primary">${packageT.postService.serviceName}</span>
   				</p>
   			</div>
-				<a href="${pageContext.request.contextPath}/privateOffice/sendMessage?toUser=${userOfCurrentPackage.idUser}&idpackage=${packageT.idPackage}" type="button" class="btn btn-primary">Написать сообщение пользователю</a>
+				<a href="${pageContext.request.contextPath}/messages/sendMessage?toUser=${userOfCurrentPackage.idUser}&idpackage=${packageT.idPackage}" type="button" class="btn btn-primary">Написать сообщение пользователю</a>
 				
 				<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/admin/saveOrderStatus">
 				<input type="hidden" name="idPackage" value="${packageT.idPackage}">
@@ -131,6 +132,10 @@
       										<div class="panel-body">
         										<table class="table table-hover">
         											<tr>
+        												<td>Ссылка на товар</td>
+        												<td><a href="${orderT.goods.hrefGoods}" target="_blank">#${orderT.idOrder}</a></td>
+        											</tr>
+        											<tr>
         												<td>Название продукции</td>
         												<td>${orderT.goods.nameGoods}</td>
         											</tr>
@@ -164,6 +169,10 @@
         													<c:if test="${orderT.goods.photoGoods == 'true'}">Нужен</c:if>
         													<c:if test="${orderT.goods.photoGoods == 'false'}">Не нужен</c:if>
         												</td>
+        											</tr>
+        											<tr>
+        												<td data-toggle="tooltip" data-placement="left" title="${orderT.goods.complexGoods}">Комментарий пользователя</td>
+        												<td></td>
         											</tr>
         										</table>
       										</div>

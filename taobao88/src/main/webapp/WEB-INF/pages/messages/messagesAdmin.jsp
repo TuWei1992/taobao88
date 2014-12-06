@@ -4,11 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<jsp:include page="adminStyles.jsp"/>
+<jsp:include page="../adminStyles.jsp"/>
 <title>Сообщения</title>
 </head>
 <body>
-	<jsp:include page="adminMenu.jsp" />
+	<jsp:include page="../adminMenu.jsp" />
 	<div class="container">
 		<div class="row">
 			<div class="page-header">
@@ -42,7 +42,7 @@
   										</div>
     								</div>
     							</c:forEach>
-    							<form role="form" method="post" accept-charset="utf-8" action="${pageContext.request.contextPath}/privateOffice/confirmMessage">
+    							<form role="form" method="post" accept-charset="utf-8" action="${pageContext.request.contextPath}/messages/confirmMessage">
 									<input type="hidden" name="toUser" value="${packageT.orders.toArray()[0].idUser}">
 									<input type="hidden" name="fromUser" value="1">
 									<input type="hidden" name="idpackage" value="${packageT.idPackage}">

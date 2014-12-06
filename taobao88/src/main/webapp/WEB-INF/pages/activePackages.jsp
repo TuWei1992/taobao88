@@ -31,6 +31,8 @@
 					<tr>
 						<th>№</th>
 						<th>Полная стоимость посылки</th>
+						<th>Дата заказа</th>
+						<th>Статус посылки</th>
 					</tr>
 				</thead>
 				<c:forEach items="${activePackages}" var="packageT">
@@ -39,14 +41,10 @@
 							onclick="{document.showPackageAdmin.idPackage.value = ${packageT.idPackage};document.showPackageAdmin.submit();}"
 							style="cursor: pointer"> Посылка № ${packageT.idPackage} </a></td>
 						<td>${packageT.fullPrice}</td>
-						<td><c:if test="${TIME == packageT.datePackage}">
-								<span class="label label-success" disabled>NEW</span>
-							</c:if> 
-							<c:if test="${TIME != packageT.datePackage}">
-								<span class="span10" style="color: blue">Дата заказа: ${packageT.datePackage}</span>
-							</c:if>
+						<td>
+							<span class="label label-primary">${packageT.datePackage}</span>
 						</td>
-						<td><span class="label-important">IN PROGRESS</span></td>
+						<td><span class="label label-success">${packageT.packagesStatuses.get(0).status.statusName}</span></td>
 					</tr>
 				</c:forEach>
 			</table>

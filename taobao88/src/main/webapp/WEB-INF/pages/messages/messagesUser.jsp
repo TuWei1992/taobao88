@@ -39,10 +39,10 @@ $(function() {
 </head>
 <body>
 	<div id="wrapper">
-		<jsp:include page="partials/index_header.jsp"/>
+		<jsp:include page="../partials/index_header.jsp"/>
 	</div>
 		<div class="width">
-			<jsp:include page="partials/horizontal_menu_logged.jsp"/>
+			<jsp:include page="../partials/horizontal_menu_logged.jsp"/>
 			<div class="position">
 				<span><a href="${pageContext.request.contextPath}/">Главная</a></span>
 				<span>></span> 
@@ -80,13 +80,13 @@ $(function() {
   													</div>
     											</div>
     										</c:forEach>
-    										<form role="form" method="post" accept-charset="utf-8" action="${pageContext.request.contextPath}/privateOffice/confirmMessage">
+    										<form role="form" method="post" accept-charset="utf-8" action="${pageContext.request.contextPath}/messages/confirmMessage">
 												<input type="hidden" name="toUser" value="1">
 												<input type="hidden" name="fromUser" value="${currentIdUser}">
 												<input type="hidden" name="idpackage" value="${packageT.idPackage}">
 												<div class="form-group">
 													<label class="divider"></label>
-													<textarea class="form-control order-control" id="message" name="message" placeholder="Введите текст сообщения..."></textarea>
+													<textarea class="form-control order-control" id="message" name="message" placeholder="Введите текст сообщения..." required></textarea>
 												</div>
 												<div class="form-group">
 													<button role="button" class="btn btn-success" type="submit">Отправить</button>
@@ -102,6 +102,6 @@ $(function() {
 				
 			</div>
 		</div>
-	<jsp:include page="partials/index_footer.jsp" />
+	<jsp:include page="../partials/index_footer.jsp" />
 </body>
 </html>

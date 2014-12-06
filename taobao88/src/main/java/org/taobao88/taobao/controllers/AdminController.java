@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,14 @@ public class AdminController extends MainController{
         HttpSession session = request.getSession(true);
         session.setAttribute("TIME",getCurrentDate());
        
+        List<PackagesStatuses> psList = new ArrayList<>();
         List<PackageT> packageTList = packageDAO.getPackagesForAdmin();
+        for (PackageT p : packageTList) {
+        	PackagesStatuses ps = packagesStatusesDAO.getCurrentStatus(p);
+        	psList.add(ps);
+        	p.setPackagesStatuses(psList);
+        }
+        
         packageTList = getListForFirstPage(packageTList,request);
 
         request.setAttribute("activePackages",packageTList);
@@ -180,7 +188,7 @@ public class AdminController extends MainController{
     		p.setMessages(messagesService.findMessagesByPackage(p));
     	}
     	request.setAttribute("packages", packs);
-    	return "messagesAdmin";
+    	return "messages/messagesAdmin";
     }
     
     @RequestMapping(value = "showBalances", method = RequestMethod.GET)

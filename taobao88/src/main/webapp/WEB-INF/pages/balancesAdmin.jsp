@@ -37,6 +37,7 @@
 			<table class="table table-hover">
 				<thead>
 					<tr>
+						<th>ID</th>
 						<th>Пользователь</th>
 						<th>Баланс</th>
 						<th>Сумма</th>
@@ -46,8 +47,9 @@
 				<tbody>
 					<c:forEach items="${users}" var="user">
 						<tr>
+							<td>${user.idUser}</td>
 							<td>
-								${user.fullNameUser} ${user.femailUser} ${user.patronymicUser}
+								${user.fullNameUser} ${user.patronymicUser} ${user.femailUser} 
 								<input type="hidden" id="${user.idUser}" value="${user.idUser}">
 							</td>
 							<td>

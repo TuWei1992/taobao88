@@ -42,4 +42,9 @@ public class PackagesStatusesDAOImpl implements PackagesStatusesDAO {
 		return (PackagesStatuses) sessionFactory.getCurrentSession().createQuery("from PackagesStatuses where id = :id").setParameter("id", id).uniqueResult();
 	}
 
+	@Override
+	public PackagesStatuses getCurrentStatus(PackageT packageT) {
+		return (PackagesStatuses) sessionFactory.getCurrentSession().createQuery("from PackagesStatuses where packageT.idPackage = :idPackage order by created_at").setParameter("idPackage", packageT.getIdPackage()).list().get(0);
+	}
+
 }
