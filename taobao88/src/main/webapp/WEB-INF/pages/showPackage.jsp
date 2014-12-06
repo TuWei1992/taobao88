@@ -74,7 +74,7 @@
 									<c:set var="pStatus" value="${packageT.packagesStatuses.get(loop)}"/>
 									<c:if test="${status.id == pStatus.status.id}">
 										<li>
-											${pStatus.status.statusName} <fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${pStatus.createdAt}"/>
+											${pStatus.status.statusName} <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${pStatus.createdAt}"/>
 											<c:if test="${loop == packageT.packagesStatuses.size() - 1}"><i class ="error"></i></c:if>
 											<c:if test="${loop != packageT.packagesStatuses.size() - 1}"><i class ="chek"></i></c:if>
 										</li>
@@ -127,7 +127,7 @@
 											<span>
 												<c:set var="i" value="${order.ordersStatuses.size()}"/>
 												${order.ordersStatuses.get(i - 1).status.statusName}<br>
-												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${order.ordersStatuses.get(i - 1).createdAt}"/></span>							
+												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${order.ordersStatuses.get(i - 1).createdAt}"/></span>							
 											</span>
 										</td>
 										<td>

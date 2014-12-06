@@ -64,7 +64,7 @@
 									<c:set var="oStatus" value="${orderT.ordersStatuses.get(loop)}"/>
 									<c:if test="${status.id == oStatus.status.id}">
 										<li>
-											${oStatus.status.statusName} <fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${oStatus.createdAt}"/>
+											${oStatus.status.statusName} <fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${oStatus.createdAt}"/>
 											<c:if test="${loop == orderT.ordersStatuses.size() - 1}"><i class ="error"></i></c:if>
 											<c:if test="${loop != orderT.ordersStatuses.size() - 1}"><i class ="chek"></i></c:if>
 										</li>
@@ -112,7 +112,7 @@
 											<span>
 												<c:set var="i" value="${orderT.ordersStatuses.size()}"/>
 												${orderT.ordersStatuses.get(i - 1).status.statusName}<br>
-												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${orderT.ordersStatuses.get(i - 1).createdAt}"/></span>
+												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${orderT.ordersStatuses.get(i - 1).createdAt}"/></span>
 											</span>
 										</td>
 										<td>

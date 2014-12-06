@@ -117,7 +117,7 @@
 											<span>
 												<c:set var="i" value="${packageT.packagesStatuses.size()}"/>
 												${packageT.packagesStatuses.get(i - 1).status.statusName}<br>
-												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${packageT.packagesStatuses.get(i - 1).createdAt}"/></span>
+												<span class="label label-warning"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${packageT.packagesStatuses.get(i - 1).createdAt}"/></span>
 											</span>
 										</td>
 										<td>

@@ -76,7 +76,7 @@
 									<li class="list-group-item">
 										<c:if test="${loop == packageT.packagesStatuses.size() - 1}"><i class="glyphicon glyphicon-plus"></i></c:if>
 										<c:if test="${loop != packageT.packagesStatuses.size() - 1}"><i class="glyphicon glyphicon-ok"></i></c:if>
-										${pStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${pStatus.createdAt}"/></label>
+										${pStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${pStatus.createdAt}"/></label>
 										<button type="button" role="button" id="${pStatus.id}" class="glyphicon glyphicon-remove remove_package_status pull-right"></button>
 									</li>
 								</c:if>
@@ -195,7 +195,7 @@
 												<li class="list-group-item">
 													<c:if test="${loop == orderT.ordersStatuses.size() - 1}"><i class="glyphicon glyphicon-plus"></i></c:if>
 													<c:if test="${loop != orderT.ordersStatuses.size() - 1}"><i class="glyphicon glyphicon-ok"></i></c:if>
-													${oStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy hh:mm" value="${oStatus.createdAt}"/></label>
+													${oStatus.status.statusName} <label class="label label-success"><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${oStatus.createdAt}"/></label>
 													<button type="button" role="button" id="${oStatus.id}" class="glyphicon glyphicon-remove remove_order_status pull-right"></button>
 												</li>
 											</c:if>
