@@ -26,7 +26,7 @@
 		$('[data-toggle="tooltip"]').tooltip();
 		
 		$('#orderBtn').click(function() {
-		  if (validateCheckedGoods() && validateDeliveryPrice()) {
+		  if (validateCheckedGoods() && validateChoosedPostService() && validateDeliveryPrice()) {
 			  document.toOrder.submit();
 		  }
 		});
@@ -101,6 +101,14 @@
 		}
 	}
 	
+	function validateChoosedPostService() {
+		if (!$('input[name="serviceId"]:checked').size() > 0) {
+			$('#postServiceNotChosenModal').modal('show');
+			return false;
+		}
+		return $('input[name="serviceId"]:checked').size() > 0;
+	}
+	
 	function validateDeliveryPrice() {
 		if ($('input[name="price"]').val() == 0) {
 			$('#badPriceModal').modal('show');
@@ -139,6 +147,7 @@
 	<jsp:include page="./modal/basket_alert_modal.jsp"/>
 	<jsp:include page="./modal/weight_limit_modal.jsp"/>
 	<jsp:include page="./modal/basket_bad_price_modal.jsp"/>
+	<jsp:include page="./modal/post_service_not_chosen_modal.jsp"/>
 	
 	<div id="wrapper">
  	<!-- HEADER -->
