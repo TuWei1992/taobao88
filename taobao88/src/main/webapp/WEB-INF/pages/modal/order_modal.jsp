@@ -26,6 +26,8 @@
 			});
 			$('[data-toggle="tooltip"]').tooltip();
 			$('.btn-order').click(function() {
+				$('.error_msg').hide();
+				$('.valid').removeClass('alert-danger');
 				$.ajax({
 					type: 'POST',
 					url: '${pageContext.request.contextPath}/privateOffice/FromOrder',
@@ -35,8 +37,16 @@
 						if (response.success) {
 							window.location.href = '${pageContext.request.contextPath}/basket';
 						} else {
-							$('.error_msg').show();
-							$('.valid').addClass('alert-danger');
+							if (response.fail_fields != null) {
+								var fail_fields = response.fail_fields.replace('[', '').replace('[', '').replace(']', '').replace(']', '').split(',');
+								fail_fields.forEach(function(element, index, fail_fields) {
+									$('input[name="' + element.trim() + '"]').addClass('alert-danger');
+								});
+								$('.error_msg').show();
+							} else {
+								$('.error_msg').show();
+								$('.valid').addClass('alert-danger');
+							}
 						}
 					},
 					error: function() {

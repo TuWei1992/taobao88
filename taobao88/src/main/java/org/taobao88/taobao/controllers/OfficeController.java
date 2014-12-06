@@ -153,40 +153,55 @@ public class OfficeController extends  MainController{
 		
 		try {
 			int userId = (int) request.getSession().getAttribute("currentIdUser");
+			List<String> failFields = new ArrayList<>();
 		
 			Goods goods = new Goods();
-			goods.setHrefGoods(hrefGoods);
-			goods.setNameGoods(nameGoods);
-			goods.setAmountGoods(amountGoods);
-			goods.setPriceGoods(priceGoods);
-			goods.setChinaGoods(chinaGoods);
-			goods.setWeightGoods(weightGoods);
-			goods.setColorGoods(colorGoods);
-			goods.setSizeGoods(sizeGoods);
-			goods.setComplexGoods(complexGoods);
-			Object photoGoods = request.getParameter("PHOTOGOODS");
-			if (photoGoods != null) {
-				goods.setPhotoGoods("true");
+			if (hrefGoods.isEmpty() || hrefGoods == null) { failFields.add("HREFGOODS"); } 
+			if (nameGoods.isEmpty() || nameGoods == null) {	failFields.add("NAMEGOODS"); } 
+			if (amountGoods < 1) { failFields.add("AMOUNTGOODS"); }
+			if (priceGoods < 1) { failFields.add("PRICEGOODS");	}
+			if (chinaGoods.isEmpty() || chinaGoods == null) { failFields.add("CHINAGOODS"); }
+			if (weightGoods < 1) { failFields.add("WEIGHTGOODS"); }
+			if (colorGoods.isEmpty() || colorGoods == null) { failFields.add("COLORGOODS"); }
+			if (sizeGoods.isEmpty() || sizeGoods == null) { failFields.add("SIZEGOODS"); }
+			
+			if (failFields.size() > 0) {
+//				w
+				return "{\"success\":false,\"message\":\"order_fail\",\"fail_fields\":\"" + Arrays.asList(failFields) + "\"}";
 			} else {
-				goods.setPhotoGoods("false");
-			}
-			goods.setIdGoods(goodsDAO.saveGoods(goods));
+				goods.setHrefGoods(hrefGoods);
+				goods.setNameGoods(nameGoods);
+				goods.setAmountGoods(amountGoods);
+				goods.setPriceGoods(priceGoods);
+				goods.setChinaGoods(chinaGoods);
+				goods.setWeightGoods(weightGoods);
+				goods.setColorGoods(colorGoods);
+				goods.setSizeGoods(sizeGoods);
+				goods.setComplexGoods(complexGoods);
+				Object photoGoods = request.getParameter("PHOTOGOODS");
+				if (photoGoods != null) {
+					goods.setPhotoGoods("true");
+				} else {
+					goods.setPhotoGoods("false");
+				}
+				goods.setIdGoods(goodsDAO.saveGoods(goods));
 				
-			OrderStatus orderStatus = getOrderStatus();
-			orderStatusDAO.saveStatus(orderStatus);
+				OrderStatus orderStatus = getOrderStatus();
+				orderStatusDAO.saveStatus(orderStatus);
 		
-			OrderT order = new OrderT();
-			order.setIdGoods(goods.getIdGoods());
-			order.setDateOrder(new Timestamp(new Date().getTime()));
-			order.setApprove("false");
-			order.setIdUser(userId);
-			order.setIdOrderStatus(orderStatus.getIdOrderStatus());
-			order.setFullPrice(priceService.getOrderPrice(order));
-			orderDAO.addOrder(order);
+				OrderT order = new OrderT();
+				order.setIdGoods(goods.getIdGoods());
+				order.setDateOrder(new Timestamp(new Date().getTime()));
+				order.setApprove("false");
+				order.setIdUser(userId);
+				order.setIdOrderStatus(orderStatus.getIdOrderStatus());
+				order.setFullPrice(priceService.getOrderPrice(order));
+				orderDAO.addOrder(order);
 		
-			clearOrderInSession(request);
-			request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
-			return "{\"success\":true,\"message\":\"order_accepted\"}";
+				clearOrderInSession(request);
+				request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
+				return "{\"success\":true,\"message\":\"order_accepted\"}";
+			}
 		} catch (Exception e) {
 			return "{\"success\":false,\"message\":\"order_fail\"}";
 		}
