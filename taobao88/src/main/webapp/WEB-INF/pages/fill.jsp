@@ -91,7 +91,7 @@
 	 		<!-- image slide -->
 				<div class="product-container">
                		<div id="img-product">
-                   		<img src="resources/img/${good.photo}" class="active-image" height="100%" alt="">
+                   		<img src="/images/${good.photo}" class="active-image" height="100%" alt="">
                		</div>
                		<div class="slides-product">
                    		<ul id="pr-carousel" class="jcarousel">
@@ -108,7 +108,12 @@
 					<form action="${pageContext.request.contextPath}/fillUpdate" method="POST">
 						<fieldset style="border:none;">
 							<div class="row-form">
-								<input type="hidden" name="idGoods" value="${good.idGoods}">
+								<label>Номер заказа:</label>
+								<div class="overflow">
+									<input type="text" class="form in" name="idGoods" value="${good.idGoods}" readonly>
+								</div>
+							</div>
+							<div class="row-form">
 								<label>Цвет:</label>
 								<div class="overflow">
 									<select class="form in" name="color">

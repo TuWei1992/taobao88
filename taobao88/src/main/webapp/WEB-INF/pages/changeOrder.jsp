@@ -49,11 +49,19 @@ $(function() {
 			</div>
 			<div class="control">
 				<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/updateOrder" method="POST">
-					<input type="hidden" name="goodsId" value="${goods.idGoods}">
+					
 					<table class="table" cellpadding='50px' >
 						<tr>
 							<td>
 								<table>
+									<tr>
+										<td>
+											<label class="control-label" for="goodsId">Номер заказа<a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
+										</td>
+										<td>
+											<input type="text" id="goodsId" name="goodsId" value="${goods.idGoods}" readonly class="form in">
+										</td>
+									</tr>
 									<tr>
 										<td>
 											<label class="control-label" for="HREFGOODS">Ссылка<a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
@@ -80,26 +88,26 @@ $(function() {
 									</tr>
 									<tr>
 										<td>
-											<label class="control-label" for="PRICEGOODS">Стоимость единицы продукции($) <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
+											<label class="control-label" for="PRICEGOODS">Стоимость единицы продукции <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
 											<input type="text" pattern="\d*\.?\d+" data-validation-pattern-message="Пример: 10, 10.343" id="PRICEGOODS" name="PRICEGOODS" placeholder="" value="${goods.priceGoods}" required class="form in">
-											<p class="help-block" style="color: #EEE5DE;">Пример: 10, 10.343</p>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<label class="control-label" for="WEIGHTGOODS">Вес единицы продукции(в граммах) <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
-										</td>
-										<td>
-											<input type="text" pattern="\d+\.?\d+?" data-validation-pattern-message="Пример: 100, 50, 150" id="WEIGHTGOODS" name="WEIGHTGOODS" placeholder="" value="${goods.weightGoods}" required class="form in">
-											<p class="help-block" style="color: #EEE5DE;">Пример: 100, 50, 150</p>
+											
 										</td>
 									</tr>
 								</table>
 							</td>
 							<td>
 								<table>
+									<tr>
+										<td>
+											<label class="control-label" for="WEIGHTGOODS">Вес единицы продукции(в граммах) <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
+										</td>
+										<td>
+											<input type="text" pattern="\d+\.?\d+?" data-validation-pattern-message="Пример: 100, 50, 150" id="WEIGHTGOODS" name="WEIGHTGOODS" placeholder="" value="${goods.weightGoods}" required class="form in">
+											
+										</td>
+									</tr>
 									<tr>
 										<td>
 											<label class="control-label" for="CHINAGOODS">Доставка по Китаю <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
