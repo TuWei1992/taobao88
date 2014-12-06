@@ -97,6 +97,12 @@
 												<span class="order">№: ${orderT.idOrder}</span>  
 												<div> Цвет: <span class="color">${goods.colorGoods}</span></div>
 												<div> Количество: <span class="size">${goods.amountGoods}</span></div>
+												<div> Размер: <span class="size">${goods.sizeGoods}</span></div>
+												<div> 
+													<c:if test="${not empty goods.complexGoods}">
+														<span class="label label-success" data-toggle="tooltip" data-placement="top" title="${goods.complexGoods}">Примечания</span>
+													</c:if>
+												</div>
 											</div>
 					        			</td>  
 										<td>
