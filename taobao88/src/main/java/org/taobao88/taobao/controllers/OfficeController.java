@@ -181,13 +181,6 @@ public class OfficeController extends  MainController{
 		order.setFullPrice(priceService.getOrderPrice(order));
 		orderDAO.addOrder(order);
 		
-		Status status = statusesDAO.findById(1);
-		OrdersStatuses os = new OrdersStatuses();
-		os.setStatus(status);
-		os.setOrderT(order);
-		os.setCreatedAt(new Timestamp(new Date().getTime()));
-		ordersStatusesDAO.add(os);
-		
 		clearOrderInSession(request);
 		request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
 		return "redirect:/basket";
@@ -245,6 +238,12 @@ public class OfficeController extends  MainController{
         packagesStatusesDAO.add(ps);
         
         for (OrderT o : orderTList) {
+        	OrdersStatuses os = new OrdersStatuses();
+    		os.setStatus(status);
+    		os.setOrderT(o);
+    		os.setCreatedAt(ps.getCreatedAt());
+    		ordersStatusesDAO.add(os);
+    		
         	o.setApprove("true");
         	o.setPackageT(packageT);
         	orderDAO.updateOrder(o);
@@ -307,7 +306,7 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/toOrderStatus", method = RequestMethod.GET)
      public ModelAndView toStatus(HttpServletRequest request){
-
+    	UserT user = userDAO.findUserById((int)request.getSession().getAttribute("currentIdUser"));
         int idOrder = Integer.parseInt(request.getParameter("idOrder"));
 
         OrderT orderT = orderDAO.findOrderById(idOrder);
@@ -318,6 +317,7 @@ public class OfficeController extends  MainController{
         request.setAttribute("orderT", orderT);
         request.setAttribute("goods", goods);
         request.setAttribute("status",orderStatus);
+        request.setAttribute("balance", balanceService.getBalance(user));
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
 
         return new ModelAndView("orderStatus");
@@ -328,8 +328,8 @@ public class OfficeController extends  MainController{
         HttpSession session = request.getSession(true);
 
         int idUser = (int) session.getAttribute("currentIdUser");
-
         int idOrder = Integer.parseInt(request.getParameter("idOrderForDelete"));
+                
         OrderT orderT = orderDAO.findOrderById(idOrder);
         if(orderT != null) {
         	ordersStatusesDAO.deleteAllByOrder(orderT);
@@ -342,7 +342,34 @@ public class OfficeController extends  MainController{
         List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
         request.getSession().setAttribute("basket", orders.size());
         
-        return "redirect:/basket";
+        if (request.getParameter("idPackage") != null) {
+        	PackageT packageT = packageService.findPackageById(Integer.parseInt(request.getParameter("idPackage")));
+        	
+        	if (packageT.getOrders().size() == 0) {
+        		packagesStatusesDAO.deleteAllByPackage(packageT);
+        		messagesService.deleteMessagesByPackage(packageT);
+        		packageService.deletePackage(packageT.getIdPackage());
+        		packageStatusDAO.deletePackageStatus(packageT.getIdPackageStatus());
+        		return "redirect:/privateOffice/toPackages";
+        	} else {
+        		List<OrderT> orderList = new ArrayList<OrderT>();
+        	
+        		double priceWithoutDelivery = 0;
+        		double packageWeight = 0;
+        		for(OrderT o : packageT.getOrders()) {
+        			priceWithoutDelivery += o.getFullPrice();
+        			packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
+        			orderList.add(o);
+        		}
+        	
+        		packageT.setFullPrice(priceService.getDeliveryPrice(orderList, userDAO.findUserById(idUser), priceWithoutDelivery, packageT.getPostService()));
+        		packageT.setWeight(packageWeight / 1000);
+        		packageService.updatePackage(packageT);
+        		return "redirect:/privateOffice/showPackage?idPackage=" + packageT.getIdPackage();
+        	}
+        } else {
+            return "redirect:/basket";
+        }
     }
 
     @RequestMapping(value="/changeOrder", method = RequestMethod.GET)

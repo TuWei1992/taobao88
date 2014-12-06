@@ -18,4 +18,6 @@ public interface PackagesStatusesDAO {
 	public void update(PackagesStatuses ps);
 	
 	public PackagesStatuses getCurrentStatus(PackageT packageT);
+	
+	public void deleteAllByPackage(PackageT packageT);
 }

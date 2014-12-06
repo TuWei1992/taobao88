@@ -193,13 +193,6 @@ public class IndexController extends MainController {
         goods.setOrderT(order);
         orderDAO.addOrder(order);
         
-        Status status = statusesDAO.findById(1);
-		OrdersStatuses os = new OrdersStatuses();
-		os.setStatus(status);
-		os.setOrderT(order);
-		os.setCreatedAt(new Timestamp(new Date().getTime()));
-		ordersStatusesDAO.add(os);
-		
 		List<OrderT> orders = orderDAO.getOrdersOnStartPage(userId);
 		return orders.size() + "";
 	}

@@ -75,6 +75,9 @@
 					</div>
 				</div>
 				<div class="main">
+					<div class="col-md-offset-1">
+						<span>Ваш баланс: </span><span class="label label-success">$${balance}</span>
+					</div>
 					<div class="control">
 						<table class="orders">
                 			<thead>

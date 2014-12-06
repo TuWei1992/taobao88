@@ -143,7 +143,7 @@
 												</a>
 											</c:if>
 											<c:if test="${packageT.purchased == 0}">
-												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}&idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
 											</c:if>
 										</td>
 									</tr>

@@ -73,7 +73,7 @@ public class PayController {
 				OrdersStatuses os = new OrdersStatuses();
 				os.setOrderT(o);
 				os.setStatus(status);
-				os.setCreatedAt(new Timestamp(new Date().getTime()));
+				os.setCreatedAt(ps.getCreatedAt());
 				ordersStatusesDAO.add(os);
 			}
 			

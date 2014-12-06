@@ -47,4 +47,9 @@ public class PackagesStatusesDAOImpl implements PackagesStatusesDAO {
 		return (PackagesStatuses) sessionFactory.getCurrentSession().createQuery("from PackagesStatuses where packageT.idPackage = :idPackage order by created_at").setParameter("idPackage", packageT.getIdPackage()).list().get(0);
 	}
 
+	@Override
+	public void deleteAllByPackage(PackageT packageT) {
+		sessionFactory.getCurrentSession().createQuery("delete PackagesStatuses where package_id = :package_id").setParameter("package_id", packageT.getIdPackage()).executeUpdate();			
+	}
+
 }
