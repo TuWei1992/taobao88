@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
@@ -137,8 +139,8 @@ public class OfficeController extends  MainController{
 //        return "redirect:/basket";
 //    }
 	
-	@RequestMapping(value="/FromOrder", method = RequestMethod.POST)
-	public String fromOrder(@RequestParam ("HREFGOODS") String hrefGoods,
+	@RequestMapping(value="/FromOrder", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String fromOrder(@RequestParam ("HREFGOODS") String hrefGoods,
 							@RequestParam ("NAMEGOODS") String nameGoods,
 							@RequestParam ("AMOUNTGOODS") int amountGoods,
 							@RequestParam ("PRICEGOODS") double priceGoods,
@@ -149,41 +151,45 @@ public class OfficeController extends  MainController{
 							@RequestParam ("COMPLEXGOODS") String complexGoods,
 					        HttpServletRequest request) {
 		
-		int userId = (int) request.getSession().getAttribute("currentIdUser");
+		try {
+			int userId = (int) request.getSession().getAttribute("currentIdUser");
 		
-		Goods goods = new Goods();
-		goods.setHrefGoods(hrefGoods);
-		goods.setNameGoods(nameGoods);
-		goods.setAmountGoods(amountGoods);
-		goods.setPriceGoods(priceGoods);
-		goods.setChinaGoods(chinaGoods);
-		goods.setWeightGoods(weightGoods);
-		goods.setColorGoods(colorGoods);
-		goods.setSizeGoods(sizeGoods);
-		goods.setComplexGoods(complexGoods);
-		Object photoGoods = request.getParameter("PHOTOGOODS");
-		if (photoGoods != null) {
-			goods.setPhotoGoods("true");
-		} else {
-			goods.setPhotoGoods("false");
-		}
-		goods.setIdGoods(goodsDAO.saveGoods(goods));
+			Goods goods = new Goods();
+			goods.setHrefGoods(hrefGoods);
+			goods.setNameGoods(nameGoods);
+			goods.setAmountGoods(amountGoods);
+			goods.setPriceGoods(priceGoods);
+			goods.setChinaGoods(chinaGoods);
+			goods.setWeightGoods(weightGoods);
+			goods.setColorGoods(colorGoods);
+			goods.setSizeGoods(sizeGoods);
+			goods.setComplexGoods(complexGoods);
+			Object photoGoods = request.getParameter("PHOTOGOODS");
+			if (photoGoods != null) {
+				goods.setPhotoGoods("true");
+			} else {
+				goods.setPhotoGoods("false");
+			}
+			goods.setIdGoods(goodsDAO.saveGoods(goods));
 				
-		OrderStatus orderStatus = getOrderStatus();
-		orderStatusDAO.saveStatus(orderStatus);
+			OrderStatus orderStatus = getOrderStatus();
+			orderStatusDAO.saveStatus(orderStatus);
 		
-		OrderT order = new OrderT();
-		order.setIdGoods(goods.getIdGoods());
-		order.setDateOrder(new Timestamp(new Date().getTime()));
-		order.setApprove("false");
-		order.setIdUser(userId);
-		order.setIdOrderStatus(orderStatus.getIdOrderStatus());
-		order.setFullPrice(priceService.getOrderPrice(order));
-		orderDAO.addOrder(order);
+			OrderT order = new OrderT();
+			order.setIdGoods(goods.getIdGoods());
+			order.setDateOrder(new Timestamp(new Date().getTime()));
+			order.setApprove("false");
+			order.setIdUser(userId);
+			order.setIdOrderStatus(orderStatus.getIdOrderStatus());
+			order.setFullPrice(priceService.getOrderPrice(order));
+			orderDAO.addOrder(order);
 		
-		clearOrderInSession(request);
-		request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
-		return "redirect:/basket";
+			clearOrderInSession(request);
+			request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
+			return "{\"success\":true,\"message\":\"order_accepted\"}";
+		} catch (Exception e) {
+			return "{\"success\":false,\"message\":\"order_fail\"}";
+		}
 	}
 
     private List<PackageT> preparePackage(UserT user, List<OrderT> orders) {

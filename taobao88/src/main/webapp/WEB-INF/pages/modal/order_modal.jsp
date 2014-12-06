@@ -4,6 +4,9 @@
 <script type="text/javascript">
 		$(function() {
 			checkFilling();
+			
+			$('.error_msg').hide();
+			
 			if (!window.focus) {
 				window.focus();
 			}
@@ -22,6 +25,26 @@
 				}
 			});
 			$('[data-toggle="tooltip"]').tooltip();
+			$('.btn-order').click(function() {
+				$.ajax({
+					type: 'POST',
+					url: '${pageContext.request.contextPath}/privateOffice/FromOrder',
+					data: $('form').serialize(),
+					complete: function(jsonData) {
+						var response = JSON.parse(jsonData.responseText);
+						if (response.success) {
+							window.location.href = '${pageContext.request.contextPath}/basket';
+						} else {
+							$('.error_msg').show();
+							$('.valid').addClass('alert-danger');
+						}
+					},
+					error: function() {
+						$('.error_msg').show();
+						$('.valid').addClass('alert-danger');
+					}
+				});
+			});
 		});
 		
 		function post(paramName, paramValue) {
@@ -58,62 +81,67 @@
 					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 				</button>
 				<h2 class="modal-title" id="orderModalLabel">Сделать заказ</h2>
+				
 			</div>
 			<div class="modal-body">
+			
+			
+			
 			<form role="form" method="post" accept-charset="utf-8"
 					action="${pageContext.request.contextPath}/privateOffice/FromOrder">
-
+					
+					<div class="form-group error_msg">
+						<label class="label label-danger">Проверьте правильность заполнения формы!</label>
+					</div>
+					
 					<div class="form-group">
 						<label class="input" for="HREFGOODS">Ссылка</label> 
-						<input class="form-control order-control" type="text" id="HREFGOODS" name="HREFGOODS" placeholder="" required="required" value="${HREFGOODS}">
+						<input class="form-control order-control valid" type="text" id="HREFGOODS" name="HREFGOODS" placeholder="" required="required" value="${HREFGOODS}">
 					</div>
 
 					<div class="form-group">
 						<label class="input" for="NAMEGOODS">Название товара</label> 
-						<input class="form-control order-control" type="text" id="NAMEGOODS" name="NAMEGOODS" placeholder="" required="required" value="${NAMEGOODS}">
+						<input class="form-control order-control valid" type="text" id="NAMEGOODS" name="NAMEGOODS" placeholder="" required="required" value="${NAMEGOODS}">
 					</div>
 
 					<div class="form-group">
 						<div class="input-group">
 							<label class="input" for="AMOUNTGOODS">Количество единиц</label>
-							<input class="form-control order-control" type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" required="required" value="${AMOUNTGOODS}">
+							<input class="form-control order-control valid" type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" required="required" value="${AMOUNTGOODS}">
 						</div>
 						<div class="input-group">
 							<label class="input" for="PRICEGOODS">Цена на taobao</label> 
 							<input
-								class="form-control order-control" type="text" id="PRICEGOODS"
+								class="form-control order-control valid" type="text" id="PRICEGOODS"
 								name="PRICEGOODS" placeholder="Пример: 10, 10.343"
-								pattern="\d*\.?\d+"
-								data-validation-pattern-message="Пример: 10, 10.343"
 								required="required"
-								value="${PRICEGOODS}">
+								value="${PRICEGOODS}" data-toggle="tooltip" data-placement="top" title="Стоимость товара на taobao в юанях. Пример: 159, 49.9, 500">
 						</div>
 						<div class="input-group">
 							<label class="input" for="CHINAGOODS">Доставка по Китаю</label>
-							<input class="form-control order-control" type="number"
+							<input class="form-control order-control valid" type="number"
 								id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder=""
-								data-validation-pattern-message="Пример: 1.00, 0.55, 12.73"
 								required="required"
 								value="${CHINAGOODS}">
 						</div>
 						<div class="input-group">
 							<label class="input" for="WEIGHTGOODS">Вес единицы
-								продукции (в граммах)</label> <input class="form-control order-control"
+								продукции (в граммах)</label> <input class="form-control order-control valid"
 								type="text" id="WEIGHTGOODS" max="1000000" name="WEIGHTGOODS"
 								placeholder="Пример: 100, 150, 1100"
 								required="required"
-								value="${WEIGHTGOODS}" data-toggle="tooltip" data-placement="top" title="Вес товара влияет на итоговую стоимость посылки">
+								value="${WEIGHTGOODS}" data-toggle="tooltip" data-placement="top" title="Вес товара влияет на итоговую стоимость посылки. Пример: 100, 150, 1000">
 						</div>
 						<div class="input-group">
 							<label class="input" for="COLORGOODS">Цвет</label> <input
-								class="form-control order-control" type="text" id="COLORGOODS"
+								class="form-control order-control valid" type="text" id="COLORGOODS"
 								name="COLORGOODS" placeholder="" required="required" value="${COLORGOODS}">
 						</div>
 						<div class="input-group">
 							<label class="input" for="SIZEGOODS">Размер</label>
 							<input
-								class="form-control order-control" type="text" id="SIZEGOODS"
-								name="SIZEGOODS" placeholder="0" required="required" value="${SIZEGOODS}" data-toggle="tooltip" data-placement="top" title="Если размер не указан, ставьте 0">
+								class="form-control order-control valid" type="text" id="SIZEGOODS"
+								name="SIZEGOODS" placeholder="не указан" required="required" value="${SIZEGOODS}" data-toggle="tooltip" data-placement="top" title="Если размер не указан, ставьте 0">
 						</div>
 					</div>
 
@@ -133,7 +161,7 @@
 						<c:choose>
 							<c:when test="${pageContext.request.userPrincipal.name != null}">
 								<button role="button" class="btn btn-success btn-order"
-									type="submit">Положить в корзину</button>
+									type="button">Положить в корзину</button>
 							</c:when>
 							<c:otherwise>
 								<a role="button" class="btn btn-danger"
