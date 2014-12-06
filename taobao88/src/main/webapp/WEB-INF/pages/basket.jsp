@@ -271,6 +271,11 @@
 														</c:choose>
 													</div>
 												</div>
+												<div class="row-form">
+													<div class="overflow">Вес товара (г):
+														<span>${order.goods.weightGoods * order.goods.amountGoods}</span>
+													</div>
+												</div>
 											</div>
 										</td>
 										<td>
