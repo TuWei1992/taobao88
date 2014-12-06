@@ -32,31 +32,46 @@
 		});
 		
 		var data = '';
+		var totalWeight = 0;
 		
 		$('.orderIdCheckbox').change(function() {
 			data = '';
 		    var checkbox = $(this);
 		    var allChecked = $('.orderIdCheckbox:checked');
 		    var prices = $('.price');
+		    var weights = $('.order_weight');
 		    var orderId = $(checkbox).val();
 		    $(prices).each(function(i, item) {
 		    if ($(item).attr('for') == orderId) {
-		        var currSum = parseFloat($('.price_without_delivery').text());
+		        	var currSum = parseFloat($('.price_without_delivery').text());
 		      
-		        $(allChecked).each(function(i, item) {
-		        	data += $(item).attr('name') + '=' + $(item).val() + '&';
-		        });
+		        	$(allChecked).each(function(i, item) {
+		        		data += $(item).attr('name') + '=' + $(item).val() + '&';
+		        	});
 		        		        
-		      	if ($(checkbox).is(':checked')) {
-		          	currSum += parseFloat($(item).text());
-		        } else {
-		           currSum -= parseFloat($(item).text());
-	            };
+		      		if ($(checkbox).is(':checked')) {
+		          		currSum += parseFloat($(item).text());
+		        	} else {
+		           		currSum -= parseFloat($(item).text());
+	            	};
 		        
-		        $('.price_without_delivery').text(currSum);
-		        data += 'price=' + currSum;
-		    }
-		  });
+		        	$('.price_without_delivery').text(currSum.toFixed(2));
+		        	data += 'price=' + currSum;
+		    	}
+		  	});
+		    
+		    $(weights).each(function(i, item) {
+		    	if ($(item).attr('for') == orderId) {
+		    		totalWeight = parseFloat($('.package_weight').text());
+		    		
+		    		if ($(checkbox).is(':checked')) {
+		    			totalWeight += parseFloat($(item).text());
+		        	} else {
+		        		totalWeight -= parseFloat($(item).text());
+	            	};
+		    	}	
+		    });
+		    $('.package_weight').text(totalWeight.toFixed(2));
 		});
 		
 		$('#countryId').change(function() {
@@ -272,8 +287,8 @@
 													</div>
 												</div>
 												<div class="row-form">
-													<div class="overflow">Вес товара (г):
-														<span>${order.goods.weightGoods * order.goods.amountGoods}</span>
+													<div class="overflow">Вес товара (кг):
+														<span class="order_weight" for="${order.idOrder}">${(order.goods.weightGoods * order.goods.amountGoods) / 1000}</span>
 													</div>
 												</div>
 											</div>
@@ -311,7 +326,7 @@
 						</table>
 						<div class="btn-card">
 							<input type="hidden" name="price" value="0"> 
-                    		<p>Общая сумма без доставки: <span>$</span><span class="price_without_delivery">0</span></p>
+                    		<p>Итоговая сумма без доставки: <span>$</span><span class="price_without_delivery">0</span></p>
                 		</div>
 					
 					</c:when>
@@ -364,7 +379,10 @@
 		</form>
 			<div class="btn-card">
                     		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
-                    		<p>Итого ожидаемая сумма для оплаты: <span>$</span><span class="price_with_delivery">0</span></p>
+                    		<p>
+								Общий вес посылки (предварительный): <span class="package_weight">0</span> | 
+								Итоговая сумма с учетом доставки: <span>$</span><span class="price_with_delivery">0</span>
+							</p>
                 		</div>
 		</div>	
 	</div>
