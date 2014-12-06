@@ -348,10 +348,9 @@ public class OfficeController extends  MainController{
     public ModelAndView changeOrder(HttpServletRequest request){
         int idOrder = Integer.parseInt(request.getParameter("idOrderForChange"));
         OrderT orderT = orderDAO.findOrderById(idOrder);
-        Goods goods = goodsDAO.findEmployeeById(orderT.getIdGoods());
+        orderT.setGoods(goodsDAO.findEmployeeById(orderT.getIdGoods()));
 
-        request.setAttribute("order",orderT);
-        request.setAttribute("goods",goods);
+        request.setAttribute("orderT",orderT);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         return new ModelAndView("changeOrder");
     }

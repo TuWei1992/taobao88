@@ -226,9 +226,11 @@ public class IndexController extends MainController {
 	
 	@RequestMapping(value = "fill", method = RequestMethod.GET)
 	public String fill(@RequestParam ("id") int id, HttpServletRequest request, Model model) {
-		Goods good = goodsService.findEmployeeById(id);
+		Goods goods = goodsService.findEmployeeById(id);
+		OrderT order = orderDAO.findByGoods(goods);
+		order.setGoods(goods);
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
-		model.addAttribute("good", good);		
+		model.addAttribute("orderT", order);		
 		return "fill";
 	}
 	
