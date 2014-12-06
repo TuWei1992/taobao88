@@ -91,11 +91,11 @@
 	 		<!-- image slide -->
 				<div class="product-container">
                		<div id="img-product">
-                   		<img src="/images/${good.photo}" class="active-image" height="100%" alt="">
+                   		<img src="/images/${orderT.goods.photo}" class="active-image" height="100%" alt="">
                		</div>
                		<div class="slides-product">
                    		<ul id="pr-carousel" class="jcarousel">
-                  			<c:forEach items="${good.recomendation.images}" var="img">
+                  			<c:forEach items="${orderT.goods.recomendation.images}" var="img">
                           		<li class="" >
                                		<a href="#"><img src="/images/${img.imageName}" alt=""></a>
                            		</li>
@@ -107,17 +107,15 @@
 				<div class="col">
 					<form action="${pageContext.request.contextPath}/fillUpdate" method="POST">
 						<fieldset style="border:none;">
+							<input type="hidden" name="idGoods" value="${orderT.goods.idGoods}">
 							<div class="row-form">
-								<label>Номер заказа:</label>
-								<div class="overflow">
-									<input type="text" class="form in" name="idGoods" value="${good.idGoods}" readonly>
-								</div>
+								<label>Номер заказа: <span>${orderT.idOrder}</span></label>
 							</div>
 							<div class="row-form">
 								<label>Цвет:</label>
 								<div class="overflow">
 									<select class="form in" name="color">
-										<c:forEach items="${good.recomendation.colors}" var="color">
+										<c:forEach items="${orderT.goods.recomendation.colors}" var="color">
 											<option value="${color.colorName}">${color.colorName}</option>
 										</c:forEach>
 									</select> 
@@ -127,7 +125,7 @@
 								<label>Размер:</label>
 								<div class="overflow">
 									<select class="form in" name="size">
-										<c:forEach items="${good.recomendation.sizes}" var="size">
+										<c:forEach items="${orderT.goods.recomendation.sizes}" var="size">
 											<option value="${size.sizeName}">${size.sizeName}</option>
 										</c:forEach>
 									</select>
@@ -137,7 +135,7 @@
 								<label>Количество:</label>
 								<div class="overflow">
 									<select class="form" name="amount">
-										<c:forEach var="i" begin="1" end="${good.recomendation.count}">
+										<c:forEach var="i" begin="1" end="${orderT.goods.recomendation.count}">
    											<option value="${i}">${i}</option>
 										</c:forEach>
 									</select>
@@ -145,12 +143,12 @@
 							</div>
 							<div class="row-form">
 								<label>Вес:</label>
-								<a href="#">${good.weightGoods}g</a>
+								<a href="#">${orderT.goods.weightGoods}g</a>
 							</div>
 							<div class="row-form">
 								<label>Фотоотчет:
 									<c:choose>
-										<c:when test="${good.photoGoods == 'true'}">
+										<c:when test="${orderT.goods.photoGoods == 'true'}">
 											<input type="checkbox" name="photoGoods" checked="checked">
 										</c:when>
 										<c:otherwise>

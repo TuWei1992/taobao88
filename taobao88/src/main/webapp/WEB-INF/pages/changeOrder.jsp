@@ -49,25 +49,23 @@ $(function() {
 			</div>
 			<div class="control">
 				<form class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/updateOrder" method="POST">
-					
+					<input type="hidden" id="goodsId" name="goodsId" value="${orderT.goods.idGoods}">
 					<table class="table" cellpadding='50px' >
 						<tr>
 							<td>
 								<table>
 									<tr>
 										<td>
-											<label class="control-label" for="goodsId">Номер заказа<a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
+											<label class="control-label" for="goodsId">Номер заказа: <span>${orderT.idOrder}</span></label>
 										</td>
-										<td>
-											<input type="text" id="goodsId" name="goodsId" value="${goods.idGoods}" readonly class="form in">
-										</td>
+										<td></td>
 									</tr>
 									<tr>
 										<td>
 											<label class="control-label" for="HREFGOODS">Ссылка<a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="HREFGOODS" name="HREFGOODS" placeholder="" value="${goods.hrefGoods}" required class="form in">
+											<input type="text" id="HREFGOODS" name="HREFGOODS" placeholder="" value="${orderT.goods.hrefGoods}" required class="form in">
 										</td>
 									</tr>
 									<tr>
@@ -75,7 +73,7 @@ $(function() {
 											<label class="control-label" for="NAMEGOODS">Название товара <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="NAMEGOODS" name="NAMEGOODS" placeholder="" value="${goods.nameGoods}" required class="form in">
+											<input type="text" id="NAMEGOODS" name="NAMEGOODS" placeholder="" value="${orderT.goods.nameGoods}" required class="form in">
 										</td>
 									</tr>
 									<tr>
@@ -83,7 +81,7 @@ $(function() {
 											<label class="control-label" for="AMOUNTGOODS">Количество единиц продукции <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" value="${goods.amountGoods}" required class="form in">
+											<input type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" value="${orderT.goods.amountGoods}" required class="form in">
 										</td>
 									</tr>
 									<tr>
@@ -91,7 +89,7 @@ $(function() {
 											<label class="control-label" for="PRICEGOODS">Стоимость единицы продукции <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" pattern="\d*\.?\d+" data-validation-pattern-message="Пример: 10, 10.343" id="PRICEGOODS" name="PRICEGOODS" placeholder="" value="${goods.priceGoods}" required class="form in">
+											<input type="text" pattern="\d*\.?\d+" data-validation-pattern-message="Пример: 10, 10.343" id="PRICEGOODS" name="PRICEGOODS" placeholder="" value="${orderT.goods.priceGoods}" required class="form in">
 											
 										</td>
 									</tr>
@@ -104,7 +102,7 @@ $(function() {
 											<label class="control-label" for="WEIGHTGOODS">Вес единицы продукции(в граммах) <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" pattern="\d+\.?\d+?" data-validation-pattern-message="Пример: 100, 50, 150" id="WEIGHTGOODS" name="WEIGHTGOODS" placeholder="" value="${goods.weightGoods}" required class="form in">
+											<input type="text" pattern="\d+\.?\d+?" data-validation-pattern-message="Пример: 100, 50, 150" id="WEIGHTGOODS" name="WEIGHTGOODS" placeholder="" value="${orderT.goods.weightGoods}" required class="form in">
 											
 										</td>
 									</tr>
@@ -113,7 +111,7 @@ $(function() {
 											<label class="control-label" for="CHINAGOODS">Доставка по Китаю <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder="" value="${goods.chinaGoods}" class="form in" required>
+											<input type="text" id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder="" value="${orderT.goods.chinaGoods}" class="form in" required>
 										</td>
 									</tr>
 									<tr>
@@ -121,7 +119,7 @@ $(function() {
 											<label class="control-label" for="COLORGOODS">Цвет <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="COLORGOODS" name="COLORGOODS" placeholder="" value="${goods.colorGoods}" class="form in" required>
+											<input type="text" id="COLORGOODS" name="COLORGOODS" placeholder="" value="${orderT.goods.colorGoods}" class="form in" required>
 										</td>
 									</tr>
 									<tr>
@@ -129,7 +127,7 @@ $(function() {
 											<label class="control-label" for="SIZEGOODS">Размер <a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="SIZEGOODS" name="SIZEGOODS" placeholder="" value="${goods.sizeGoods}" class="form in" required>
+											<input type="text" id="SIZEGOODS" name="SIZEGOODS" placeholder="" value="${orderT.goods.sizeGoods}" class="form in" required>
 										</td>
 									</tr>
 									<tr>
@@ -137,7 +135,7 @@ $(function() {
 											<label class="control-label" for="COMPLEXGOODS">Комплектация<a href="#" title="Что это такое и как правильно вводить? Нажмите на знак вороса и узнаете.">?</a></label>
 										</td>
 										<td>
-											<input type="text" id="COMPLEXGOODS" name="COMPLEXGOODS" placeholder="" value="${goods.complexGoods}" class="form in">
+											<input type="text" id="COMPLEXGOODS" name="COMPLEXGOODS" placeholder="" value="${orderT.goods.complexGoods}" class="form in">
 										</td>
 									</tr>
 									<tr>
@@ -146,7 +144,7 @@ $(function() {
 										</td>
 										<td>
 											<c:choose>
-												<c:when test="${goods.photoGoods == 'true'}">
+												<c:when test="${orderT.goods.photoGoods == 'true'}">
 													<input type="checkbox" id="PHOTOGOODS" name="PHOTOGOODS" placeholder="" checked>
 												</c:when>
 												<c:otherwise>
