@@ -43,19 +43,19 @@
 		    var orderId = $(checkbox).val();
 		    $(prices).each(function(i, item) {
 		    if ($(item).attr('for') == orderId) {
-		        	var currSum = parseFloat($('.price_without_delivery').text());
+		        	var currSum = parseInt($('.price_without_delivery').text());
 		      
 		        	$(allChecked).each(function(i, item) {
 		        		data += $(item).attr('name') + '=' + $(item).val() + '&';
 		        	});
 		        		        
 		      		if ($(checkbox).is(':checked')) {
-		          		currSum += parseFloat($(item).text());
+		          		currSum += parseInt($(item).text());
 		        	} else {
-		           		currSum -= parseFloat($(item).text());
+		           		currSum -= parseInt($(item).text());
 	            	};
 		        
-		        	$('.price_without_delivery').text(currSum.toFixed(2));
+		        	$('.price_without_delivery').text(currSum);
 		        	data += 'price=' + currSum;
 		    	}
 		  	});
@@ -119,8 +119,8 @@
   				if (jsonData.responseText == 0.0) {
   					$('#weightLimitModal').modal('show');
   				} else {
-  					$('.price_with_delivery').text(parseFloat(jsonData.responseText).toFixed(2));
-  					$('input[name="price"]').val(jsonData.responseText);
+  					$('.price_with_delivery').text(parseInt(jsonData.responseText));
+  					$('input[name="price"]').val(parseInt(jsonData.responseText));
   				}
   			}
     	});

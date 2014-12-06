@@ -145,11 +145,11 @@
         											</tr>
         											<tr>
         												<td>Вес единицы продукции</td>
-        												<td>${orderT.goods.weightGoods}</td>
+        												<td>${orderT.goods.weightGoods} (граммы)</td>
         											</tr>
         											<tr>
         												<td>Стоимость единицы продукции</td>
-        												<td>${orderT.goods.priceGoods}</td>
+        												<td>${orderT.goods.priceGoods} (юани)</td>
         											</tr>
         											<tr>
         												<td>Доставка по Китаю</td>

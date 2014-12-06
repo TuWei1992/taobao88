@@ -62,7 +62,7 @@ $(function() {
 			<div class="main">
 				<c:if test="${pageContext.request.userPrincipal.name != null}">
 					<h1>Добро пожаловать,
-						${pageContext.request.userPrincipal.name}</h1>
+						${pageContext.request.userPrincipal.name}! Ваш ID #${user.idUser}</h1>
 				</c:if>
 				
 				<p>${content.content}</p>

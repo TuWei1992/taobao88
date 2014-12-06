@@ -201,7 +201,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
 	@Override
-	public double getOrderPrice(OrderT order) {
+	public int getOrderPrice(OrderT order) {
 		Goods goods = goodsDAO.findEmployeeById(order.getIdGoods());
 		double price = 0;
 		if (goods.getPhotoGoods().equals("true")) {
@@ -209,12 +209,13 @@ public class PriceServiceImpl implements PriceService {
 		} else if (goods.getPhotoGoods().equals("false")) {
 			price = ((goods.getPriceGoods() + 10) * 1.1 * 0.19) * goods.getAmountGoods();
 		}
-		price = new BigDecimal(price).setScale(2, RoundingMode.UP).doubleValue();
-		return price;
+		price = new BigDecimal(price).setScale(0, RoundingMode.UP).doubleValue();
+		price = Math.floor(price);
+		return (int) price;
 	}
 
 	@Override
-	public double getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService) {
+	public int getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService) {
 		double totalWeight = 0;
 		double totalPrice = priceWithoutDelivery;
 		for (OrderT o : orders) {
@@ -235,9 +236,10 @@ public class PriceServiceImpl implements PriceService {
 			}
 		}
 		if (!found) {
-			return 0.0;
-		} else {		
-			return totalPrice;
+			return 0;
+		} else {	
+			totalPrice = Math.floor(totalPrice);
+			return (int) totalPrice;
 		}
 	}
 	

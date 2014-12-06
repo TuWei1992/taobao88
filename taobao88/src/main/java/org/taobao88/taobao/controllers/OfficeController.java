@@ -223,7 +223,7 @@ public class OfficeController extends  MainController{
     }
     
     @RequestMapping(value="/toOrder", method = RequestMethod.GET)
-    public String toOrder(@RequestParam ("price") double price,
+    public String toOrder(@RequestParam ("price") int price,
     					  @RequestParam ("countryId") int countryId,
     					  @RequestParam ("serviceId") int serviceId,
     					  HttpServletRequest request){

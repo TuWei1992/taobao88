@@ -29,7 +29,7 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     private int idPackageStatus;
 
     @Column(name = "full_price")
-    private double fullPrice;
+    private int fullPrice;
 
     @Column(name = "approve")
     private String approve;
@@ -79,11 +79,11 @@ public class PackageT implements Comparable<PackageT>, Serializable {
         this.idPackage = idPackage;
     }
 
-    public double getFullPrice() {
+    public int getFullPrice() {
         return fullPrice;
     }
 
-    public void setFullPrice(double fullPrice) {
+    public void setFullPrice(int fullPrice) {
         this.fullPrice = fullPrice;
     }
 

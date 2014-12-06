@@ -27,7 +27,7 @@ public class BalanceOperation implements Serializable {
 	private int id;
 	
 	@Column(name = "amount")
-	private double amount;
+	private int amount;
 	
 	@Column(name = "reason")
 	private String reason;
@@ -54,11 +54,11 @@ public class BalanceOperation implements Serializable {
 		this.id = id;
 	}
 
-	public double getAmount() {
+	public int getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 

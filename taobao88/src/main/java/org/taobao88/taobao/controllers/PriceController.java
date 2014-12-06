@@ -35,7 +35,7 @@ public class PriceController {
 	
 	@RequestMapping(value = "adjustPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody double addOrder(@RequestParam ("idOrder") int[] orderIds,
-									     @RequestParam ("price") double[] price,
+									     @RequestParam ("price") int[] price,
 									     @RequestParam ("postServiceId") int postServiceId,
 									     @RequestParam ("countryId") int countryId,
 									     HttpServletRequest request) {

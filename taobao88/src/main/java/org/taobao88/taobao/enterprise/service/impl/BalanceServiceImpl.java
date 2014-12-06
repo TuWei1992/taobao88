@@ -13,8 +13,8 @@ public class BalanceServiceImpl implements BalanceService {
 	@Autowired private BalanceDAO balanceDAO;
 	
 	@Override
-	public double getBalance(UserT userT) {
-		double sum = balanceDAO.getBalance(userT);
+	public int getBalance(UserT userT) {
+		int sum = balanceDAO.getBalance(userT);
 		return sum;
 	}
 

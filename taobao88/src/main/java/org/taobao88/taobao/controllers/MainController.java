@@ -89,7 +89,7 @@ public class MainController {
         return price;
     }
 
-    private double getFullPriceOfOrder(int idUser,double priceOrder,double weight, int amount){
+    private int getFullPriceOfOrder(int idUser,double priceOrder,double weight, int amount){
         double price = 0;
 
         UserT userT = userDAO.findUserById(idUser);
@@ -102,7 +102,7 @@ public class MainController {
             price = priceOrder + getValueForUkraine((weight / 1000) * amount);
         }
 
-        return new BigDecimal(price).setScale(0, RoundingMode.UP).doubleValue();
+        return new BigDecimal(price).setScale(0, RoundingMode.UP).intValue();
     }
 
     public OrderT getObjectOrder(int idGoods,int idUser, int idOrderStatus, double price,double weight, int amount) throws UnsupportedEncodingException {
@@ -361,7 +361,7 @@ public class MainController {
                         PackageT packageT = new PackageT();
                         packageT.setApprove("false");
                         packageT.setIdPackageStatus(idPackageStatus);
-                        packageT.setFullPrice(price);
+                        packageT.setFullPrice((int) price);
                         packageT.setDatePackage(getCurrentDate());
                         packageT.setWeight(fullWeight);
 
@@ -383,7 +383,7 @@ public class MainController {
                     PackageT packageT = new PackageT();
                     packageT.setApprove("false");
                     packageT.setIdPackageStatus(idPackageStatus);
-                    packageT.setFullPrice(price);
+                    packageT.setFullPrice((int) price);
                     packageT.setDatePackage(getCurrentDate());
                     packageT.setWeight(fullWeight);
 
@@ -420,7 +420,7 @@ public class MainController {
                 orderTList.get(i).setPackageT(packageDAO.findPackageById(idPackage));
                 orderDAO.updateOrder(orderTList.get(i));
             }
-            packageT.setFullPrice(price);
+            packageT.setFullPrice((int) price);
             packageT.setDatePackage(getCurrentDate());
 
             sendMessage(userDAO.findUserById(orderTList.get(0).getIdUser()),packageT,idPackage);

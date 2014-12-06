@@ -56,7 +56,7 @@
 								${balances[user.idUser]}
 							</td>
 							<td>
-								<input class="form-control amount" id="amount_for_${user.idUser}" name="amount" value="0.0">
+								<input class="form-control amount" id="amount_for_${user.idUser}" name="amount" value="0">
 							</td>
 							<td>
 								<input type="button" class="btn btn-success inc" value="Добавить средства" onclick="adjustBalance(${user.idUser}, 'inc')">

@@ -17,10 +17,10 @@ public class BalanceDAOImpl implements BalanceDAO {
 	@Autowired private SessionFactory sessionFactory;
 	
 	@Override
-	public double getBalance(UserT userT) {
+	public int getBalance(UserT userT) {
 		BigDecimal val = (BigDecimal) sessionFactory.getCurrentSession().createSQLQuery("SELECT SUM(amount) balance FROM balance_operations WHERE user_id = :user_id").addScalar("balance").setParameter("user_id", userT.getIdUser()).uniqueResult();
 		if (val != null) {
-			return val.doubleValue();
+			return val.intValue();
 		} else {
 			return 0;
 		}

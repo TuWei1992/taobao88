@@ -38,7 +38,7 @@ public class OrderT implements Serializable {
     private int idOrderStatus;
 
     @Column(name = "full_price")
-    private double fullPrice;
+    private int fullPrice;
    
     @Column(name = "date")
     private Timestamp dateOrder;
@@ -103,11 +103,11 @@ public class OrderT implements Serializable {
         this.idGoods = idGoods;
     }
 
-    public double getFullPrice() {
+    public int getFullPrice() {
         return fullPrice;
     }
 
-    public void setFullPrice(double fullPrice) {
+    public void setFullPrice(int fullPrice) {
         this.fullPrice = fullPrice;
     }
 

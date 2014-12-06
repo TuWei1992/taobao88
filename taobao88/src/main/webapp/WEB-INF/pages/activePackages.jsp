@@ -44,7 +44,14 @@
 						<td>
 							<span class="label label-primary">${packageT.datePackage}</span>
 						</td>
-						<td><span class="label label-success">${packageT.packagesStatuses.get(0).status.statusName}</span></td>
+						<td>
+							<c:forEach begin="0" end="${packageT.packagesStatuses.size() - 1}" var="loop">
+								<c:if test="${loop == packageT.packagesStatuses.size() - 1}">
+									<c:set var="pStatus" value="${packageT.packagesStatuses.get(loop)}"/>
+									<span class="label label-success">${pStatus.status.statusName}</span>
+								</c:if>							
+							</c:forEach>	
+						</td>
 					</tr>
 				</c:forEach>
 			</table>

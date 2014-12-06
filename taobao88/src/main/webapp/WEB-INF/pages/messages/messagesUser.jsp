@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -73,7 +74,7 @@ $(function() {
     												<div class="panel-heading">
     													От: <b>${message.fromUser.nameUser}</b> 
     													Кому: <b>${message.toUser.nameUser}</b>
-    													<span class="pull-right">Отправлено: <b>${message.createdAt}</b></span>
+    													<span class="pull-right">Отправлено: <b><fmt:formatDate pattern="dd.MM.yyyy HH:mm" value="${message.createdAt}"/></b></span>
     												</div>
   													<div class="panel-body">
   														<p>${message.message}</p>

@@ -46,14 +46,8 @@ public class AdminController extends MainController{
         HttpSession session = request.getSession(true);
         session.setAttribute("TIME",getCurrentDate());
        
-        List<PackagesStatuses> psList = new ArrayList<>();
         List<PackageT> packageTList = packageDAO.getPackagesForAdmin();
-        for (PackageT p : packageTList) {
-        	PackagesStatuses ps = packagesStatusesDAO.getCurrentStatus(p);
-        	psList.add(ps);
-        	p.setPackagesStatuses(psList);
-        }
-        
+                
         packageTList = getListForFirstPage(packageTList,request);
 
         request.setAttribute("activePackages",packageTList);
@@ -194,7 +188,7 @@ public class AdminController extends MainController{
     @RequestMapping(value = "showBalances", method = RequestMethod.GET)
     public String showBalances(HttpServletRequest request) {
     	List<UserT> users = userService.getAll();
-    	Map<Integer, Double> usersBalances = new HashMap<>();
+    	Map<Integer, Integer> usersBalances = new HashMap<>();
     	for (UserT u : users) {
     		usersBalances.put(u.getIdUser(), balanceService.getBalance(u));
     	}
@@ -205,7 +199,7 @@ public class AdminController extends MainController{
     
     @RequestMapping(value = "adjustBalance", method = RequestMethod.POST)
     public void adjustBalance(@RequestParam ("user_id") int userId,
-    						  @RequestParam ("amount") double amount,
+    						  @RequestParam ("amount") int amount,
     						  @RequestParam ("type") String type) {
     	BalanceOperation bo = new BalanceOperation();
     	bo.setUserT(userService.findUserById(userId));
@@ -232,7 +226,7 @@ public class AdminController extends MainController{
     public String doUpdatePackage(HttpServletRequest request) {
     	
     	int idPackage = Integer.parseInt(request.getParameter("idPackage"));
-    	double fullPrice = Double.parseDouble(request.getParameter("fullPrice"));
+    	int fullPrice = Integer.parseInt(request.getParameter("fullPrice"));
     	double weight = Double.parseDouble(request.getParameter("weight"));
     	String tracknumber = request.getParameter("tracknumber");
     	int statusId = Integer.parseInt(request.getParameter("statusId"));

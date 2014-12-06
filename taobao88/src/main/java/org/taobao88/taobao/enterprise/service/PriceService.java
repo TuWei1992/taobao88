@@ -12,8 +12,8 @@ public interface PriceService {
 	
 	public double getFullPriceOfOrder(UserT user, double priceOrder, double weight, int amount);
 	
-	public double getOrderPrice(OrderT order);
+	public int getOrderPrice(OrderT order);
 	
-	public double getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService);
+	public int getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService);
 	
 }
