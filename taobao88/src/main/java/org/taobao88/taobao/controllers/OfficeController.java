@@ -332,6 +332,7 @@ public class OfficeController extends  MainController{
         int idOrder = Integer.parseInt(request.getParameter("idOrderForDelete"));
         OrderT orderT = orderDAO.findOrderById(idOrder);
         if(orderT != null) {
+        	ordersStatusesDAO.deleteAllByOrder(orderT);
         	orderDAO.deleteOrder(orderT.getIdOrder());
         	orderStatusDAO.deleteOrderStatus(orderT.getIdOrderStatus());
         	

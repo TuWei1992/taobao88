@@ -42,4 +42,9 @@ public class OrdersStatusesDAOImpl implements OrdersStatusesDAO {
 		sessionFactory.getCurrentSession().update(os);
 	}
 
+	@Override
+	public void deleteAllByOrder(OrderT order) {
+		sessionFactory.getCurrentSession().createQuery("delete OrdersStatuses where order_id = :order_id").setParameter("order_id", order.getIdOrder()).executeUpdate();		
+	}
+
 }

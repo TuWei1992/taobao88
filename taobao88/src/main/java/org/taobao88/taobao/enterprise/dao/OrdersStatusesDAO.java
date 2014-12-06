@@ -17,4 +17,6 @@ public interface OrdersStatusesDAO {
 	
 	public void update(OrdersStatuses os);
 	
+	public void deleteAllByOrder(OrderT order);
+	
 }

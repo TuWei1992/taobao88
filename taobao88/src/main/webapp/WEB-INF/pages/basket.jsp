@@ -119,7 +119,7 @@
   				if (jsonData.responseText == 0.0) {
   					$('#weightLimitModal').modal('show');
   				} else {
-  					$('.price_with_delivery').text(jsonData.responseText);
+  					$('.price_with_delivery').text(parseFloat(jsonData.responseText).toFixed(2));
   					$('input[name="price"]').val(jsonData.responseText);
   				}
   			}
@@ -380,7 +380,7 @@
 			<div class="btn-card">
                     		<a href="javascript:void(0);" id="orderBtn">Оформить заказ</a>
                     		<p>
-								Общий вес посылки (предварительный): <span class="package_weight">0</span> | 
+								Общий вес посылки (предварительный): <span class="package_weight">0</span><span>кг</span> | 
 								Итоговая сумма с учетом доставки: <span>$</span><span class="price_with_delivery">0</span>
 							</p>
                 		</div>

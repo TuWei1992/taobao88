@@ -34,7 +34,7 @@ CREATE TABLE `balance_operations` (
   PRIMARY KEY (`id`),
   KEY `fk_op_user_id_idx` (`user_id`),
   CONSTRAINT `fk_op_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `balance_operations` (
 
 LOCK TABLES `balance_operations` WRITE;
 /*!40000 ALTER TABLE `balance_operations` DISABLE KEYS */;
-INSERT INTO `balance_operations` VALUES (1,52,50,'Increment by Admin','2014-11-01 14:07:45','2014-11-01 14:07:45'),(2,52,-25,'Decrement by Admin','2014-11-01 14:09:57','2014-11-01 14:09:57'),(3,52,25,'Increment by Admin','2014-11-01 14:14:31','2014-11-01 14:14:31'),(4,52,25,'Increment by Admin','2014-11-01 14:14:57','2014-11-01 14:14:57'),(5,52,-25,'Decrement by Admin','2014-11-01 14:15:02','2014-11-01 14:15:02'),(6,52,-25,'Decrement by Admin','2014-11-01 14:15:04','2014-11-01 14:15:04'),(7,51,50,'Increment by Admin','2014-11-01 14:20:15','2014-11-01 14:20:15'),(8,51,-25,'Decrement by Admin','2014-11-01 14:20:19','2014-11-01 14:20:19'),(9,52,50,'Increment by Admin','2014-11-01 14:24:44','2014-11-01 14:24:44'),(10,51,-25,'Decrement by Admin','2014-11-01 14:24:49','2014-11-01 14:24:49');
+INSERT INTO `balance_operations` VALUES (1,52,50,'Increment by Admin','2014-11-01 14:07:45','2014-11-01 14:07:45'),(2,52,-25,'Decrement by Admin','2014-11-01 14:09:57','2014-11-01 14:09:57'),(3,52,25,'Increment by Admin','2014-11-01 14:14:31','2014-11-01 14:14:31'),(4,52,25,'Increment by Admin','2014-11-01 14:14:57','2014-11-01 14:14:57'),(5,52,-25,'Decrement by Admin','2014-11-01 14:15:02','2014-11-01 14:15:02'),(6,52,-25,'Decrement by Admin','2014-11-01 14:15:04','2014-11-01 14:15:04'),(7,51,50,'Increment by Admin','2014-11-01 14:20:15','2014-11-01 14:20:15'),(8,51,-25,'Decrement by Admin','2014-11-01 14:20:19','2014-11-01 14:20:19'),(9,52,50,'Increment by Admin','2014-11-01 14:24:44','2014-11-01 14:24:44'),(10,51,-25,'Decrement by Admin','2014-11-01 14:24:49','2014-11-01 14:24:49'),(11,52,50,'Increment by Admin','2014-12-01 20:20:57','2014-12-01 20:20:57'),(12,52,-94.6,'Payment for package #11 from user doctorrokter Chachkosuki','2014-12-01 20:24:46','2014-12-01 20:24:47'),(13,52,10000,'Increment by Admin','2014-12-01 20:27:18','2014-12-01 20:27:18'),(14,52,-94.6,'Payment for package #11 from user doctorrokter Chachkosuki','2014-12-01 20:43:19','2014-12-01 20:43:19'),(15,52,-67.17,'Payment for package #12 from user doctorrokter Chachkosuki','2014-12-01 20:54:15','2014-12-01 20:54:15'),(16,52,-52.44,'Payment for package #13 from user Mikhail Chachkosuki','2014-12-02 07:12:31','2014-12-02 07:12:31'),(17,52,-52.44,'Payment for package #14 from user Mikhail Chachkosuki','2014-12-02 07:23:49','2014-12-02 07:23:49'),(18,52,-52.44,'Payment for package #15 from user Mikhail Chachkosuki','2014-12-02 07:33:29','2014-12-02 07:33:29'),(19,52,-95.38,'Payment for package #16 from user Mikhail Chachkouski','2014-12-02 07:42:43','2014-12-02 07:42:43'),(20,52,-9600,'Decrement by Admin','2014-12-02 23:44:39','2014-12-02 23:44:39'),(21,52,150,'Increment by Admin','2014-12-03 07:45:32','2014-12-03 07:45:32'),(22,52,-108.02,'Payment for package #19 from user Mikhail Chachkouski','2014-12-03 07:45:53','2014-12-03 07:45:53');
 /*!40000 ALTER TABLE `balance_operations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +174,7 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 /*!40000 ALTER TABLE `country` DISABLE KEYS */;
-INSERT INTO `country` VALUES (248,0,'Беларусь'),(3159,0,'Россия'),(9908,0,'Украина');
+INSERT INTO `country` VALUES (1,0,'Все страны'),(248,0,'Беларусь'),(3159,0,'Россия'),(9908,0,'Украина');
 /*!40000 ALTER TABLE `country` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,7 +202,7 @@ CREATE TABLE `goods` (
   PRIMARY KEY (`goods_id`),
   KEY `fk_recomendation_id_idx` (`recomendation_id`),
   CONSTRAINT `fk_recomendation_id` FOREIGN KEY (`recomendation_id`) REFERENCES `recomendations` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,7 +211,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES (2,'http://catalog.onliner.by/canon/can1100d1855iii/',300,5,'10','Майка','красный','XL','dfxg','true',10,NULL,NULL),(3,'http://www.aliexpress.com/item/Cute-Girls-Women-Sexy-Sheer-Pantyhose-Hose-Tights-Silk-Stockings-Butterfly/1538942200.html',150,10,'10','Майка','красный','XL','','true',1000,NULL,NULL);
+INSERT INTO `goods` VALUES (35,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function',150,1,NULL,'Новая тема','черный','52',NULL,'false',150,'ironmaiden_killers_massive.jpg',1),(36,'http://catalog.onliner.by/canon/can1100d1855iii/',150,1,'10','Фотик','красный','0','','true',200,NULL,NULL),(37,'http://www.aliexpress.com/item/Cute-Girls-Women-Sexy-Sheer-Pantyhose-Hose-Tights-Silk-Stockings-Butterfly/1538942200.html',150,1,'10','Майка','красный','0','тест тест тест','true',200,NULL,NULL),(38,'http://stackoverflow.com/questions/8586306/bootstrap-modal-is-not-a-function',150,1,NULL,'Новая тема','черный','52',NULL,'true',150,'ironmaiden_killers_massive.jpg',1),(39,'http://catalog.onliner.by/canon/can1100d1855iii/',500,5,'50','Фотик','adf','0','cvbcvb','false',300,NULL,NULL);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +226,7 @@ CREATE TABLE `images` (
   `image_id` int(11) NOT NULL AUTO_INCREMENT,
   `image_name` varchar(255) NOT NULL,
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +235,7 @@ CREATE TABLE `images` (
 
 LOCK TABLES `images` WRITE;
 /*!40000 ALTER TABLE `images` DISABLE KEYS */;
-INSERT INTO `images` VALUES (38,'turbo.jpg'),(39,'turbo.jpg'),(42,'turbo.jpg'),(44,'turbo.jpg'),(45,'adidas.jpg'),(46,'adidas.jpg'),(47,'reebok.png'),(52,'adidas.jpg'),(53,'reebok.png'),(57,'adidas.jpg'),(58,'reebok.png'),(61,'adidas.jpg'),(62,'reebok.png'),(64,'puma.jpg'),(65,'lacoste.jpg'),(66,'nike.jpg'),(67,'vans.jpg'),(68,'lacoste.jpg'),(69,'apple.jpg'),(70,'blackberry.png'),(71,'microsoft.png'),(72,'htc.jpg'),(74,'adidas.jpg'),(83,'adidas.jpg'),(84,'microsoft.png'),(85,''),(86,'puma.jpg'),(87,'reebok.png'),(88,'htc.jpg'),(89,'nike.jpg'),(90,'lacoste.jpg'),(91,'vans.jpg'),(100,'adidas.jpg'),(101,'adidas.jpg'),(102,'lacoste.jpg'),(103,'apple.jpg'),(104,'iron_maideneddie.jpg'),(108,'adidas.jpg'),(117,'adidas.jpg'),(118,'reebok.png'),(119,'lacoste.jpg'),(152,'adidas.jpg'),(153,'reebok.png'),(154,'lacoste.jpg'),(155,'puma.jpg'),(156,'htc.jpg'),(157,'microsoft.png'),(158,'nike.jpg'),(159,'vans.jpg'),(160,'blackberry.png'),(161,'acdc-by-gerard-huerta.jpg'),(164,'watches.jpg'),(165,'ac_dc_highway_to_hell.jpg'),(167,'ac_dc_highway_to_hell.jpg'),(169,'acdc-by-gerard-huerta.jpg'),(170,'80s3.jpg'),(171,'apple.jpg'),(172,'ac-dc-black_ice_world_tour-live.jpg'),(173,'ac_dc_highway_to_hell.jpg'),(174,'british_steel.jpg'),(175,'Bon+Jovi+-+Livin\'+On+A+Prayer+-+12\'+RECORD_MAXI+SINGLE-27845.jpg'),(176,'british_steel.jpg'),(177,'Bon+Jovi+-+Livin\'+On+A+Prayer+-+12\'+RECORD_MAXI+SINGLE-27845.jpg'),(178,'british_steel.jpg'),(179,'80s3.jpg'),(180,'alt_rock.jpg'),(181,'blackberry.png'),(182,'bob.jpg'),(183,'ac_dc_highway_to_hell.jpg'),(184,'дауни.jpg'),(185,'ironmaiden_killers_massive.jpg'),(186,'ems_logo.png'),(187,'ems_logo.png'),(188,'ems_logo.png'),(189,'ems_logo.png'),(190,'ems_logo.png'),(191,'ems_logo.png'),(192,'ems_logo.png'),(193,'ems_logo.png'),(194,'ems_logo.png'),(195,'ems_logo.png'),(196,'ems_logo.png'),(197,'ems_logo.png'),(198,'usps_logo.png'),(199,'usps_logo.png'),(200,'SU_postal_china.jpg'),(201,'SU_postal_china.jpg'),(202,'usps_logo_200.jpg'),(203,'usps_logo_200.jpg'),(204,'ems_logo.png'),(205,'ems_logo.png');
+INSERT INTO `images` VALUES (38,'turbo.jpg'),(39,'turbo.jpg'),(42,'turbo.jpg'),(44,'turbo.jpg'),(45,'adidas.jpg'),(46,'adidas.jpg'),(47,'reebok.png'),(52,'adidas.jpg'),(53,'reebok.png'),(57,'adidas.jpg'),(58,'reebok.png'),(61,'adidas.jpg'),(62,'reebok.png'),(64,'puma.jpg'),(65,'lacoste.jpg'),(66,'nike.jpg'),(67,'vans.jpg'),(68,'lacoste.jpg'),(69,'apple.jpg'),(70,'blackberry.png'),(71,'microsoft.png'),(72,'htc.jpg'),(74,'adidas.jpg'),(83,'adidas.jpg'),(84,'microsoft.png'),(85,''),(86,'puma.jpg'),(87,'reebok.png'),(88,'htc.jpg'),(89,'nike.jpg'),(90,'lacoste.jpg'),(91,'vans.jpg'),(100,'adidas.jpg'),(101,'adidas.jpg'),(102,'lacoste.jpg'),(103,'apple.jpg'),(104,'iron_maideneddie.jpg'),(108,'adidas.jpg'),(117,'adidas.jpg'),(118,'reebok.png'),(119,'lacoste.jpg'),(152,'adidas.jpg'),(153,'reebok.png'),(154,'lacoste.jpg'),(155,'puma.jpg'),(156,'htc.jpg'),(157,'microsoft.png'),(158,'nike.jpg'),(159,'vans.jpg'),(160,'blackberry.png'),(161,'acdc-by-gerard-huerta.jpg'),(164,'watches.jpg'),(165,'ac_dc_highway_to_hell.jpg'),(167,'ac_dc_highway_to_hell.jpg'),(169,'acdc-by-gerard-huerta.jpg'),(170,'80s3.jpg'),(171,'apple.jpg'),(172,'ac-dc-black_ice_world_tour-live.jpg'),(173,'ac_dc_highway_to_hell.jpg'),(174,'british_steel.jpg'),(175,'Bon+Jovi+-+Livin\'+On+A+Prayer+-+12\'+RECORD_MAXI+SINGLE-27845.jpg'),(176,'british_steel.jpg'),(177,'Bon+Jovi+-+Livin\'+On+A+Prayer+-+12\'+RECORD_MAXI+SINGLE-27845.jpg'),(178,'british_steel.jpg'),(179,'80s3.jpg'),(180,'alt_rock.jpg'),(181,'blackberry.png'),(182,'bob.jpg'),(183,'ac_dc_highway_to_hell.jpg'),(184,'дауни.jpg'),(185,'ironmaiden_killers_massive.jpg'),(186,'ems_logo.png'),(187,'ems_logo.png'),(188,'ems_logo.png'),(189,'ems_logo.png'),(190,'ems_logo.png'),(191,'ems_logo.png'),(192,'ems_logo.png'),(193,'ems_logo.png'),(194,'ems_logo.png'),(195,'ems_logo.png'),(196,'ems_logo.png'),(197,'ems_logo.png'),(198,'usps_logo.png'),(199,'usps_logo.png'),(200,'SU_postal_china.jpg'),(201,'SU_postal_china.jpg'),(202,'usps_logo_200.jpg'),(203,'usps_logo_200.jpg'),(204,'ems_logo.png'),(205,'ems_logo.png'),(206,'ems_logo.png'),(207,'ems_logo.png'),(208,'ems_logo.png'),(209,'ems_logo.png'),(210,'ems_logo.png'),(211,'ems_logo.png'),(212,'ems_logo.png'),(213,'ems_logo.png'),(214,'ems_logo.png'),(215,'ems_logo.png'),(216,'ems_logo.png'),(217,'ems_logo.png'),(218,'usps_logo.png'),(219,'usps_logo.png'),(220,'SU_postal_china.jpg');
 /*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -260,7 +260,7 @@ CREATE TABLE `messages` (
   KEY `fk_idpackage_idx` (`idpackage`),
   CONSTRAINT `fk_from_user_Id` FOREIGN KEY (`from_user`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_to_user_id` FOREIGN KEY (`to_user`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -269,7 +269,38 @@ CREATE TABLE `messages` (
 
 LOCK TABLES `messages` WRITE;
 /*!40000 ALTER TABLE `messages` DISABLE KEYS */;
+INSERT INTO `messages` VALUES (1,52,1,20,'привет!','2014-12-06 08:26:00','2014-12-06 08:26:00'),(2,52,1,19,'Привет еще раз!','2014-12-06 08:26:18','2014-12-06 08:26:18'),(3,1,52,20,'дарова','2014-12-06 08:28:20','2014-12-06 08:28:20'),(4,1,52,19,'че таке?','2014-12-06 08:28:39','2014-12-06 08:28:39'),(5,1,52,19,'','2014-12-06 08:29:01','2014-12-06 08:29:01'),(6,1,52,20,'la la la','2014-12-06 08:30:44','2014-12-06 08:30:44'),(7,52,1,20,'sfsdf','2014-12-06 08:31:19','2014-12-06 08:31:19'),(8,1,52,20,'sdf','2014-12-06 08:37:09','2014-12-06 08:37:09'),(9,52,1,20,'sdfsdf','2014-12-06 08:37:31','2014-12-06 08:37:31');
 /*!40000 ALTER TABLE `messages` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders_statuses`
+--
+
+DROP TABLE IF EXISTS `orders_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orders_statuses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_orders_statuses_s_id_idx` (`status_id`),
+  KEY `fk_orders_statuses_o_id_idx` (`order_id`),
+  CONSTRAINT `fk_orders_statuses_o_id` FOREIGN KEY (`order_id`) REFERENCES `ordert` (`orderT_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_orders_statuses_s_id` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders_statuses`
+--
+
+LOCK TABLES `orders_statuses` WRITE;
+/*!40000 ALTER TABLE `orders_statuses` DISABLE KEYS */;
+INSERT INTO `orders_statuses` VALUES (43,35,1,'2014-12-03 07:51:32'),(44,36,1,'2014-12-03 07:51:32'),(45,37,1,'2014-12-03 07:43:49'),(46,38,1,'2014-12-06 08:39:59'),(47,39,1,'2014-12-06 08:49:56');
+/*!40000 ALTER TABLE `orders_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -287,7 +318,7 @@ CREATE TABLE `orderstatus` (
   `ready` varchar(45) DEFAULT NULL,
   `import` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idOrderStatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +327,7 @@ CREATE TABLE `orderstatus` (
 
 LOCK TABLES `orderstatus` WRITE;
 /*!40000 ALTER TABLE `orderstatus` DISABLE KEYS */;
-INSERT INTO `orderstatus` VALUES (2,'false','false','false','false','false'),(3,'false','false','false','false','false');
+INSERT INTO `orderstatus` VALUES (36,'false','false','false','false','false'),(37,'false','false','false','false','false'),(38,'false','false','false','false','false'),(39,'false','false','false','false','false'),(40,'false','false','false','false','false'),(41,'false','false','false','false','false');
 /*!40000 ALTER TABLE `orderstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,7 +352,7 @@ CREATE TABLE `ordert` (
   KEY `fk_order_goods1` (`goods_id`),
   CONSTRAINT `fk_order_goods1` FOREIGN KEY (`goods_id`) REFERENCES `goods` (`goods_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -330,7 +361,7 @@ CREATE TABLE `ordert` (
 
 LOCK TABLES `ordert` WRITE;
 /*!40000 ALTER TABLE `ordert` DISABLE KEYS */;
-INSERT INTO `ordert` VALUES (2,52,2,323.96,'true',2,3,'2014-11-24 07:44:42'),(3,52,3,334.4,'true',3,4,'2014-11-24 08:03:44');
+INSERT INTO `ordert` VALUES (35,52,35,33.44,'true',37,19,NULL),(36,52,36,36.58,'true',38,19,'2014-12-03 07:37:52'),(37,52,37,36.58,'true',39,20,'2014-12-03 07:43:49'),(38,52,38,36.58,'false',40,NULL,NULL),(39,52,39,532.96,'false',41,NULL,'2014-12-06 08:49:56');
 /*!40000 ALTER TABLE `ordert` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -350,11 +381,14 @@ CREATE TABLE `package` (
   `message_id` int(11) DEFAULT '0',
   `tracknumber` varchar(100) DEFAULT NULL,
   `weight` double DEFAULT '0',
+  `post_service_id` int(11) DEFAULT '0',
+  `purchased` int(11) DEFAULT '0',
   PRIMARY KEY (`idpackage`),
   KEY `fk_package_status_idx` (`idpackageStatus`),
   KEY `fk_message_id_idx` (`message_id`),
+  KEY `fk_package_post_service_idx` (`post_service_id`),
   CONSTRAINT `fk_package_status` FOREIGN KEY (`idpackageStatus`) REFERENCES `packagestatus` (`idpackageStatus`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -363,8 +397,38 @@ CREATE TABLE `package` (
 
 LOCK TABLES `package` WRITE;
 /*!40000 ALTER TABLE `package` DISABLE KEYS */;
-INSERT INTO `package` VALUES (3,326.42,3,'false','24.11.2014',0,NULL,50),(4,459.78,4,'false','24.11.2014',0,NULL,10000);
+INSERT INTO `package` VALUES (19,108.02,25,'false','03.12.2014',0,NULL,0.35,11,1),(20,65.08,26,'false','06.12.2014',0,NULL,0.2,11,0);
 /*!40000 ALTER TABLE `package` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `packages_statuses`
+--
+
+DROP TABLE IF EXISTS `packages_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `packages_statuses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `package_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_packages_statuses_p_id_idx` (`package_id`),
+  KEY `fk_packages_statuses_s_id_idx` (`status_id`),
+  CONSTRAINT `fk_packages_statuses_p_id` FOREIGN KEY (`package_id`) REFERENCES `package` (`idpackage`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_packages_statuses_s_id` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `packages_statuses`
+--
+
+LOCK TABLES `packages_statuses` WRITE;
+/*!40000 ALTER TABLE `packages_statuses` DISABLE KEYS */;
+INSERT INTO `packages_statuses` VALUES (24,19,1,'2014-12-03 07:44:44'),(25,20,1,'2014-12-06 08:17:28');
+/*!40000 ALTER TABLE `packages_statuses` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -383,7 +447,7 @@ CREATE TABLE `packagestatus` (
   `import` varchar(45) DEFAULT NULL,
   `endPoint` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idpackageStatus`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -392,7 +456,7 @@ CREATE TABLE `packagestatus` (
 
 LOCK TABLES `packagestatus` WRITE;
 /*!40000 ALTER TABLE `packagestatus` DISABLE KEYS */;
-INSERT INTO `packagestatus` VALUES (3,'false','false','false','false','false','false'),(4,'false','false','false','false','false','false');
+INSERT INTO `packagestatus` VALUES (25,'false','false','false','false','false','false'),(26,'false','false','false','false','false','false');
 /*!40000 ALTER TABLE `packagestatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -433,12 +497,12 @@ DROP TABLE IF EXISTS `post_services`;
 CREATE TABLE `post_services` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `service_name` varchar(100) NOT NULL,
-  `country_id` int(11) NOT NULL,
+  `country_id` int(11) DEFAULT NULL,
   `image_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_post_services_country_idx` (`country_id`),
   CONSTRAINT `fk_post_services_country` FOREIGN KEY (`country_id`) REFERENCES `country` (`country_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -447,6 +511,7 @@ CREATE TABLE `post_services` (
 
 LOCK TABLES `post_services` WRITE;
 /*!40000 ALTER TABLE `post_services` DISABLE KEYS */;
+INSERT INTO `post_services` VALUES (8,'EMS',248,217),(9,'EMS',3159,215),(10,'USPS',248,218),(11,'USPS',3159,219),(12,'Cargo',1,220);
 /*!40000 ALTER TABLE `post_services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -465,7 +530,7 @@ CREATE TABLE `post_services_prices` (
   PRIMARY KEY (`id`),
   KEY `fk_post_service_idx` (`post_service_id`),
   CONSTRAINT `fk_post_service` FOREIGN KEY (`post_service_id`) REFERENCES `post_services` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -474,6 +539,7 @@ CREATE TABLE `post_services_prices` (
 
 LOCK TABLES `post_services_prices` WRITE;
 /*!40000 ALTER TABLE `post_services_prices` DISABLE KEYS */;
+INSERT INTO `post_services_prices` VALUES (6,8,0.1,175),(7,8,0.2,200),(8,8,0.3,300),(9,9,0.1,500),(10,9,0.2,600),(11,9,0.3,700),(12,10,0.1,50),(13,10,0.2,100),(14,10,0.3,150),(15,10,0.4,200),(16,11,0.1,60),(17,11,0.2,110),(18,11,0.3,160),(19,11,0.4,210),(20,12,0.1,20),(21,12,0.2,25),(22,12,0.3,30),(23,12,0.4,35),(24,12,0.5,40),(25,12,0.6,45),(26,12,0.7,50);
 /*!40000 ALTER TABLE `post_services_prices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -723,6 +789,31 @@ INSERT INTO `sizes` VALUES (7,'54'),(8,'36'),(9,'52'),(10,'xl');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `statuses`
+--
+
+DROP TABLE IF EXISTS `statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `statuses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status_name` varchar(255) NOT NULL,
+  `parent_status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `statuses`
+--
+
+LOCK TABLES `statuses` WRITE;
+/*!40000 ALTER TABLE `statuses` DISABLE KEYS */;
+INSERT INTO `statuses` VALUES (1,'Ожидание оплаты',NULL),(2,'Выкуп товара',NULL),(3,'Доставка на склад',NULL),(4,'Проверка товара и подготовка к отправке',NULL),(5,'Ожидание подтверждения отправки',NULL),(6,'Заказ отправлен',NULL),(7,'Нет в наличии',2),(8,'Доставлено',4),(9,'Брак',4),(10,'Недоставлено',4);
+/*!40000 ALTER TABLE `statuses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `top_menu`
 --
 
@@ -810,7 +901,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin','gosha.egor.513@gmail.com','admin',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(51,'Luba','lubasha88@mail.ru','3763020',1,'248','349','269','Любовь','Макута','Вячеславовна',NULL,'тепличная','1','15','220017'),(52,'doctorrokter','doctorrokter@gmail.com','jZoNs3kR6',1,'248','349','269','Mikhail','Chachkosuki','Aleksandrovich',NULL,'Gorodetskaya','2','152','220125');
+INSERT INTO `users` VALUES (1,'admin','gosha.egor.513@gmail.com','admin',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),(51,'Luba','lubasha88@mail.ru','3763020',1,'248','349','269','Любовь','Макута','Вячеславовна',NULL,'тепличная','1','15','220017'),(52,'doctorrokter','doctorrokter@gmail.com','jZoNs3kR6',1,'248','349','269','Mikhail','Chachkouski','Aleksandrovich',NULL,'Gorodetskaya','2','152','220125');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -849,4 +940,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-25  8:19:36
+-- Dump completed on 2014-12-06  9:45:48

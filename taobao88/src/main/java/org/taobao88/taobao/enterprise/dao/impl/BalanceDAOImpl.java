@@ -1,5 +1,7 @@
 package org.taobao88.taobao.enterprise.dao.impl;
 
+import java.math.BigDecimal;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,9 +18,9 @@ public class BalanceDAOImpl implements BalanceDAO {
 	
 	@Override
 	public double getBalance(UserT userT) {
-		Object val = sessionFactory.getCurrentSession().createSQLQuery("SELECT SUM(amount) balance FROM balance_operations WHERE user_id = :user_id").addScalar("balance").setParameter("user_id", userT.getIdUser()).uniqueResult();
+		BigDecimal val = (BigDecimal) sessionFactory.getCurrentSession().createSQLQuery("SELECT SUM(amount) balance FROM balance_operations WHERE user_id = :user_id").addScalar("balance").setParameter("user_id", userT.getIdUser()).uniqueResult();
 		if (val != null) {
-			return (double)val;
+			return val.doubleValue();
 		} else {
 			return 0;
 		}
