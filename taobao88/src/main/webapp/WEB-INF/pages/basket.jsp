@@ -37,15 +37,12 @@
 		$('.orderIdCheckbox').change(function() {
 			data = '';
 		    var checkbox = $(this);
-		    var allChecked = $('.orderIdCheckbox:checked');
-		    var prices = $('.price');
-		    var weights = $('.order_weight');
 		    var orderId = $(checkbox).val();
-		    $(prices).each(function(i, item) {
+		    $('.price').each(function(i, item) {
 		    if ($(item).attr('for') == orderId) {
 		        	var currSum = parseInt($('.price_without_delivery').text());
 		      
-		        	$(allChecked).each(function(i, item) {
+		        	$('.orderIdCheckbox:checked').each(function(i, item) {
 		        		data += $(item).attr('name') + '=' + $(item).val() + '&';
 		        	});
 		        		        
@@ -60,7 +57,7 @@
 		    	}
 		  	});
 		    
-		    $(weights).each(function(i, item) {
+		    $('.order_weight').each(function(i, item) {
 		    	if ($(item).attr('for') == orderId) {
 		    		totalWeight = parseFloat($('.package_weight').text());
 		    		
@@ -80,15 +77,18 @@
 		});
 		
 		$('.service').click(function() {
-			var dataDelivery = data + '&postServiceId=' + $(this).val() + '&countryId=' + $('#countryId').val();
-          	send(dataDelivery);
+			if (validateCheckedGoods()) {
+				var dataDelivery = data + '&postServiceId=' + $(this).val() + '&countryId=' + $('#countryId').val();
+          		send(dataDelivery);
+			} else {
+				$(this).prop('checked', false);
+			}
 		});
 	});
 		
 	function validateCheckedGoods() {
-		var checkboxes = $('.orderIdCheckbox');
 		var checkedStatus = false;
-		$(checkboxes).each(function(i, item) {
+		$('.orderIdCheckbox').each(function(i, item) {
 			if (item.checked) {
 			  checkedStatus = true;
 		    } 
@@ -126,6 +126,9 @@
   			complete: function(jsonData) {
   				if (jsonData.responseText == 0.0) {
   					$('#weightLimitModal').modal('show');
+  					$('.price_with_delivery').text(0);
+  					$('input[name="price"]').val(0);
+  					$('.service').prop('checked', false);
   				} else {
   					$('.price_with_delivery').text(parseInt(jsonData.responseText));
   					$('input[name="price"]').val(parseInt(jsonData.responseText));
