@@ -222,7 +222,10 @@
 							<tbody>
 								<c:forEach begin="0" end="${orders.size()}" varStatus="loop" items="${orders}" var="order">
 									<tr>
-										<td><span>${loop.index + 1}</span></td>
+										<td>
+											<%-- <span>${loop.index + 1}</span> --%>
+											<span>${order.idOrder}</span>
+										</td>
 										<td>
 											<c:choose>
 												<c:when test="${order.goods.recomendation != null}">
