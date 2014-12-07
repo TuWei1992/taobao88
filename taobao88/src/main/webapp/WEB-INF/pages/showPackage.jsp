@@ -88,11 +88,14 @@
 					</div>
 				</div>
 				<div class="main">
-					<div class="col-md-offset-1">
-						<span>Сервис по отслеживанию посылок: </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span><br>
-						<span>Ваш баланс: </span><span class="label label-success">$${balance}</span>
-					</div>
 					<div class="control">
+						<div>
+							<span>Сервис по отслеживанию посылок: </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span><br>
+							<span>Ваш баланс: </span><span class="label label-success">$${balance}</span>
+						</div>
+						<div class="alert alert-warning">
+							Для детального просмотра информации об отдельном товаре в посылке щелкните по значку товара.
+						</div>
 						<table class="orders">
                 			<thead>
                     			<tr>

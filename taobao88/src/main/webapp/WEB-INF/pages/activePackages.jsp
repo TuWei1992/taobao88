@@ -40,7 +40,7 @@
 						<td><a
 							onclick="{document.showPackageAdmin.idPackage.value = ${packageT.idPackage};document.showPackageAdmin.submit();}"
 							style="cursor: pointer"> Посылка № ${packageT.idPackage} </a></td>
-						<td>${packageT.fullPrice}</td>
+						<td>$${packageT.fullPrice}</td>
 						<td>
 							<span class="label label-primary">${packageT.datePackage}</span>
 						</td>

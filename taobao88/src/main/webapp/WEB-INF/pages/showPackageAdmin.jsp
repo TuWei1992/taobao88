@@ -66,7 +66,7 @@
 			</form>
 			
 			<div class="jumbotron">
-  				<p>Посылка #${packageT.idPackage} от пользователя <a style="color: blue; cursor: pointer;" href="${pageContext.request.contextPath}/admin/userInformation">${userOfCurrentPackage.nameUser}</a>, почта <span style="color: blue">${userOfCurrentPackage.gmail}</span></p>
+  				<p>Посылка #${packageT.idPackage} от пользователя <a style="color: blue; cursor: pointer;" href="${pageContext.request.contextPath}/admin/userInformation">${userOfCurrentPackage.nameUser} (#${userOfCurrentPackage.idUser})</a>, почта <span style="color: blue">${userOfCurrentPackage.gmail}</span></p>
   				<p>
   					<ul class="list-group">
 						<c:forEach begin="0" end="${packageT.packagesStatuses.size() - 1}" var="loop">

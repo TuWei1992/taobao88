@@ -32,6 +32,7 @@
             $('#translate').click(function() {
             	translate();
             });
+            $('[data-toggle="tooltip"]').tooltip();
         });      
     </script>
 </head>
@@ -77,6 +78,10 @@
 			</c:if>
 			<div>
 				<div class="control">
+					<div class="alert alert-warning">
+						Для перехода к оплате посылки или детального просмотра ее состояния щелкните по значку посылки.
+					</div>
+				
 					<div class="o_head">
 						<h3>Мои посылки</h3>
 						<div>
@@ -98,11 +103,13 @@
 								<c:forEach items="${packages}" var="packageT">
                        				<tr>
 										<td>
-											<a href="${pageContext.request.contextPath}/privateOffice/showPackage?idPackage=${packageT.idPackage}" class="product-img"><img src="${pageContext.request.contextPath}/resources/img/box.png" /></a>
+											<a href="${pageContext.request.contextPath}/privateOffice/showPackage?idPackage=${packageT.idPackage}" class="product-img">
+												<img src="${pageContext.request.contextPath}/resources/img/box.png" />
+											</a>
 										</td>
 										<td  class="product">
 											<div class="property">
-												<span class="order"><a href="${pageContext.request.contextPath}/privateOffice/showPackage?idPackage=${packageT.idPackage}">№: ${packageT.idPackage}</a></span>  
+												<span class="order"><a href="${pageContext.request.contextPath}/privateOffice/showPackage?idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Щелкните для просмотра информации о посылке.">№: ${packageT.idPackage}</a></span>  
 												<div>
 													<c:if test="${TIME == packageT.datePackage}">
 														<span class="label label-success" disabled>NEW</span>
