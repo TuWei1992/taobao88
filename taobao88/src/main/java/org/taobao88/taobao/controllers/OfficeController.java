@@ -431,7 +431,9 @@ public class OfficeController extends  MainController{
         order.setFullPrice(priceService.getOrderPrice(order));
         orderDAO.updateOrder(order);
         
-        request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        if (order.getPackageT() != null) {
+        	return "redirect:/privateOffice/showPackage?idPackage=" + order.getPackageT().getIdPackage();
+        }
         return "redirect:/basket";
     }
 
