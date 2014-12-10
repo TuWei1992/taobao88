@@ -20,7 +20,7 @@
 		$('#add_input').click(function() {
 			var weightPriceGroup = $('.weight_price');
 			$(weightPriceGroup).append(groupToAppend);
-		});	
+		});
 	});
 </script>
 </head>
@@ -77,7 +77,7 @@
 				</div>
 				
 				<div class="form-group">
-					<input type="submit" role="button" class="btn btn-success pull-right" value="Создать">
+					<input type="button" role="button" class="btn btn-success pull-right create_btn" value="Создать">
 				</div>
 			</form>
 			</div>

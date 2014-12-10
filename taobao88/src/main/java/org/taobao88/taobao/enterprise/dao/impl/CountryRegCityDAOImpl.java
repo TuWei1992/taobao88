@@ -58,4 +58,24 @@ public class CountryRegCityDAOImpl implements CountryRegCityDAO{
         String query = "from City where idRegion = "+id;
         return sessionFactory.getCurrentSession().createQuery(query).list();
     }
+
+	@Override
+	public int addCountry(Country country) {
+		return (int) sessionFactory.getCurrentSession().save(country);
+	}
+
+	@Override
+	public Country findByName(String countryName) {
+		return (Country) sessionFactory.getCurrentSession().createQuery("from Country where name = :countryName").setParameter("countryName", countryName).uniqueResult();
+	}
+
+	@Override
+	public void delete(Country country) {
+		sessionFactory.getCurrentSession().delete(country);		
+	}
+
+	@Override
+	public void update(Country country) {
+		sessionFactory.getCurrentSession().update(country);		
+	}
 }

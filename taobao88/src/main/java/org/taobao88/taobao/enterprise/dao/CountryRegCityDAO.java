@@ -10,15 +10,24 @@ import java.util.List;
  * Created by User on 23.06.14.
  */
 public interface CountryRegCityDAO {
-    List<Country> getAllCountry();
+	
+    public List<Country> getAllCountry();
 
-    List<Region> getAllRegion();
+    public List<Region> getAllRegion();
 
-    List<City> getAllCity();
+    public List<City> getAllCity();
 
-    Country getCountryByID(int id);
+    public Country getCountryByID(int id);
 
-    List<Region> getRegionsByID(int id);
+    public List<Region> getRegionsByID(int id);
 
-    List<City> getCitiessByID(int id);
+    public List<City> getCitiessByID(int id);
+    
+    public int addCountry(Country country);
+    
+    public Country findByName(String countryName);
+    
+    public void delete(Country country);
+    
+    public void update(Country country);
 }
