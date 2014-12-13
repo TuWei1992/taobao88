@@ -4,7 +4,9 @@
 <script type="text/javascript">
 	$(function() {
 		$('.agree_btn').click(function() {
-			var data = "idPackage=${packageT.idPackage}"
+			var data = "idPackage=${packageT.idPackage}";
+			$('#paymentAgreeModal').modal('hide');
+			$('#loadingModal').modal('show');
 				$.ajax({type:'POST',
 		  		    url:'${pageContext.request.contextPath}/pay/deductFromAccount',
 		  		    data: data,

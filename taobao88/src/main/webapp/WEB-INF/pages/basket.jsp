@@ -27,6 +27,7 @@
 		
 		$('#orderBtn').click(function() {
 		  if (validateCheckedGoods() && validateChoosedPostService() && validateDeliveryPrice()) {
+			  $('#loadingModal').modal('show');
 			  document.toOrder.submit();
 		  }
 		});
@@ -151,6 +152,7 @@
 	<jsp:include page="./modal/weight_limit_modal.jsp"/>
 	<jsp:include page="./modal/basket_bad_price_modal.jsp"/>
 	<jsp:include page="./modal/post_service_not_chosen_modal.jsp"/>
+	<jsp:include page="./modal/loading_modal.jsp"/>
 	
 	<div id="wrapper">
  	<!-- HEADER -->

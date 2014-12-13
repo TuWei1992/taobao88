@@ -1,5 +1,7 @@
 package org.taobao88.taobao.enterprise.service.impl;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ public class MessagesServiceImpl implements MessagesService {
 
 	@Override
 	public int createMessage(Message message) {
+		message.setCreatedAt(new Timestamp(new Date().getTime()));
+		message.setUpdatedAt(new Timestamp(new Date().getTime()));
 		return messagesDAO.createMessage(message);
 	}
 

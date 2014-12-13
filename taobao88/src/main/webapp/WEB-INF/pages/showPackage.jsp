@@ -50,6 +50,7 @@
 
 	<jsp:include page="modal/not_enough_money_modal.jsp"/>
 	<jsp:include page="modal/payment_agree_modal.jsp"/>
+	<jsp:include page="modal/loading_modal.jsp"/>
 	
 	<div id="wrapper">
 		<jsp:include page="partials/index_header.jsp"/>

@@ -44,7 +44,7 @@
 					
 					<div class="form-group">
 						<label class="input" for="rDescLong">Подробное описание:</label> 
-						<textarea class="form-control" name="rDescLong" id="rDescLong"	placeholder="Подробное описание" required="required"></textarea>
+						<textarea class="form-control" name="rDescLong" id="rDescLong"	placeholder="Подробное описание"></textarea>
 					</div>
 
 					<div class="form-group">

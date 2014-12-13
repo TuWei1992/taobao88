@@ -1,6 +1,10 @@
 package org.taobao88.taobao.enterprise.service.impl;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -8,6 +12,10 @@ import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.UserT;
 import org.taobao88.taobao.enterprise.service.MailService;
 import org.taobao88.taobao.mail.MailMail;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 @Repository("mailService")
 public class MailServiceImpl implements MailService {
@@ -43,6 +51,19 @@ public class MailServiceImpl implements MailService {
 		messageText.append("</tbody>");
 		messageText.append("</table>");		
 		mailMail.sendMail(from, to, subject, messageText.toString());
+	}
+
+	@Override
+	public void sendMessageByFreemarkerTemplate(Configuration cfg, Map<String, Object> templateModel, String from, String to, String subject, String templateName) {
+		Template template = null;
+		Writer out = new StringWriter();
+		try {
+			template = cfg.getTemplate(templateName);
+			template.process(templateModel, out);
+		} catch (TemplateException | IOException e) {
+			e.printStackTrace();
+		}
+		sendSimpleMessage(from, to, subject, out.toString());
 	}
 
 }

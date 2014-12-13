@@ -26,6 +26,9 @@ import org.taobao88.taobao.enterprise.dao.StatusesDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+
 @Controller
 @RequestMapping("/privateOffice")
 public class OfficeController extends  MainController{
@@ -99,46 +102,7 @@ public class OfficeController extends  MainController{
 		request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
 		return "redirect:/privateOffice/toPackages";
 	}
-	
-//    @RequestMapping(value="/FromOrder", method = RequestMethod.POST)
-//    public String privateOfficeFromOrder(HttpServletRequest request) throws UnsupportedEncodingException {
-//        HttpSession session = request.getSession(true);
-//        List<OrderT> newOrders = new ArrayList<OrderT>();
-//
-//        session.setAttribute("TIME",getCurrentDate());
-//
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        String name = user.getUsername();
-//
-//        int idUser = userDAO.getId(name).get(0).getIdUser();
-//
-//        session.setAttribute("currentIdUser",idUser);
-//        session.setAttribute("HREFGOODS",(String)request.getParameter("HREFGOODS"));
-//
-//        String NULL = (String) session.getAttribute("HREFGOODS");
-//        String NULLALL = null;
-//
-//        if(NULLALL != NULL){
-//            Goods goods = getObjectGoods(request);
-//            newOrders = allOrdersForOneRequest(goods.getAmountGoods(), goods, idUser);
-//            session.setAttribute("HREFGOODS","null");
-//        }
-//        List<OrderT> orders = orderDAO.getOrdersOnStartPage((int) request.getSession().getAttribute("currentIdUser"));
-//		double totalPrice = 0;
-//		for (OrderT o : orders) {
-//			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
-//			totalPrice += o.getFullPrice();
-//		}
-//		request.setAttribute("totalPrice", totalPrice);
-//		request.setAttribute("orders", orders);
-//        request.setAttribute("newOrders",newOrders);
-//        request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
-//        request.getSession().setAttribute("basket", orders.size());
-//        
-//        clearOrderInSession(request);
-//        return "redirect:/basket";
-//    }
-	
+		
 	@RequestMapping(value="/FromOrder", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String fromOrder(@RequestParam ("HREFGOODS") String hrefGoods,
 							@RequestParam ("NAMEGOODS") String nameGoods,
@@ -166,7 +130,6 @@ public class OfficeController extends  MainController{
 			if (sizeGoods.isEmpty() || sizeGoods == null) { failFields.add("SIZEGOODS"); }
 			
 			if (failFields.size() > 0) {
-//				w
 				return "{\"success\":false,\"message\":\"order_fail\",\"fail_fields\":\"" + Arrays.asList(failFields) + "\"}";
 			} else {
 				goods.setHrefGoods(hrefGoods);
@@ -231,6 +194,7 @@ public class OfficeController extends  MainController{
         List<PackageT> newPackages = new ArrayList<PackageT>();
 
         int idUser = (int) session.getAttribute("currentIdUser");
+        UserT user = userService.findUserById(idUser);
         String[] idOrders = request.getParameterValues("idOrder");
 
         double packageWeight = 0;
@@ -272,7 +236,12 @@ public class OfficeController extends  MainController{
         
         newPackages.add(packageT);
         
-        sendMessage(userDAO.findUserById(orderTList.get(0).getIdUser()), packageT, packageT.getIdPackage());
+        ResourceBundle getPath = ResourceBundle.getBundle("mail");
+        String from = getPath.getString("mailAdmin");
+        Map<String, Object> templateModel = new HashMap<>();
+		templateModel.put("packageT", packageService.findPackageById(packageT.getIdPackage()));
+		mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, from, user.getGmail(), "Посылка успешно сформирована", "order.ftl");
+		        
         List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
         request.getSession().setAttribute("basket", orders.size());
         return "redirect:/privateOffice/toPackages";

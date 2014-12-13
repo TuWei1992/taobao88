@@ -45,12 +45,15 @@ public class MailMail {
     public void sendMail(final String from, final String to,final String subject,final String msg) {
         try{
             MimeMessage message = mailSender.createMimeMessage();
-
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom(from);
+            message.setText(msg, "UFT-8");
+            message.setSubject(subject, "UTF-8");
+            message.setContent(msg, "UFT-8");
+            
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+             helper.setFrom(from);
             helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(msg,true);
+            helper.setSubject(message.getSubject());
+            helper.setText(msg, true);
 
             mailSender.send(message);
         }catch(MessagingException e){e.printStackTrace();}
