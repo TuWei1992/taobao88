@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -54,7 +55,9 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void sendMessageByFreemarkerTemplate(Configuration cfg, Map<String, Object> templateModel, String from, String to, String subject, String templateName) {
+	public void sendMessageByFreemarkerTemplate(Configuration cfg, Map<String, Object> templateModel, String to, String subject, String templateName) {
+		ResourceBundle getPath = ResourceBundle.getBundle("mail");
+        String from = getPath.getString("mailAdmin");
 		Template template = null;
 		Writer out = new StringWriter();
 		try {

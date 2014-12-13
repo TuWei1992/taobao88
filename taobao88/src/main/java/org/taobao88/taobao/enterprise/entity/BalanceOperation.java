@@ -98,9 +98,7 @@ public class BalanceOperation implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(amount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + amount;
 		result = prime * result
 				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + id;
@@ -119,8 +117,7 @@ public class BalanceOperation implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		BalanceOperation other = (BalanceOperation) obj;
-		if (Double.doubleToLongBits(amount) != Double
-				.doubleToLongBits(other.amount))
+		if (amount != other.amount)
 			return false;
 		if (createdAt == null) {
 			if (other.createdAt != null)

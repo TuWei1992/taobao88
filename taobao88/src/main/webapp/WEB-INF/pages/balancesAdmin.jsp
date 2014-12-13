@@ -7,28 +7,58 @@
 <jsp:include page="adminStyles.jsp"/>
 <title>Счета</title>
 <script type="text/javascript">
+
+	$(function() {
+		$('.alert-success').hide();
+		
+		$('.ok_btn').click(function () {
+			window.location.reload();
+		});
+	});
+
 	function adjustBalance(userId, type) {
+		$('.alert-success').hide();
 		var amount = $('#amount_for_'+userId).val();
 		if (type == 'dec') {
 			amount = -$('#amount_for_'+userId).val();
 		}
-		$.post('${pageContext.request.contextPath}/admin/adjustBalance', {'user_id':userId, 'amount':amount, 'type':type});
-		setTimeout(reload, 1000);
+		$('#loadingModal').modal('show');
+		$.post('${pageContext.request.contextPath}/admin/adjustBalance', {'user_id':userId, 'amount':amount, 'type':type}, complete);
 	}
 	
-	function reload() {
-		window.location.reload();
+	function complete(response) {
+		$('.amount').val(0);
+		$('#loadingModal').modal('hide');
+		if (response.success) {
+			if (response.message == 'decrement_success') {
+				$('#balanceDecrementSuccessModal').modal('show');
+			} else if (response.message == 'message_sended') {
+				$('.' + response.message).show();
+			}
+		}
 	}
 </script>
 </head>
 <body>
 	<jsp:include page="adminMenu.jsp" />
+	<jsp:include page="modal/loading_modal.jsp"/>
+	<jsp:include page="modal/loading_modal.jsp"/>
+	<jsp:include page="modal/balance_decrement_success_modal.jsp"/>
 	
 	<div class="container">
 		<div class="row">
 			<div class="page-header">
   				<h1>Счета <small>управление счетами пользователей</small></h1>
 			</div>
+		</div>
+		<div class="row">
+			<div class="alert alert-success message_sended" role="alert">Отправлено сообщение на почту для подтверждения внесения средств. Баланс будет пополнен <strong>только</strong> после подтверждения по email.</div>			
+			<c:if test="${confirmation_error == true}">
+				<div class="alert alert-danger confirmation_error" role="alert">Ошибка подтверждения внесения средств! Возможно Вы уже подтверждали эту операцию.</div>
+			</c:if>
+			<c:if test="${not empty confirmation_complete == true}">
+				<div class="alert alert-warning" role="alert">Пополнение счета в размере <strong>$${confirmation_amount}</strong> для пользователя <strong>${confirmation_user.fullNameUser} ${confirmation_user.femailUser}</strong> прошло успешно!</div>
+			</c:if>
 		</div>
 	</div>
 	

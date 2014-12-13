@@ -7,6 +7,7 @@ import org.taobao88.taobao.beans.OrderBEAN;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 import org.taobao88.taobao.mail.MailMail;
+import org.taobao88.taobao.mail.Templates;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -840,5 +841,12 @@ public class MainController {
         }
 
         return rezList;
+    }
+    
+    public void sendToAdmin(String subject, String message) {
+    	ResourceBundle getPath = ResourceBundle.getBundle("mail");
+        String from = getPath.getString("mailAdmin");
+        String to = getPath.getString("mailReceiver");
+    	mailService.sendSimpleMessage(from, to, subject, message);
     }
 }

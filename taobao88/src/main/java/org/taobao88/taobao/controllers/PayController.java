@@ -3,6 +3,7 @@ package org.taobao88.taobao.controllers;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.StatusesDAO;
 import org.taobao88.taobao.enterprise.dao.UserDAO;
+import org.taobao88.taobao.enterprise.dao.UuidDAO;
 import org.taobao88.taobao.enterprise.entity.BalanceOperation;
 import org.taobao88.taobao.enterprise.entity.Message;
 import org.taobao88.taobao.enterprise.entity.OrderT;
@@ -27,6 +30,7 @@ import org.taobao88.taobao.enterprise.entity.PackageT;
 import org.taobao88.taobao.enterprise.entity.PackagesStatuses;
 import org.taobao88.taobao.enterprise.entity.Status;
 import org.taobao88.taobao.enterprise.entity.UserT;
+import org.taobao88.taobao.enterprise.entity.Uuid;
 import org.taobao88.taobao.enterprise.service.BalanceService;
 import org.taobao88.taobao.enterprise.service.MailService;
 import org.taobao88.taobao.enterprise.service.MessagesService;
@@ -49,6 +53,7 @@ public class PayController {
     @Autowired private MailService mailService;
     @Autowired private UserService userService;
     @Autowired private MessagesService messageService;
+    @Autowired private UuidDAO uuidDAO;
 	
 	@RequestMapping(value = "/deductFromAccount", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String deductFromAccount(@RequestParam ("idPackage") int idPackage,
@@ -95,7 +100,7 @@ public class PayController {
 	        templateModel.put("packageT", packageT);
 	        templateModel.put("userT", user);
 	        templateModel.put("transaction", bo);
-	        mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, from, user.getGmail(), "Оплата посылки #" + packageT.getIdPackage(), "payment.ftl");
+	        mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, user.getGmail(), "Оплата посылки #" + packageT.getIdPackage(), "payment.ftl");
 	        
 	        Message message = new Message();
 	        message.setFromUser(userService.findUserById(1));
@@ -105,6 +110,34 @@ public class PayController {
 	        messageService.createMessage(message);
 			
 			return "{\"success\":true,\"message\":\"payment_completed\"}";
+		}
+	}
+	
+	@RequestMapping(value = "/confirmBalanceAdjustment", method = RequestMethod.GET)
+	public String confirmBalanceAdjustment(HttpServletRequest request,
+										   Model model) {
+		
+		String uuidStr = request.getParameter("uuid");
+		Uuid uuid = uuidDAO.findUuid(uuidStr);
+		if (uuid != null) {
+			int amount = Integer.parseInt(request.getParameter("amount"));
+			int userId = Integer.parseInt(request.getParameter("userId"));
+			
+			UserT user = userService.findUserById(userId);
+			BalanceOperation bo = new BalanceOperation();
+        	bo.setUserT(user);
+        	bo.setAmount(amount);
+        	bo.setReason("Increment by Admin");
+        	balanceService.adjustBalance(bo);
+        	uuidDAO.deleteUuid(uuid);
+        	
+        	model.addAttribute("confirmation_complete", true);
+        	model.addAttribute("confirmation_user", user);
+        	model.addAttribute("confirmation_amount", amount);
+        	return "balancesAdmin";
+		} else {
+			model.addAttribute("confirmation_error", true);
+			return "balancesAdmin";
 		}
 	}
 }

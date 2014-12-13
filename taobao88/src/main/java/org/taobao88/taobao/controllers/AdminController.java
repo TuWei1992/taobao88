@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.StatusesDAO;
+import org.taobao88.taobao.enterprise.dao.UuidDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 
@@ -18,11 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,6 +41,7 @@ public class AdminController extends MainController{
     @Autowired private StatusesDAO statusesDAO;
     @Autowired private OrdersStatusesDAO ordersStatusesDAO;
     @Autowired private PackagesStatusesDAO packagesStatusesDAO;
+    @Autowired private UuidDAO uuidDAO;
     
 	@RequestMapping(method = RequestMethod.GET)
 	public String adminPage(HttpServletRequest request) {
@@ -68,7 +70,7 @@ public class AdminController extends MainController{
     public String adminStatus(HttpServletRequest request) {
         HttpSession session = request.getSession(true);
 
-        List<OrderT> orderTs = orderDAO.getOrdersForAdmin();
+//        List<OrderT> orderTs = orderDAO.getOrdersForAdmin();
 
         int idOrderStatus = Integer.parseInt(request.getParameter("idOrderStatus"));
         session.setAttribute("currentIdOrderStatus",idOrderStatus);
@@ -197,21 +199,34 @@ public class AdminController extends MainController{
     	return "balancesAdmin";
     }
     
-    @RequestMapping(value = "adjustBalance", method = RequestMethod.POST)
-    public void adjustBalance(@RequestParam ("user_id") int userId,
+    @RequestMapping(value = "adjustBalance", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String adjustBalance(@RequestParam ("user_id") int userId,
     						  @RequestParam ("amount") int amount,
-    						  @RequestParam ("type") String type) {
-    	BalanceOperation bo = new BalanceOperation();
-    	bo.setUserT(userService.findUserById(userId));
-    	bo.setCreatedAt(new Timestamp(new Date().getTime()));
-    	bo.setUpdatedAt(new Timestamp(new Date().getTime()));
-    	bo.setAmount(amount);
+    						  @RequestParam ("type") String type,
+    						  HttpServletRequest request) {
+    	
+    	UserT user = userService.findUserById(userId);
+    	  	
     	if (type.equals("inc")) {
-    		bo.setReason("Increment by Admin");
+    		String uuidStr = UUID.randomUUID().toString();
+    		Uuid uuid = new Uuid();
+    		uuid.setUuid(uuidStr);
+    		uuidDAO.addUuid(uuid);
+    		
+    		String server = request.getServerName();
+        	int serverPort = request.getServerPort();
+        	String contextPath = request.getContextPath();
+        	String confirmUrl = "http://" + server + ":" + serverPort + contextPath + "/pay/confirmBalanceAdjustment?userId=" + userId + "&amount=" + amount + "&uuid=" + uuid.getUuid();
+        	sendToAdmin("Пополнение счета для " + user.getNameUser(), confirmUrl);
+        	return "{\"success\":true,\"message\":\"message_sended\"}";
     	} else {
-    		bo.setReason("Decrement by Admin");
+    		BalanceOperation bo = new BalanceOperation();
+        	bo.setUserT(userService.findUserById(userId));
+        	bo.setAmount(amount);
+        	bo.setReason("Decrement by Admin");
+        	balanceService.adjustBalance(bo);
+        	return "{\"success\":true,\"message\":\"decrement_success\"}";
     	}
-    	balanceService.adjustBalance(bo);
     }
     
     @RequestMapping(value = "packages/update", method = RequestMethod.GET)
@@ -280,20 +295,20 @@ public class AdminController extends MainController{
     	return "{\"success\":" + success + ",\"message\":\"ok\"}";
     }
     
-    private OrderStatus getStatus(HttpServletRequest request, OrderStatus orderStatus){
-
-        if(null !=request.getParameter("approve"+orderStatus.getIdOrderStatus()) ){
-            orderStatus.setApprove(request.getParameter("approve"+orderStatus.getIdOrderStatus()));
-        }if(null != request.getParameter("pay"+orderStatus.getIdOrderStatus())){
-            orderStatus.setPay(request.getParameter("pay"+orderStatus.getIdOrderStatus()));
-        }if(null != request.getParameter("ransom"+orderStatus.getIdOrderStatus())){
-            orderStatus.setRansom(request.getParameter("ransom"+orderStatus.getIdOrderStatus()));
-        }if(null != request.getParameter("ready"+orderStatus.getIdOrderStatus())){
-            orderStatus.setReady(request.getParameter("ready"+orderStatus.getIdOrderStatus()));
-        }if(null != request.getParameter("done"+orderStatus.getIdOrderStatus())){
-            orderStatus.setDone(request.getParameter("done"+orderStatus.getIdOrderStatus()));
-        }
-
-        return orderStatus;
-    }
+//    private OrderStatus getStatus(HttpServletRequest request, OrderStatus orderStatus){
+//
+//        if(null !=request.getParameter("approve"+orderStatus.getIdOrderStatus()) ){
+//            orderStatus.setApprove(request.getParameter("approve"+orderStatus.getIdOrderStatus()));
+//        }if(null != request.getParameter("pay"+orderStatus.getIdOrderStatus())){
+//            orderStatus.setPay(request.getParameter("pay"+orderStatus.getIdOrderStatus()));
+//        }if(null != request.getParameter("ransom"+orderStatus.getIdOrderStatus())){
+//            orderStatus.setRansom(request.getParameter("ransom"+orderStatus.getIdOrderStatus()));
+//        }if(null != request.getParameter("ready"+orderStatus.getIdOrderStatus())){
+//            orderStatus.setReady(request.getParameter("ready"+orderStatus.getIdOrderStatus()));
+//        }if(null != request.getParameter("done"+orderStatus.getIdOrderStatus())){
+//            orderStatus.setDone(request.getParameter("done"+orderStatus.getIdOrderStatus()));
+//        }
+//
+//        return orderStatus;
+//    }
 }

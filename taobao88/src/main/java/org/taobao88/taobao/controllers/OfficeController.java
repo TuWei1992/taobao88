@@ -27,7 +27,6 @@ import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 
 import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 @Controller
 @RequestMapping("/privateOffice")
@@ -93,11 +92,6 @@ public class OfficeController extends  MainController{
 			newOrders.addAll(prepareOrdersFromGoods(good, user));
 		}
 		preparePackage(user, newOrders);
-		ResourceBundle getPath = ResourceBundle.getBundle("mail");
-        String from = getPath.getString("mailAdmin");
-        String to = getPath.getString("mailReceiver");
-        
-//		mailService.sendOrderMessage(from, to, "order test", user, goods);
 		request.getSession().setAttribute("basket", new ArrayList<Goods>());
 		request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
 		return "redirect:/privateOffice/toPackages";
@@ -239,14 +233,11 @@ public class OfficeController extends  MainController{
         
         newPackages.add(packageT);
         
-        ResourceBundle getPath = ResourceBundle.getBundle("mail");
-        String from = getPath.getString("mailAdmin");
         Map<String, Object> templateModel = new HashMap<>();
 		templateModel.put("packageT", packageT);
-		mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, from, user.getGmail(), "Посылка успешно сформирована", "order.ftl");
+		mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, user.getGmail(), "Посылка успешно сформирована", "order.ftl");
 		        
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
-        request.getSession().setAttribute("basket", orders.size());
+        request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(idUser).size());
         return "redirect:/privateOffice/toPackages";
     }
 

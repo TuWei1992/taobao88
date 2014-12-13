@@ -14,6 +14,6 @@ public interface MailService {
 	
 	public void sendOrderMessage(String from, String to, String subject, UserT user, List<Goods> recomendations);
 	
-	public void sendMessageByFreemarkerTemplate(Configuration cfg, Map<String, Object> templateModel, String from, String to, String subject, String templateName);
+	public void sendMessageByFreemarkerTemplate(Configuration cfg, Map<String, Object> templateModel, String to, String subject, String templateName);
 	
 }
