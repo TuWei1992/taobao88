@@ -199,10 +199,12 @@ public class OfficeController extends  MainController{
 
         double packageWeight = 0;
         List<OrderT> orderTList = new ArrayList<OrderT>();
+        Set<OrderT> ordersSet = new HashSet<OrderT>();
         for(int i=0 ; i < idOrders.length; i++) {
         	OrderT o = orderDAO.findOrderById(Integer.parseInt(idOrders[i]));
         	o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
             orderTList.add(o);
+            ordersSet.add(o);
             packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
         }
         
@@ -214,6 +216,7 @@ public class OfficeController extends  MainController{
         packageT.setWeight(packageWeight/1000);
         packageT.setPostService(postServiceDAO.findById(serviceId));
         packageT.setIdPackage(packageService.addPackage(packageT));
+        packageT.setOrders(ordersSet);
         
         Status status = statusesDAO.findById(1);
         PackagesStatuses ps = new PackagesStatuses();
@@ -239,7 +242,7 @@ public class OfficeController extends  MainController{
         ResourceBundle getPath = ResourceBundle.getBundle("mail");
         String from = getPath.getString("mailAdmin");
         Map<String, Object> templateModel = new HashMap<>();
-		templateModel.put("packageT", packageService.findPackageById(packageT.getIdPackage()));
+		templateModel.put("packageT", packageT);
 		mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, from, user.getGmail(), "Посылка успешно сформирована", "order.ftl");
 		        
         List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
