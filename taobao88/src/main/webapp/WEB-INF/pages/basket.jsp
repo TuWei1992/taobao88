@@ -28,7 +28,16 @@
 		$('#orderBtn').click(function() {
 		  if (validateCheckedGoods() && validateChoosedPostService() && validateDeliveryPrice()) {
 			  $('#loadingModal').modal('show');
-			  document.toOrder.submit();
+			  var form = $('form[name="toOrder"]');
+			  $.ajax({
+					type: 'POST',
+					url: $(form).attr('action'),
+					data: $(form).serialize(),
+					async: false,
+					complete: function() {
+						window.location.href = '${pageContext.request.contextPath}/privateOffice/toPackages';
+					}
+				});
 		  }
 		});
 		
@@ -83,6 +92,15 @@
           		send(dataDelivery);
 			} else {
 				$(this).prop('checked', false);
+			}
+		});
+		
+		$('.shipping_address_checker').change(function() {
+			var checker = $(this);
+			if ($(this).prop('checked')) {
+				$('.shipping_address').hide();
+			} else {
+				$('.shipping_address').show();
 			}
 		});
 	});
@@ -206,7 +224,7 @@
 					Для того, чтобы оформить заказ, выделите галочкой те товары, которые хотите заказать, и нажмите кнопку "Оформить заказ".
 				</div>
 					
-			<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder">	
+			<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder" accept-charset="utf-8">	
 				<c:choose>
 					<c:when test="${orders.size() != 0 }">
 						
@@ -360,13 +378,45 @@
 				<div class="goods-list">
 						<fieldset style="border:none;">
 						<div class="row-form col-md-2">
-							<label>Регион доставки:</label>
+							<label>Страна доставки:</label>
 							<div class="overflow">
 								<select class="form in form-control" name="countryId" id="countryId" data-toggle="tooltip" data-placement="top" title="Если Вашей страны нет в списке, напишите нам вопрос о возможности доставки в свою страну!">
 									<c:forEach items="${countries}" var="c">
 										<option value="${c.idCountry}">${c.nameCountry}</option>
 									</c:forEach>
 								</select>
+							</div>
+						</div>
+						<div class="row-form col-md-2">
+							<label>Использовать адрес, указанный при регистрации</label>
+							<div class="overflow">
+								<input type="checkbox" class="form in form-control shipping_address_checker" name="registration_address">
+							</div>
+						</div>
+						<div class="shipping_address">
+							<div class="row-form col-md-2">
+								<label>Регион(область)</label>
+								<div class="overflow">
+									<input type="text" class="form in form-control" name="region" required>
+								</div>
+							</div>
+							<div class="row-form col-md-2">
+								<label>Город</label>
+								<div class="overflow">
+									<input type="text" class="form in form-control" name="city" required>
+								</div>
+							</div>
+							<div class="row-form col-md-2">
+								<label>Почтовый индекс</label>
+								<div class="overflow">
+									<input type="text" class="form in form-control" name="post_index" required>
+								</div>
+							</div>
+							<div class="row-form col-md-2">
+								<label>Адрес</label>
+								<div class="overflow">
+								<input type="text" class="form in form-control" name="address" required>
+								</div>
 							</div>
 						</div>
 						</fieldset>

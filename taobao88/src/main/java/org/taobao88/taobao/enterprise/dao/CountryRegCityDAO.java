@@ -20,8 +20,12 @@ public interface CountryRegCityDAO {
     public Country getCountryByID(int id);
 
     public List<Region> getRegionsByID(int id);
+    
+    public Region findRegionById(int id);
 
     public List<City> getCitiessByID(int id);
+    
+    public City findCityById(int id);
     
     public int addCountry(Country country);
     

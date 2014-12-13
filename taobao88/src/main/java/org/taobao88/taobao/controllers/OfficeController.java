@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
+import org.taobao88.taobao.enterprise.dao.ShippingAddressDAO;
 import org.taobao88.taobao.enterprise.dao.StatusesDAO;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
@@ -38,7 +40,7 @@ public class OfficeController extends  MainController{
     @Autowired private OrderStatusService orderStatusDAO;
     @Autowired private PackageService packageService;
     @Autowired private PackageStatusService packageStatusDAO;
-    @Autowired private CountryRegCityService countryRegCityDAO;
+    @Autowired private CountryRegCityDAO countryRegCityDAO;
     @Autowired private MailService mailService;
     @Autowired private UserService userService;
     @Autowired private TopMenuService topMenuService;
@@ -51,6 +53,7 @@ public class OfficeController extends  MainController{
     @Autowired private StatusesDAO statusesDAO;
     @Autowired private OrdersStatusesDAO ordersStatusesDAO;
     @Autowired private PackagesStatusesDAO packagesStatusesDAO;
+    @Autowired private ShippingAddressDAO shippingAddressDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -179,15 +182,20 @@ public class OfficeController extends  MainController{
         return newPackages;
     }
     
-    @RequestMapping(value="/toOrder", method = RequestMethod.GET)
+    @RequestMapping(value="/toOrder", method = RequestMethod.POST)
     public String toOrder(@RequestParam ("price") int price,
     					  @RequestParam ("countryId") int countryId,
     					  @RequestParam ("serviceId") int serviceId,
     					  HttpServletRequest request){
-        HttpSession session = request.getSession(true);
-        List<PackageT> newPackages = new ArrayList<PackageT>();
 
-        int idUser = (int) session.getAttribute("currentIdUser");
+        List<PackageT> newPackages = new ArrayList<PackageT>();
+        try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+        int idUser = (int) request.getSession().getAttribute("currentIdUser");
         UserT user = userService.findUserById(idUser);
         String[] idOrders = request.getParameterValues("idOrder");
 
@@ -202,6 +210,23 @@ public class OfficeController extends  MainController{
             packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
         }
         
+        String registrationAddress = request.getParameter("registration_address");
+        ShippingAddress shippingAddress = new ShippingAddress();
+        if (registrationAddress == null) {
+        	shippingAddress.setCity(request.getParameter("city"));
+        	shippingAddress.setRegion(request.getParameter("region"));
+        	shippingAddress.setPostIndex(request.getParameter("post_index"));
+        	shippingAddress.setAddress(request.getParameter("address"));
+        } else {
+        	shippingAddress.setCity(countryRegCityDAO.findCityById(Integer.parseInt(user.getCityUser())).getNameCity());
+        	shippingAddress.setRegion(countryRegCityDAO.findRegionById(Integer.parseInt(user.getRegionUser())).getNameRegion());
+        	shippingAddress.setPostIndex(user.getIndexUserT());
+        	shippingAddress.setAddress(user.getStreetUser() + " " + user.getHouseUser() + "-" + user.getRoomUser());
+        }
+        Country country = countryRegCityDAO.getCountryByID(countryId);
+    	shippingAddress.setCountry(country);
+    	shippingAddressDAO.add(shippingAddress);
+        
         PackageT packageT = new PackageT();
         packageT.setApprove("false");
         packageT.setIdPackageStatus(packageStatusDAO.savePackageStatus(getPackageStatus()));
@@ -209,7 +234,9 @@ public class OfficeController extends  MainController{
         packageT.setDatePackage(getCurrentDate());
         packageT.setWeight(packageWeight/1000);
         packageT.setPostService(postServiceDAO.findById(serviceId));
+        packageT.setShippingAddress(shippingAddress);
         packageT.setIdPackage(packageService.addPackage(packageT));
+        
         packageT.setOrders(ordersSet);
         
         Status status = statusesDAO.findById(1);
@@ -243,9 +270,7 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/toPackages", method = RequestMethod.GET)
     public String toPackages(HttpServletRequest request){
-        HttpSession session = request.getSession(true);
-
-        int idUser = (int) session.getAttribute("currentIdUser");
+        int idUser = (int) request.getSession().getAttribute("currentIdUser");
 
         List<PackageT> packageTs = new ArrayList<PackageT>();
         ArrayList<OrderT> packages = (ArrayList<OrderT>) orderDAO.getOrdersForPack(idUser);

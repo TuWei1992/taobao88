@@ -1,5 +1,6 @@
 package org.taobao88.taobao.enterprise.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -24,6 +25,9 @@ public class Country {
     
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
     private Set<PostService> postServices;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
+    private List<ShippingAddress> shippingAddresses;
 
     public int getIdCountry() {
         return idCountry;
@@ -55,6 +59,14 @@ public class Country {
 
 	public void setPostServices(Set<PostService> postServices) {
 		this.postServices = postServices;
+	}
+
+	public List<ShippingAddress> getShippingAddress() {
+		return shippingAddresses;
+	}
+
+	public void setShippingAddress(List<ShippingAddress> shippingAddresses) {
+		this.shippingAddresses = shippingAddresses;
 	}
 
 	@Override

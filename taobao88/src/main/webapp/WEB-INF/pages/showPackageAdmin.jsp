@@ -93,6 +93,16 @@
   				<p>
   					Метод доставки: <span class="label label-primary">${packageT.postService.serviceName}</span>
   				</p>
+  				<p>
+  					Адрес доставки:
+  					<ul class="list-group">
+  						<li class="list-group-item"><strong>Страна: </strong>${packageT.shippingAddress.country.nameCountry}</li>
+  						<li class="list-group-item"><strong>Регион: </strong>${packageT.shippingAddress.region}</li>
+  						<li class="list-group-item"><strong>Город: </strong>${packageT.shippingAddress.city}</li>
+  						<li class="list-group-item"><strong>Адрес: </strong>${packageT.shippingAddress.address}</li>
+  						<li class="list-group-item"><strong>Почтовый индекс: </strong>${packageT.shippingAddress.postIndex}</li>
+					</ul>
+  				</p>
   			</div>
 				<a href="${pageContext.request.contextPath}/messages/sendMessage?toUser=${userOfCurrentPackage.idUser}&idpackage=${packageT.idPackage}" type="button" class="btn btn-primary">Написать сообщение пользователю</a>
 				

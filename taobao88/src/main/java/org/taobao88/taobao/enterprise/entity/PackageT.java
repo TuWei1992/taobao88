@@ -55,6 +55,10 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     @ManyToOne
     @JoinColumn(name = "post_service_id", referencedColumnName = "id")
     private PostService postService;
+    
+    @ManyToOne
+    @JoinColumn(name = "shipping_address", referencedColumnName = "id")
+    private ShippingAddress shippingAddress;
         
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "packageT")
     @IndexColumn(name = "id")
@@ -165,6 +169,14 @@ public class PackageT implements Comparable<PackageT>, Serializable {
 
 	public void setPurchased(int purchased) {
 		this.purchased = purchased;
+	}
+
+	public ShippingAddress getShippingAddress() {
+		return shippingAddress;
+	}
+
+	public void setShippingAddress(ShippingAddress shippingAddress) {
+		this.shippingAddress = shippingAddress;
 	}
 
 	@Override

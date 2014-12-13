@@ -194,6 +194,54 @@
 			<br>
 			</layout>
 			
+			<layout label="Article, tip or resource">
+			<table width="100%" cellpadding="0" cellspacing="0" border="0">
+			<tr>
+				<td bgcolor="#ef3101" nowrap></td>
+				<td width="100%" bgcolor="#ffffff">
+			
+					<table width="100%" cellpadding="20" cellspacing="0" border="0">
+					<tr>
+						<td bgcolor="#ffffff" class="contentblock">
+
+							<h4 class="secondary"><strong><singleline label="Title">Адрес доставки</singleline></strong></h4>
+							<multiline label="Description">
+								<p>
+									<table cellpadding="5" cellspacing="5" border="0">
+										<tr>
+											<th>Страна: </th>
+											<td>${packageT.shippingAddress.country.nameCountry}</td>
+										</tr>
+										<tr>
+											<th>Регион: </th>
+											<td>${packageT.shippingAddress.region}</td>
+										</tr>
+										<tr>
+											<th>Город: </th>
+											<td>${packageT.shippingAddress.city}</td>
+										</tr>
+										<tr>
+											<th>Адрес: </th>
+											<td>${packageT.shippingAddress.address}</td>
+										</tr>
+										<tr>
+											<th>Почтовый индекс: </th>
+											<td>${packageT.shippingAddress.postIndex}</td>
+										</tr>
+									</table>
+								</p>
+							</multiline>
+
+						</td>
+					</tr>
+					</table>
+			
+				</td>
+			</tr>
+			</table>  
+			<br>
+			</layout>
+			
 			<layout label="Pull quote">
 						<table width="100%" cellpadding="0" cellspacing="0" border="0">
 						<tr>
