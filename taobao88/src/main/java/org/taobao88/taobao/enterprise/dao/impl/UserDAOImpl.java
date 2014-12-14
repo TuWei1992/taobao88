@@ -17,7 +17,7 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
     public void saveNewUser(UserT user) {
@@ -45,4 +45,11 @@ public class UserDAOImpl implements UserDAO {
     public List<UserT> getAll() {
         return sessionFactory.getCurrentSession().createQuery("from UserT").list();
     }
+
+	@Override
+	public UserT findUserByCredentials(String login, String password) {
+		return (UserT) sessionFactory.getCurrentSession().createQuery("from UserT where username = :login and password = :password")
+				.setParameter("login", login)
+				.setParameter("password", password).uniqueResult();
+	}
 }

@@ -9,7 +9,6 @@
 
 	<http auto-config="true">
 		<intercept-url pattern="/welcome/**" access="ROLE_USER" />
-		<intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
 		<intercept-url pattern="/orderHistory/**" access="ROLE_ADMIN" />
 		<intercept-url pattern="/privateOffice/**" access="ROLE_USER" />
 		<intercept-url pattern="/toOrder/**" access="ROLE_USER" />

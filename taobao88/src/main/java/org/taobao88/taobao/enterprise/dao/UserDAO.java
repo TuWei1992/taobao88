@@ -9,14 +9,16 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    void saveNewUser(UserT user);
+    public void saveNewUser(UserT user);
 
-    List<UserT> getId(String name);
+    public List<UserT> getId(String name);
 
-    UserT findUserById(int id);
+    public UserT findUserById(int id);
 
-    void updateUser(UserT userT);
+    public void updateUser(UserT userT);
 
-    List<UserT> getAll();
+    public List<UserT> getAll();
+    
+    public UserT findUserByCredentials(String login, String password);
 
 }

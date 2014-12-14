@@ -24,8 +24,7 @@
 						href="${pageContext.request.contextPath}/admin/postServices">Почтовые сервисы</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/admin/countries">Страны/Регионы</a></li>
-					<li><a href="<c:url value="/j_spring_security_logout" />">
-							Выйти</a></li>
+					<li><a href="${pageContext.request.contextPath}/secure/logout">Выйти</a></li>
 				</ul>
 			</div>
 		</nav>
