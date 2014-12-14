@@ -18,6 +18,10 @@ public interface MessagesDAO {
 	
 	public List<Message> findMessagesByPackage(PackageT packageT);
 	
+	public int getUnreadedMessagesCount(int userId);
+	
+	public void markMessagesAsReaded(int userId);
+	
 	public int createMessage(Message message);
 	
 	public void deleteMessage(Message message);

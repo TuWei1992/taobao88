@@ -18,7 +18,9 @@ public Message findMessageById(int id);
 	
 	public List<Message> findMessagesByPackage(PackageT packageT);
 	
-//	public Map<Integer, Set<Message>> getMessagesByPackages(List<Message> allMessages);
+	public int getUnreadedMessagesCount(int userId);
+	
+	public void markMessagesAsReaded(int userId);
 	
 	public int createMessage(Message message);
 	

@@ -8,6 +8,10 @@
 				$('.basket_entry').attr('href', '${pageContext.request.contextPath}/login');
 			} 
 		});
+		
+		if ('${messages_count}' != 0) {
+			$('#messages_count').text('+' + '${messages_count}');
+		}	
 	});
 </script>
 
@@ -28,7 +32,7 @@
 					</li>
 					<li>
 						<a href="${pageContext.request.contextPath}/privateOffice/showMessages">
-							<i class="icon mail"></i>Мои сообщения
+							<i class="icon mail"></i>Мои сообщения <span id="messages_count" style="font-size: 10pt; color: white;"></span>
 						</a>
 					</li>
 					<li>

@@ -72,6 +72,7 @@ public class OfficeController extends  MainController{
 
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         request.getSession().setAttribute("basket", orders.size());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         
         RecomendationType recType = new RecomendationType();
         recType.setTypeId(5);
@@ -97,6 +98,7 @@ public class OfficeController extends  MainController{
 		preparePackage(user, newOrders);
 		request.getSession().setAttribute("basket", new ArrayList<Goods>());
 		request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+		request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(user.getIdUser()));
 		return "redirect:/privateOffice/toPackages";
 	}
 		
@@ -264,6 +266,7 @@ public class OfficeController extends  MainController{
 		templateModel.put("packageT", packageT);
 		mailService.sendMessageByFreemarkerTemplate((Configuration) request.getServletContext().getAttribute("freemarker_cfg"), templateModel, user.getGmail(), "Посылка успешно сформирована", "order.ftl");
 		        
+		request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(idUser).size());
         return "redirect:/privateOffice/toPackages";
     }
@@ -291,6 +294,7 @@ public class OfficeController extends  MainController{
         request.setAttribute("recomendations", recomendationService.getFirstFourRecomendations(recType));
         request.setAttribute("packages",packageTs);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         return "packages";
     }
 
@@ -309,6 +313,7 @@ public class OfficeController extends  MainController{
         request.setAttribute("packageT", packageT);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
         request.setAttribute("balance", balanceService.getBalance(user));
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(user.getIdUser()));
         return new ModelAndView("showPackage");
     }
 
@@ -328,6 +333,7 @@ public class OfficeController extends  MainController{
         request.setAttribute("status",orderStatus);
         request.setAttribute("balance", balanceService.getBalance(user));
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(user.getIdUser()));
 
         return new ModelAndView("orderStatus");
     }
@@ -383,12 +389,14 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/changeOrder", method = RequestMethod.GET)
     public ModelAndView changeOrder(HttpServletRequest request){
+    	int idUser = (int) request.getSession().getAttribute("currentIdUser");
         int idOrder = Integer.parseInt(request.getParameter("idOrderForChange"));
         OrderT orderT = orderDAO.findOrderById(idOrder);
         orderT.setGoods(goodsDAO.findEmployeeById(orderT.getIdGoods()));
 
         request.setAttribute("orderT",orderT);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         return new ModelAndView("changeOrder");
     }
 
@@ -427,8 +435,8 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/ordersHistory", method = RequestMethod.GET)
     public String adminHistoryPage(HttpServletRequest request) {
-    	HttpSession session = request.getSession(true);
-        int idUser = (int) session.getAttribute("currentIdUser");
+    	
+        int idUser = (int) request.getSession().getAttribute("currentIdUser");
         ArrayList<PackageT> packageTs = new ArrayList<PackageT>();
         ArrayList<OrderT> packages = (ArrayList<OrderT>) orderDAO.getOrdersForPack(idUser);
 
@@ -442,16 +450,18 @@ public class OfficeController extends  MainController{
         Collections.sort(packageTs,Collections.reverseOrder());
         request.setAttribute("packageTs",packageTs);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         return "historyUser";
     }
 
     @RequestMapping(value="/accountSettings", method = RequestMethod.GET)
     public String userSettings(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
+        
+    	int idUser = (int) request.getSession().getAttribute("currentIdUser");
         String bool = "false";
-        session.setAttribute("changeSettingsBool",bool);
+        request.getSession().setAttribute("changeSettingsBool",bool);
 
-        request.setAttribute("user",userDAO.findUserById((int)session.getAttribute("currentIdUser")));
+        request.setAttribute("user",userDAO.findUserById(idUser));
 
         request.setAttribute("countries",countryRegCityDAO.getAllCountry());
         request.setAttribute("regions",countryRegCityDAO.getAllRegion());
@@ -459,17 +469,19 @@ public class OfficeController extends  MainController{
         request.setAttribute("changeSettingsBool", bool);
         request.setAttribute("adminSettingsBool","false");
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         return "userSettings";
     }
 
     @RequestMapping(value="/updateSettings", method = RequestMethod.POST)
     public String updateSettings(HttpServletRequest request) throws UnsupportedEncodingException {
-        HttpSession session = request.getSession(true);
+
+        int idUser = (int) request.getSession().getAttribute("currentIdUser");
         String bool = "true";
-        session.setAttribute("changeSettingsBool",bool);
+        request.getSession().setAttribute("changeSettingsBool",bool);
         request.setAttribute("adminSettingsBool","false");
 
-            UserT userT = userDAO.findUserById((int)session.getAttribute("currentIdUser"));
+            UserT userT = userDAO.findUserById(idUser);
             request.setAttribute("user",userT);
 
             request.setAttribute("countries",countryRegCityDAO.getAllCountry());
@@ -479,6 +491,7 @@ public class OfficeController extends  MainController{
 
         request.setAttribute("changeSettingsBool", bool);
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         return "userSettings";
     }
 
@@ -490,6 +503,7 @@ public class OfficeController extends  MainController{
         userT = userDAO.findUserById((int)session.getAttribute("currentIdUser"));
 
         userDAO.updateUser(getParamsUserSettings(request, userT));
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(userT.getIdUser()));
 
         if("null".equals((String)request.getParameter("stepSettings"))
                 || "".equals((String)request.getParameter("stepSettings"))){
@@ -533,18 +547,22 @@ public class OfficeController extends  MainController{
 
     @RequestMapping(value="/changePassword", method = RequestMethod.GET)
     public String changePassword(HttpServletRequest request) throws UnsupportedEncodingException {
-        HttpSession session = request.getSession(true);
-        request.setAttribute("user",userDAO.findUserById((int)session.getAttribute("currentIdUser")));
+        int idUser = (int) request.getSession().getAttribute("currentIdUser");
+        
+        request.setAttribute("user",userDAO.findUserById(idUser));
         request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
         return "changePassword";
     }
 
     @RequestMapping(value="/savePassword", method = RequestMethod.POST)
     public String savePassword(HttpServletRequest request) throws UnsupportedEncodingException {
-        HttpSession session = request.getSession(true);
+    	int idUser = (int) request.getSession().getAttribute("currentIdUser");
 
         UserT userT = new UserT();
-        userT = userDAO.findUserById((int)session.getAttribute("currentIdUser"));
+        userT = userDAO.findUserById(idUser);
+        request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(idUser));
+        
         if(userT.getPassword().equals(request.getParameter("OLDPASSWORD"))){
             userT.setPassword(request.getParameter("NEWPASSWORD"));
             userDAO.updateUser(userT);
@@ -567,6 +585,7 @@ public class OfficeController extends  MainController{
     	int userId = (int) request.getSession().getAttribute("currentIdUser");
     	UserT userT = userService.findUserById(userId);
     	request.setAttribute("balance", balanceService.getBalance(userT));
+    	request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(userId));
     	return "pay";
     }
     
@@ -584,6 +603,9 @@ public class OfficeController extends  MainController{
     	}
      	model.addAttribute("packages", packs);
     	model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
+    	messagesService.markMessagesAsReaded(user.getIdUser());
+    	
+    	request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(user.getIdUser()));
     	return "messages/messagesUser";
     }
         
@@ -593,6 +615,7 @@ public class OfficeController extends  MainController{
     	UserT userT = userService.findUserById(userId);
     	request.setAttribute("balance", balanceService.getBalance(userT));
     	request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
+    	request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(userId));
     	return "pay";
     }
     

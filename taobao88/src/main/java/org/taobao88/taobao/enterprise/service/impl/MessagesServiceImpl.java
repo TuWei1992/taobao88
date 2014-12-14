@@ -59,17 +59,13 @@ public class MessagesServiceImpl implements MessagesService {
 		messagesDAO.deleteMessagesByPackage(packageT);		
 	}
 
-//	@Override
-//	public Map<Integer, Set<Message>> getMessagesByPackages(List<Message> allMessages) {
-//		Map<Integer, Set<Message>> map = new HashMap<>();
-//		int idpackage = 0;
-//		for (Message m : allMessages) {
-//			idpackage = m.getPackageT().getIdPackage();
-//			if (map.get(idpackage) == null) {
-//				map.put(idpackage, m.getPackageT().getMessages());
-//			}
-//		}
-//		return map;
-//	}
+	@Override
+	public int getUnreadedMessagesCount(int userId) {
+		return messagesDAO.getUnreadedMessagesCount(userId);
+	}
 
+	@Override
+	public void markMessagesAsReaded(int userId) {
+		messagesDAO.markMessagesAsReaded(userId);		
+	}
 }

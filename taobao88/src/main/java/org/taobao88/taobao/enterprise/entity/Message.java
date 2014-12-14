@@ -47,6 +47,9 @@ public class Message implements Serializable {
 	@JoinColumn(name = "idpackage", referencedColumnName = "idpackage")
 	private PackageT packageT;
 	
+	@Column(name = "readed")
+	private int readed;
+	
 	public Message() {
 		
 	}
@@ -107,6 +110,14 @@ public class Message implements Serializable {
 		this.packageT = packageT;
 	}
 
+	public int getReaded() {
+		return readed;
+	}
+
+	public void setReaded(int readed) {
+		this.readed = readed;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -115,6 +126,7 @@ public class Message implements Serializable {
 				+ ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + readed;
 		result = prime * result
 				+ ((updatedAt == null) ? 0 : updatedAt.hashCode());
 		return result;
@@ -140,6 +152,8 @@ public class Message implements Serializable {
 			if (other.message != null)
 				return false;
 		} else if (!message.equals(other.message))
+			return false;
+		if (readed != other.readed)
 			return false;
 		if (updatedAt == null) {
 			if (other.updatedAt != null)

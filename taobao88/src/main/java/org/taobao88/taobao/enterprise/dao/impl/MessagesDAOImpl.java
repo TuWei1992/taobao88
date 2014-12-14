@@ -1,5 +1,6 @@
 package org.taobao88.taobao.enterprise.dao.impl;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -59,5 +60,16 @@ public class MessagesDAOImpl implements MessagesDAO {
 	@Override
 	public void deleteMessagesByPackage(PackageT packageT) {
 		sessionFactory.getCurrentSession().createSQLQuery("DELETE FROM messages WHERE idpackage = :idpackage").setParameter("idpackage", packageT.getIdPackage());
+	}
+
+	@Override
+	public int getUnreadedMessagesCount(int userId) {
+		BigInteger result = (BigInteger) sessionFactory.getCurrentSession().createSQLQuery("SELECT COUNT(*) FROM messages WHERE readed = 0 AND to_user = :userId").setParameter("userId", userId).uniqueResult();
+		return result.intValue();
+	}
+
+	@Override
+	public void markMessagesAsReaded(int userId) {
+		sessionFactory.getCurrentSession().createSQLQuery("UPDATE messages SET readed = 1 WHERE to_user = :userId").setParameter("userId", userId).executeUpdate();		
 	}
 }

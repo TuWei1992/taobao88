@@ -49,7 +49,7 @@ public class MessagesController {
     public String confirmMessage(@RequestParam ("toUser") int toUser, 
     							 @RequestParam ("fromUser") int fromUser, 
     							 @RequestParam("idpackage") int idpackage, 
-    							 @RequestParam ("message") String message, HttpServletRequest request, Model model) {
+    							 @RequestParam ("message") String message) {
     	Message m = new Message();
     	m.setFromUser(userService.findUserById(fromUser));
 		m.setToUser(userService.findUserById(toUser));
@@ -57,6 +57,7 @@ public class MessagesController {
 		m.setPackageT(packageService.findPackageById(idpackage));
 		m.setCreatedAt(new Timestamp(new Date().getTime()));
 		m.setUpdatedAt(new Timestamp(new Date().getTime()));
+		m.setReaded(0);
 		messagesService.createMessage(m);
     	if (fromUser == 1) {
     		return "redirect:/admin/showMessages";
