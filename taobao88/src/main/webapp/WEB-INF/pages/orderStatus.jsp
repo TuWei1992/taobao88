@@ -125,11 +125,17 @@
 										</td>
 										<td>
 											<c:if test="${orderT.packageT.purchased == 0}">
-												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}&idPackage=${orderT.packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">
+													<img src="${pageContext.request.contextPath}/resources/img/card.png">
+												</a>
 											</c:if>
-											<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7 || orderT.ordersStatuses.get(i - 1).status.id == 9}">
+											<c:set var="statusId" value="${orderT.ordersStatuses.get(i - 1).status.id}"/>
+											<c:if test="${statusId == 7 || statusId == 9 || statusId == 11}">
 												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
 													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
+												</a>
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}&idPackage=${orderT.packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">
+													<img src="${pageContext.request.contextPath}/resources/img/card.png">
 												</a>
 											</c:if>
 										</td>

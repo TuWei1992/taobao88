@@ -160,13 +160,19 @@
 										</td>
 										<td>
 											<c:set var="i" value="${order.ordersStatuses.size()}"/>
-											<c:if test="${order.ordersStatuses.get(i - 1).status.id == 7 || order.ordersStatuses.get(i - 1).status.id == 9}">
+											<c:set var="statusId" value="${order.ordersStatuses.get(i - 1).status.id}"/>
+											<c:if test="${statusId == 7 || statusId == 9 || statusId == 11}">
 												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
 													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 												</a>
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}&idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">
+													<img src="${pageContext.request.contextPath}/resources/img/card.png">
+												</a>
 											</c:if>
 											<c:if test="${packageT.purchased == 0}">
-												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}&idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
+												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}&idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">
+													<img src="${pageContext.request.contextPath}/resources/img/card.png">
+												</a>
 											</c:if>
 										</td>
 									</tr>
@@ -193,8 +199,8 @@
 							      <a href="javascript:void(0);" class="addition_pay_btn">Доплатить</a>
 							   </c:if>
 							   <c:if test="${packageT.purchased == 1 && (packageT.fullPrice != packageT.purchasedAmount) && (packageT.fullPrice - packageT.purchasedAmount < 0)}">
-							      Разница: <span>$ ${packageT.purchasedAmount - packageT.fullPrice}</span>
-							      <a href="javascript:void(0);" class="return_money_btn">Вернуть разницу на счет</a>
+							      Остаток: <span>$ ${packageT.purchasedAmount - packageT.fullPrice}</span>
+							      <a href="javascript:void(0);" class="return_money_btn">Вернуть остаток на счет</a>
 							   </c:if>
 							</p>
 						</div>
