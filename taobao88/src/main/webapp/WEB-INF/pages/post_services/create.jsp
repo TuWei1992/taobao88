@@ -77,7 +77,7 @@
 				</div>
 				
 				<div class="form-group">
-					<input type="button" role="button" class="btn btn-success pull-right create_btn" value="Создать">
+					<input type="submit" role="button" class="btn btn-success pull-right create_btn" value="Создать">
 				</div>
 			</form>
 			</div>
