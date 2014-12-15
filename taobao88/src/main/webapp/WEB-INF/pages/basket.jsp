@@ -390,7 +390,7 @@
 						<div class="row-form col-md-2">
 							<label>Использовать адрес, указанный при регистрации</label>
 							<div class="overflow">
-								<input type="checkbox" class="form in form-control shipping_address_checker" name="registration_address">
+								<input type="checkbox" class="form in shipping_address_checker" name="registration_address">
 							</div>
 						</div>
 						<div class="shipping_address">
