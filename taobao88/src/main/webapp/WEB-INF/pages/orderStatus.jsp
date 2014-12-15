@@ -130,7 +130,7 @@
 												</a>
 											</c:if>
 											<c:set var="statusId" value="${orderT.ordersStatuses.get(i - 1).status.id}"/>
-											<c:if test="${statusId == 7 || statusId == 9 || statusId == 11}">
+											<c:if test="${statusId == 7 || statusId == 9 || statusId == 10 || statusId == 11}">
 												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
 													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 												</a>
