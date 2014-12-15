@@ -54,6 +54,12 @@ public class OrderT implements Serializable {
     @IndexColumn(name = "id")
     private List<OrdersStatuses> ordersStatuses;
     
+    @Column(name = "changed")
+    private int changed;
+    
+    @Column(name = "purchased_amount")
+    private int purchasedAmount;
+    
     public Timestamp getDateOrder() {
         return dateOrder;
     }
@@ -133,6 +139,22 @@ public class OrderT implements Serializable {
 
 	public void setOrdersStatuses(List<OrdersStatuses> ordersStatuses) {
 		this.ordersStatuses = ordersStatuses;
+	}
+
+	public int getChanged() {
+		return changed;
+	}
+
+	public void setChanged(int changed) {
+		this.changed = changed;
+	}
+
+	public int getPurchasedAmount() {
+		return purchasedAmount;
+	}
+
+	public void setPurchasedAmount(int purchasedAmount) {
+		this.purchasedAmount = purchasedAmount;
 	}
 
 	@Override

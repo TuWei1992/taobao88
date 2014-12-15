@@ -255,7 +255,7 @@
 												</c:when>
 												<c:otherwise>
 													<a href="${order.goods.hrefGoods}" class="product-img" target="_blank">
-														<img src="/images/image_missing.png"/>
+														<img src="${pageContext.request.contextPath}/resources/img/buy.png"/>
 													</a>
 												</c:otherwise>
 											</c:choose>

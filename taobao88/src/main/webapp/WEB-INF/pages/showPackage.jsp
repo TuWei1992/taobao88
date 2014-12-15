@@ -43,6 +43,20 @@
 					$('#paymentAgreeModal').modal('show');
 				}
 			});
+			
+			$('.addition_pay_btn').click(function() {
+				var balance = ${balance};
+				var fullPrice = ${packageT.fullPrice};
+				if (balance < fullPrice) {
+					$('#notEnoughMoneyModal').modal('show');
+				} else {
+					$('#additionPaymentAgreeModal').modal('show');
+				}	
+			});
+			
+			$('.return_money_btn').click(function() {
+				$('#returnMoneyAgreeModal').modal('show');
+			});
         });      
     </script>
 </head>
@@ -51,6 +65,8 @@
 	<jsp:include page="modal/not_enough_money_modal.jsp"/>
 	<jsp:include page="modal/payment_agree_modal.jsp"/>
 	<jsp:include page="modal/loading_modal.jsp"/>
+	<jsp:include page="modal/addition_payment_agree_modal.jsp"/>
+	<jsp:include page="modal/return_money_agree_modal.jsp"/>
 	
 	<div id="wrapper">
 		<jsp:include page="partials/index_header.jsp"/>
@@ -120,6 +136,9 @@
 												<div> Цвет: <span class="color">${order.goods.colorGoods}</span></div>
 												<div> Количество: <span class="size">${order.goods.amountGoods}</span></div>
 												<div> Размер: <span class="size">${order.goods.sizeGoods}</span></div>
+												<c:if test="${order.changed == 1}">
+													<div><span class="label label-danger">Замена</span></div>
+												</c:if>
 												<div> 
 													<c:if test="${not empty order.goods.complexGoods}">
 														<span class="label label-success" data-toggle="tooltip" data-placement="top" title="${order.goods.complexGoods}">Примечания</span>
@@ -141,7 +160,7 @@
 										</td>
 										<td>
 											<c:set var="i" value="${order.ordersStatuses.size()}"/>
-											<c:if test="${order.ordersStatuses.get(i - 1).status.id == 7}">
+											<c:if test="${order.ordersStatuses.get(i - 1).status.id == 7 || order.ordersStatuses.get(i - 1).status.id == 9}">
 												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${order.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
 													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 												</a>
@@ -160,9 +179,22 @@
 							</c:if>
 							<p>Общий вес: <span>${packageT.weight}кг</span> 
 							   Метод доставки: <span>${packageT.postService.serviceName}</span> 
-							   Итого: <span>$ ${packageT.fullPrice}</span>
-							   <c:if test="${packageT.purchased == 1}">
+							   
+							   <c:if test="${packageT.fullPrice != packageT.purchasedAmount}">
+							   		Оплачено ранее: <span>$ ${packageT.purchasedAmount}</span>		
+							   </c:if>
+							   
+							   Стоимость посылки: <span>$ ${packageT.fullPrice}</span>
+							   
+							   <c:if test="${packageT.purchased == 1 && (packageT.fullPrice == packageT.purchasedAmount)}">
 							      <label class="label label-success pull-right">Оплачено</label>
+							   </c:if>
+							   <c:if test="${packageT.purchased == 1 && (packageT.fullPrice != packageT.purchasedAmount) && (packageT.fullPrice - packageT.purchasedAmount > 0)}">
+							      <a href="javascript:void(0);" class="addition_pay_btn">Доплатить</a>
+							   </c:if>
+							   <c:if test="${packageT.purchased == 1 && (packageT.fullPrice != packageT.purchasedAmount) && (packageT.fullPrice - packageT.purchasedAmount < 0)}">
+							      Разница: <span>$ ${packageT.purchasedAmount - packageT.fullPrice}</span>
+							      <a href="javascript:void(0);" class="return_money_btn">Вернуть разницу на счет</a>
 							   </c:if>
 							</p>
 						</div>

@@ -210,14 +210,34 @@ public class PriceServiceImpl implements PriceService {
 			price = ((goods.getPriceGoods() + 10) * 1.1 * 0.19) * goods.getAmountGoods();
 		}
 		price = new BigDecimal(price).setScale(0, RoundingMode.UP).doubleValue();
-		price = Math.floor(price);
+		price = Math.round(price);
 		return (int) price;
 	}
 
 	@Override
 	public int getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService) {
-		double totalWeight = 0;
+		double totalWeight = calculatePackageWeight(orders);
 		double totalPrice = priceWithoutDelivery;
+				
+		boolean found = false;
+		List<PostServicePrice> prices = postService.getPostServicesPrices();
+		for (PostServicePrice postPrice : prices) {
+			if (totalWeight == postPrice.getWeight() && !found) {
+				totalPrice += postPrice.getPrice() * 0.19;
+				found = true;
+			}
+		}
+		if (!found) {
+			return 0;
+		} else {	
+			totalPrice = Math.round(totalPrice);
+			return (int) totalPrice;
+		}
+	}
+
+	@Override
+	public double calculatePackageWeight(List<OrderT> orders) {
+		double totalWeight = 0;
 		for (OrderT o : orders) {
 			totalWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
 		}
@@ -227,20 +247,7 @@ public class PriceServiceImpl implements PriceService {
 		} else {
 			totalWeight = new BigDecimal(totalWeight).setScale(0, RoundingMode.UP).doubleValue();
 		}
-		
-		boolean found = false;
-		for (PostServicePrice postPrice : postService.getPostServicesPrices()) {
-			if (totalWeight == postPrice.getWeight()) {
-				totalPrice += postPrice.getPrice() * 0.19;
-				found = true;
-			}
-		}
-		if (!found) {
-			return 0;
-		} else {	
-			totalPrice = Math.floor(totalPrice);
-			return (int) totalPrice;
-		}
+		return totalWeight;
 	}
 	
 	

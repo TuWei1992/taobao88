@@ -11,6 +11,10 @@
 		
 		if ('${messages_count}' != 0) {
 			$('#messages_count').text('+' + '${messages_count}');
+			setInterval(function() {
+				$('#messages_count').fadeTo('slow', 0.1);
+				$('#messages_count').fadeTo('slow', 1.0);
+			}, 1000);
 		}	
 	});
 </script>

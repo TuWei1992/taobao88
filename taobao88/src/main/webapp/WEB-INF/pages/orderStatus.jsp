@@ -101,6 +101,9 @@
 												<div> Цвет: <span class="color">${goods.colorGoods}</span></div>
 												<div> Количество: <span class="size">${goods.amountGoods}</span></div>
 												<div> Размер: <span class="size">${goods.sizeGoods}</span></div>
+												<c:if test="${orderT.changed == 1}">
+													<div><span class="label label-danger">Замена</span></div>
+												</c:if>
 												<div> 
 													<c:if test="${not empty goods.complexGoods}">
 														<span class="label label-success" data-toggle="tooltip" data-placement="top" title="${goods.complexGoods}">Примечания</span>
@@ -124,7 +127,7 @@
 											<c:if test="${orderT.packageT.purchased == 0}">
 												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Удалить"><img src="${pageContext.request.contextPath}/resources/img/card.png"></a>
 											</c:if>
-											<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7}">
+											<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7 || orderT.ordersStatuses.get(i - 1).status.id == 9}">
 												<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}" data-toggle="tooltip" data-placement="top" title="Заменить">
 													<img src="${pageContext.request.contextPath}/resources/img/fill.png">
 												</a>
@@ -135,10 +138,7 @@
        					</table>
        					<c:set var="i" value="${orderT.ordersStatuses.size()}"/>
        						<div class="btn-card">
-								<c:if test="${orderT.ordersStatuses.get(i - 1).status.id == 7}">
-									<a href="${pageContext.request.contextPath}/privateOffice/changeOrder?idOrderForChange=${orderT.idOrder}">Заменить</a>
-								</c:if>
-								<c:if test="${orderT.packageT.purchased == 1}">
+								<c:if test="${orderT.packageT.purchased == 1 && orderT.changed != 1}">
 									<h3><label class="label label-success pull-right">Оплачено</label></h3>
 								</c:if>
 							</div>

@@ -405,6 +405,8 @@ public class OfficeController extends  MainController{
         request.getSession().setAttribute("TIME",getCurrentDate());
 
         Goods goods = goodsDAO.findEmployeeById(Integer.parseInt(request.getParameter("goodsId")));
+        OrderT order = orderDAO.findByGoods(goods);
+                
         goods.setHrefGoods(request.getParameter("HREFGOODS"));
         goods.setAmountGoods(Integer.parseInt(request.getParameter("AMOUNTGOODS")));
         goods.setWeightGoods(Double.parseDouble(request.getParameter("WEIGHTGOODS")));
@@ -420,14 +422,39 @@ public class OfficeController extends  MainController{
 		} else {
 			goods.setPhotoGoods("false");
 		}        
-        goodsDAO.updateEmployee(goods);
+//        goodsDAO.updateEmployee(goods);
         
-        OrderT order = orderDAO.findByGoods(goods);
-        order.setIdGoods(goods.getIdGoods());
+        order.setGoods(goods);
+        orderDAO.updateOrder(order);
         order.setFullPrice(priceService.getOrderPrice(order));
         orderDAO.updateOrder(order);
         
         if (order.getPackageT() != null) {
+        	order.setChanged(1);
+        	orderDAO.updateOrder(order);
+        	
+        	ordersStatusesDAO.deleteAllByOrder(order);
+        	OrdersStatuses os = new OrdersStatuses();
+    		os.setStatus(statusesDAO.findById(1));
+    		os.setOrderT(order);
+    		os.setCreatedAt(new Timestamp(new Date().getTime()));
+    		ordersStatusesDAO.add(os);      	
+        	
+        	PackageT packageT = packageService.findPackageById(order.getPackageT().getIdPackage());
+        	List<OrderT> orders = orderDAO.getOrdersByPackages(packageT.getIdPackage());
+        	int priceWithoutDelivery = 0;
+        	for (OrderT o : orders) {
+        		o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+        		priceWithoutDelivery += o.getFullPrice();
+        	}
+        	PostService service = packageT.getPostService();
+        	int userId = (int) request.getSession().getAttribute("currentIdUser");
+    		UserT user = userDAO.findUserById(userId);
+    		int deliveryPrice = priceService.getDeliveryPrice(orders, user, priceWithoutDelivery, service);
+    		packageT.setFullPrice(deliveryPrice);
+    		packageT.setWeight(priceService.calculatePackageWeight(orders));
+    		packageService.updatePackage(packageT);
+        	
         	return "redirect:/privateOffice/showPackage?idPackage=" + order.getPackageT().getIdPackage();
         }
         return "redirect:/basket";

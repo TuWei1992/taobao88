@@ -88,6 +88,9 @@
   					Полная стоимость посылки: <span class="label label-primary">${packageT.fullPrice} $</span>
   				</p>
   				<p>
+  					Оплачено: <span class="label label-primary">${packageT.purchasedAmount} $</span>
+  				</p>
+  				<p>
   					Вес посылки: <span class="label label-primary">${packageT.weight} кг</span>
   				</p>
   				<p>

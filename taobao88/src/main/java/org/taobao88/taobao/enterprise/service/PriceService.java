@@ -16,4 +16,6 @@ public interface PriceService {
 	
 	public int getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService);
 	
+	public double calculatePackageWeight(List<OrderT> orders);
+	
 }

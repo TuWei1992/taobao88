@@ -66,6 +66,9 @@ public class PackageT implements Comparable<PackageT>, Serializable {
     
     @Column(name = "purchased")
     private int purchased;
+    
+    @Column(name = "purchased_amount")
+    private int purchasedAmount;
 
     public String getApprove() {
         return approve;
@@ -177,6 +180,14 @@ public class PackageT implements Comparable<PackageT>, Serializable {
 
 	public void setShippingAddress(ShippingAddress shippingAddress) {
 		this.shippingAddress = shippingAddress;
+	}
+
+	public int getPurchasedAmount() {
+		return purchasedAmount;
+	}
+
+	public void setPurchasedAmount(int purchasedAmount) {
+		this.purchasedAmount = purchasedAmount;
 	}
 
 	@Override
