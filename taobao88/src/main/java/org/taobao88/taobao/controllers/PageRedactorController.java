@@ -391,6 +391,20 @@ public class PageRedactorController extends MainController {
 		imagesService.deleteImage(image);
 		return "{\"success\":true,\"message\":\"image_deleted\"}";
 	}
+	
+	@RequestMapping(value = "/makeImageAsMain", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String makeImageAsMain(@RequestParam ("imageId") int imageId,
+												@RequestParam ("recId") int recId) {
+		
+		Recomendation rec = recomendationService.getRecomendationById(recId);
+		Images img = imagesService.getImagesById(imageId);
+		if (img != null && rec != null) {
+			rec.setPhoto(img.getImageName());
+			recomendationService.updateRecomendation(rec);
+			return "{\"success\":true, \"message\":\"image_changed\"}";
+		}
+		return "{\"success\":false, \"message\":\"image_or_rec_is_null\"}";
+	}
 
 	private void createRecomendation(MultipartFile file, Recomendation rec) {
 		saveUploadedFile(file);

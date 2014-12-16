@@ -3,6 +3,9 @@
 
 <script type="text/javascript">
 	$(function() {
+		
+		$('.image_changed').hide();
+		
 		$('.delete_image').click(function() {
 			var delete_btn = $(this);
 			var imageId = $(delete_btn).attr('for');
@@ -20,8 +23,28 @@
 				}
 			});
 		});
+		
+		$('.main_image').click(function() {
+			var main_btn = $(this);
+			var imgRec = $(main_btn).attr('for').split('&');
+			var imageId = imgRec[0].replace('img_', '');
+			var recId = imgRec[1].replace('rec_', '');
+			$.ajax({
+				type: 'POST',
+				url: '${pageContext.request.contextPath}/admin/pageRedactor/makeImageAsMain',
+				data: 'imageId=' + imageId + '&recId=' + recId,
+				complete: function(jsonData) {
+					var response = JSON.parse(jsonData.responseText);
+					if (response.success) {
+						$('.image_changed').show();
+					}
+				}
+			});
+		});
 	});
 </script>
+
+<div class="alert alert-success image_changed" role="alert">Картинка сделана <strong>главной</strong> для этого товара.</div>
 
 <table class="table table-hover">
 						<thead>
@@ -46,7 +69,8 @@
 									<td>
 										<c:forEach items="${rec.images}" var="img">
 											<img src="/images/${img.imageName}" id="img_${img.imageId}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="100" height="100"	class="img-thumbnail">
-											<a type="button" for="img_${img.imageId}" class="btn btn-default glyphicon glyphicon-remove delete_image"></a>
+											<a type="button" for="img_${img.imageId}" class="btn btn-default glyphicon glyphicon-remove delete_image" data-toggle="tooltip" data-placement="top" title="Удалить"></a>
+											<a type="button" for="img_${img.imageId}&rec_${rec.id}" class="btn btn-default glyphicon glyphicon-picture main_image" data-toggle="tooltip" data-placement="top" title="Сделать основной картинкой"></a>
 											<br>
 										</c:forEach>
 									</td>
