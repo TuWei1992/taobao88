@@ -90,13 +90,13 @@
 	 		<!-- image slide -->
 				<div class="product-container">
                		<div id="img-product">
-                   		<img src="/images/${item.photo}" class="active-image" height="100%" alt="">
+                   		<img src="/images/${item.photo}" class="active-image" width="100%" alt="">
                		</div>
                		<div class="slides-product">
                    		<ul id="pr-carousel" class="jcarousel">
                   			<c:forEach items="${item.images}" var="img">
                           		<li class="" >
-                               		<a href="#"><img src="/images/${img.imageName}" alt=""></a>
+                               		<a href="#"><img src="/images/${img.imageName}" alt="" width="100%"></a>
                            		</li>
                        		</c:forEach>
                        	</ul>
