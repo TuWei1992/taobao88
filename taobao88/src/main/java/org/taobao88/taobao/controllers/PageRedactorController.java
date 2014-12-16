@@ -10,11 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
 import org.taobao88.taobao.enterprise.entity.Brands;
@@ -380,6 +382,14 @@ public class PageRedactorController extends MainController {
 		pageContent.setContent(content);
 		pagesContentDAO.updatePageContent(pageContent);
 		return "redirect:/admin/pageRedactor";
+	}
+	
+	@RequestMapping(value = "/deleteImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String deleteImage(@RequestParam ("imageId") int imageId) {
+		Images image = imagesService.getImagesById(imageId);
+		deleteImage(image);
+		imagesService.deleteImage(image);
+		return "{\"success\":true,\"message\":\"image_deleted\"}";
 	}
 
 	private void createRecomendation(MultipartFile file, Recomendation rec) {

@@ -28,16 +28,18 @@
 		$('#orderBtn').click(function() {
 		  if (validateCheckedGoods() && validateChoosedPostService() && validateDeliveryPrice()) {
 			  $('#loadingModal').modal('show');
-			  var form = $('form[name="toOrder"]');
-			  $.ajax({
-					type: 'POST',
-					url: $(form).attr('action'),
-					data: $(form).serialize(),
-					async: false,
-					complete: function() {
-						window.location.href = '${pageContext.request.contextPath}/privateOffice/toPackages';
-					}
-				});
+			  $('#loadingModal').ready(function() {
+			  		var form = $('form[name="toOrder"]');
+			  		$.ajax({
+						type: 'POST',
+						url: $(form).attr('action'),
+						data: $(form).serialize(),
+						async: false,
+						complete: function() {
+							window.location.href = '${pageContext.request.contextPath}/privateOffice/toPackages';
+						}
+					});
+			  });
 		  }
 		});
 		
