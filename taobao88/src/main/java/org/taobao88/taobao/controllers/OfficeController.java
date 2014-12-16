@@ -422,7 +422,6 @@ public class OfficeController extends  MainController{
 		} else {
 			goods.setPhotoGoods("false");
 		}        
-//        goodsDAO.updateEmployee(goods);
         
         order.setGoods(goods);
         orderDAO.updateOrder(order);

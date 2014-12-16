@@ -1,5 +1,6 @@
 package org.taobao88.taobao.controllers;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,7 @@ public class ErrorController {
 			requestUri = "Unknown";
 		}
 			 
-		String message = MessageFormat.format("{0} returned for {1} with message {3}", statusCode, requestUri, exceptionMessage);
+		String message = MessageFormat.format("{0} returned for {1} with message {2}", statusCode, requestUri, exceptionMessage);
 			 
 		model.addAttribute("errorMessage", message);  
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
@@ -41,7 +42,6 @@ public class ErrorController {
 	
 	private String getExceptionMessage(Throwable throwable, Integer statusCode) {
 		if (throwable != null) {
-			System.out.println(throwable.getMessage());
 			return throwable.getMessage();
 		}
 		HttpStatus httpStatus = HttpStatus.valueOf(statusCode);

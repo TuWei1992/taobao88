@@ -187,6 +187,12 @@
         												<td data-toggle="tooltip" data-placement="left" title="${orderT.goods.complexGoods}">Комментарий пользователя</td>
         												<td></td>
         											</tr>
+        											<tr>
+        												<td>
+        													<a href="${pageContext.request.contextPath}/admin/updateOrder?orderId=${orderT.idOrder}&packageId=${packageT.idPackage}" class="btn btn-primary">Изменить</a>
+        												</td>
+        												<td></td>
+        											</tr>
         										</table>
       										</div>
     									</div>

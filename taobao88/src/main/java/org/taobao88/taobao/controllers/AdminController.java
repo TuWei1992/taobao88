@@ -42,18 +42,15 @@ public class AdminController extends MainController{
     @Autowired private OrdersStatusesDAO ordersStatusesDAO;
     @Autowired private PackagesStatusesDAO packagesStatusesDAO;
     @Autowired private UuidDAO uuidDAO;
+    @Autowired private PriceService priceService;
+    @Autowired private PackageService packageService;
     
 	@RequestMapping(method = RequestMethod.GET)
 	public String adminPage(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
-        session.setAttribute("TIME",getCurrentDate());
-       
+		request.getSession().setAttribute("TIME",getCurrentDate());    
         List<PackageT> packageTList = packageDAO.getPackagesForAdmin();
-                
         packageTList = getListForFirstPage(packageTList,request);
-
         request.setAttribute("activePackages",packageTList);
-
         return "activePackages";
 	}
 
@@ -68,17 +65,10 @@ public class AdminController extends MainController{
 
     @RequestMapping(value="/toAdminStatus", method = RequestMethod.GET)
     public String adminStatus(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
-
-//        List<OrderT> orderTs = orderDAO.getOrdersForAdmin();
-
         int idOrderStatus = Integer.parseInt(request.getParameter("idOrderStatus"));
-        session.setAttribute("currentIdOrderStatus",idOrderStatus);
-
+        request.getSession().setAttribute("currentIdOrderStatus",idOrderStatus);
         OrderStatus orderStatus = orderStatusDAO.findStatusById(idOrderStatus);
-
         request.setAttribute("status",orderStatus);
-
         return "adminStatus";
     }
 
@@ -295,20 +285,49 @@ public class AdminController extends MainController{
     	return "{\"success\":" + success + ",\"message\":\"ok\"}";
     }
     
-//    private OrderStatus getStatus(HttpServletRequest request, OrderStatus orderStatus){
-//
-//        if(null !=request.getParameter("approve"+orderStatus.getIdOrderStatus()) ){
-//            orderStatus.setApprove(request.getParameter("approve"+orderStatus.getIdOrderStatus()));
-//        }if(null != request.getParameter("pay"+orderStatus.getIdOrderStatus())){
-//            orderStatus.setPay(request.getParameter("pay"+orderStatus.getIdOrderStatus()));
-//        }if(null != request.getParameter("ransom"+orderStatus.getIdOrderStatus())){
-//            orderStatus.setRansom(request.getParameter("ransom"+orderStatus.getIdOrderStatus()));
-//        }if(null != request.getParameter("ready"+orderStatus.getIdOrderStatus())){
-//            orderStatus.setReady(request.getParameter("ready"+orderStatus.getIdOrderStatus()));
-//        }if(null != request.getParameter("done"+orderStatus.getIdOrderStatus())){
-//            orderStatus.setDone(request.getParameter("done"+orderStatus.getIdOrderStatus()));
-//        }
-//
-//        return orderStatus;
-//    }
+    @RequestMapping(value = "/updateOrder", method = RequestMethod.GET)
+    public String updateOrder(@RequestParam ("orderId") int orderId,
+    						  @RequestParam ("packageId") int packageId,
+    						  Model model) {
+    	
+    	OrderT order = orderDAO.findOrderById(orderId);
+    	PackageT packageT = packageDAO.findPackageById(packageId);
+    	model.addAttribute("orderT", order);
+    	model.addAttribute("packageT", packageT);    	
+    	return "orders/updateByAdmin";
+    }
+    
+    @RequestMapping(value = "/doUpdateOrder", method = RequestMethod.POST)
+    public String doUpdateOrder(@RequestParam ("orderId") int orderId,
+    						    @RequestParam ("packageId") int packageId,
+    						    HttpServletRequest request,
+    						    Model model) {
+    	
+    	OrderT order = orderDAO.findOrderById(orderId);
+    	PackageT packageT = packageDAO.findPackageById(packageId);
+    	
+    	Goods goods = goodsDAO.findEmployeeById(order.getIdGoods());
+    	goods.setAmountGoods(Integer.parseInt(request.getParameter("amountGoods")));
+    	goods.setPriceGoods(Integer.parseInt(request.getParameter("priceGoods")));
+    	
+    	order.setGoods(goods);
+        orderDAO.updateOrder(order);
+        order.setFullPrice(priceService.getOrderPrice(order));
+        orderDAO.updateOrder(order);
+        
+        List<OrderT> orders = orderDAO.getOrdersByPackages(packageT.getIdPackage());
+        int priceWithoutDelivery = 0;
+    	for (OrderT o : orders) {
+    		o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+    		priceWithoutDelivery += o.getFullPrice();
+    	}
+    	PostService service = packageT.getPostService();
+    	UserT user = userDAO.findUserById(order.getIdUser());
+		int deliveryPrice = priceService.getDeliveryPrice(orders, user, priceWithoutDelivery, service);
+		packageT.setFullPrice(deliveryPrice);
+		packageT.setWeight(priceService.calculatePackageWeight(orders));
+		packageService.updatePackage(packageT);
+    	
+    	return "redirect:/admin/showPackageAdmin?idPackage=" + packageT.getIdPackage();
+    }
 }
