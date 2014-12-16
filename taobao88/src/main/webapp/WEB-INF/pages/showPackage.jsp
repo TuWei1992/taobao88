@@ -57,6 +57,8 @@
 			$('.return_money_btn').click(function() {
 				$('#returnMoneyAgreeModal').modal('show');
 			});
+			
+			$('.not_delivered').hide();
         });      
     </script>
 </head>
@@ -110,8 +112,12 @@
 							<span>Сервис по отслеживанию посылок: </span><span class="label label-success"><a href="http://post-tracker.ru/" target="_blank">Post-Tracker</a></span><br>
 							<span>Ваш баланс: </span><span class="label label-success">$${balance}</span>
 						</div>
+						<br>
 						<div class="alert alert-warning">
 							Для детального просмотра информации об отдельном товаре в посылке щелкните по значку товара.
+						</div>
+						<div class="alert alert-success not_delivered">
+							В случае замены товара в состоянии "Недоставлено" ожидание посылки увеличивается на 7 дней.
 						</div>
 						<table class="orders">
                 			<thead>
@@ -168,6 +174,13 @@
 												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}&idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">
 													<img src="${pageContext.request.contextPath}/resources/img/card.png">
 												</a>
+												<c:if test="${statusId == 10}">
+													<script type="text/javascript">
+														$(function() {
+															$('.not_delivered').show();
+														});														
+													</script>
+												</c:if>
 											</c:if>
 											<c:if test="${packageT.purchased == 0}">
 												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${order.idOrder}&idPackage=${packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">

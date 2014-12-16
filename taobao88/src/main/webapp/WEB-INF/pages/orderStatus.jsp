@@ -33,6 +33,7 @@
             	translate();
             });
             $('[data-toggle="tooltip"]').tooltip();
+            $('.not_delivered').hide();
         });      
     </script>
 </head>
@@ -78,6 +79,10 @@
 					<div class="col-md-offset-1">
 						<span>Ваш баланс: </span><span class="label label-success">$${balance}</span>
 					</div>
+					<br>
+					<div class="alert alert-success not_delivered">
+							В случае замены товара в состоянии "Недоставлено" ожидание посылки увеличивается на 7 дней.
+						</div>
 					<div class="control">
 						<table class="orders">
                 			<thead>
@@ -137,6 +142,13 @@
 												<a href="${pageContext.request.contextPath}/privateOffice/deleteOrder?idOrderForDelete=${orderT.idOrder}&idPackage=${orderT.packageT.idPackage}" data-toggle="tooltip" data-placement="top" title="Удалить">
 													<img src="${pageContext.request.contextPath}/resources/img/card.png">
 												</a>
+												<c:if test="${statusId == 10}">
+													<script type="text/javascript">
+														$(function() {
+															$('.not_delivered').show();
+														});														
+													</script>
+												</c:if>
 											</c:if>
 										</td>
 									</tr>
