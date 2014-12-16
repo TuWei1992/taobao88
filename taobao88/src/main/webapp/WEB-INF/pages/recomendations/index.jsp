@@ -19,6 +19,15 @@
 					if (response.success) {
 						$(delete_btn).remove();
 						$('#img_' + imageId).remove();
+						var a = $('.main_image');
+						$(a).each(function(i, item) {
+							var forImg = $(item).attr('for');
+							if (forImg != null) {
+								if (forImg.startsWith('img_' + imageId)) {
+									$(item).remove();
+								}
+							}
+						});
 					}
 				}
 			});
