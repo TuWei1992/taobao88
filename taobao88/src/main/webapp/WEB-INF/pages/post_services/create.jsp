@@ -9,13 +9,14 @@
 <title>Добавить сервис</title>
 <script type="text/javascript">
 	$(function() {
+		$('[data-toggle="tooltip"]').tooltip();
 		var groupToAppend = '<div class="col-md-6">' + 
         						'<label class="input" for="weight">Вес</label>' + 
-        						'<input class="form-control" type="text" name="weight" required>' + 
+        						'<input class="form-control" type="text" name="weight" required data-toggle="tooltip" data-placement="top" title="Пример: 0.1, 1.5">' + 
       						'</div>' +
       						'<div class="col-md-6">' + 
         						'<label class="input" for="price">Цена</label>' +
-				        		'<input class="form-control" type="text" name="price" required>' + 
+				        		'<input class="form-control" type="text" name="price" required data-toggle="tooltip" data-placement="top" title="Пример: 20, 150">' + 
       						'</div>';
 		$('#add_input').click(function() {
 			var weightPriceGroup = $('.weight_price');
@@ -38,6 +39,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-2">
+			
+			<c:if test="${error == true}">
+				<div class="alert alert-danger" role="alert">
+					<strong>Ошибка!</strong> Проверьте правильность вводимых данных.
+				</div>
+			</c:if>
+			
 			<form role="form" method="POST" action="${pageContext.request.contextPath}/admin/postServices/doCreate" accept-charset="utf-8" enctype="multipart/form-data">
 				<div class="form-group">
 					<label class="input" for="serviceName">Название</label>
@@ -57,11 +65,11 @@
 					<div class="weight_price">
 						<div class="col-md-5">
 							<label class="input" for="weight">Вес</label>
-							<input class="form-control" type="text" name="weight" required>
+							<input class="form-control" type="text" name="weight" data-toggle="tooltip" data-placement="top" title="Пример: 0.1, 1.5" required>
 						</div>
 						<div class="col-md-5">
 							<label class="input" for="price">Цена</label>
-							<input class="form-control" type="text" name="price" required>
+							<input class="form-control" type="text" name="price" data-toggle="tooltip" data-placement="top" title="Пример: 20, 150" required>
 						</div>
 					</div>
 						<div>

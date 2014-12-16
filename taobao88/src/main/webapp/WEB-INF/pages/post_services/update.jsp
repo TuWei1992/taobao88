@@ -7,6 +7,11 @@
 <meta charset="utf-8">
 <jsp:include page="../adminStyles.jsp"/>
 <title>Изменить сервис</title>
+<script type="text/javascript">
+	$(function() {
+		$('[data-toggle="tooltip"]').tooltip();	
+	});
+</script>
 </head>
 <body>
 	<jsp:include page="../adminMenu.jsp" />
@@ -22,6 +27,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-2">
+			
+			<c:if test="${error == true}">
+				<div class="alert alert-danger" role="alert">
+					<strong>Ошибка!</strong> Проверьте правильность вводимых данных.
+				</div>
+			</c:if>
+			
 			<form role="form" method="POST" action="${pageContext.request.contextPath}/admin/postServices/doUpdate" accept-charset="utf-8" enctype="multipart/form-data">
 				<input type="hidden" name="id" value="${postService.id}">
 				<div class="form-group">
@@ -38,11 +50,11 @@
 					<div class="weight_price">
 						<div class="col-md-6">
 							<label class="input" for="weight">Вес</label>
-							<input class="form-control" type="text" name="weight" value="${postPrice.weight}" required>
+							<input class="form-control" type="text" name="weight" value="${postPrice.weight}" required data-toggle="tooltip" data-placement="top" title="Пример: 0.1, 1.5">
 						</div>
 						<div class="col-md-6">
 							<label class="input" for="price">Цена</label>
-							<input class="form-control" type="text" name="price" value="${postPrice.price}" required>
+							<input class="form-control" type="text" name="price" value="${postPrice.price}" required data-toggle="tooltip" data-placement="top" title="Пример: 20, 150">
 						</div>
 					</div>
 				</c:forEach>
