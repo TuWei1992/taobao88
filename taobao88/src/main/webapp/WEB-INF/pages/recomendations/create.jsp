@@ -18,6 +18,10 @@
 		    	image_advtab: true,
 		    	image_description: false
 		 });
+		
+		$('.back').click(function() {
+			window.history.go(-1);
+		});
 	});
 	</script>
 </head>
@@ -31,11 +35,30 @@
 			</div>
 		</div>
 	</div>
-	
+		
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-8 col-md-8 col-xs-8 col-xs-offset-2">
-			<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation/doCreate">
+			
+			<c:if test="${not empty errors}">
+		<div class="alert alert-danger" role="alert">
+			<strong>Ошибка!</strong> Проверьте правильность заполнения формы. Заполнены не все поля.
+			<a class="btn btn-danger back" role="button">Назад к заполнению</a>
+			<script type="text/javascript">
+				$(function() {
+					$('form').remove();
+				});
+			</script>
+		</div>
+	</c:if>
+	
+	<c:if test="${not empty unknown_error}">
+		<div class="alert alert-danger" role="alert">
+			<strong>Неизвестная ошибка!</strong> Ее быть никогда не должно.
+		</div>
+	</c:if>
+			
+			<form role="form" method="POST" accept-charset="utf-8" c enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation/doCreate">
 				
 					<div class="form-group">
 						<label class="input" for="rDesc">Краткое описание:</label> 
@@ -68,22 +91,22 @@
 					
 					<div class="form-group">
 						<label class="input" for="rColor">Доступные цвета (через запятую):</label> 
-						<input type="text" class="form-control" name="rColor" id="rColor" placeholder="черный, синий, красный..." required="required">
+						<input type="text" class="form-control" name="rColor" id="rColor" placeholder="Пример: черный, синий, красный..." required="required">
 					</div>
 					
 					<div class="form-group">
 						<label class="input" for="rSize">Доступные размеры (через запятую):</label> 
-						<input type="text" class="form-control" name="rSize" id="rSize" placeholder="36, 52, XL, XXL..." required="required">
+						<input type="text" class="form-control" name="rSize" id="rSize" placeholder="Пример: 36, 52, XL, XXL..." required="required">
 					</div>
 					
 					<div class="form-group">
 						<label class="input" for="rCount">Количество:</label> 
-						<input type="text" class="form-control" name="rCount" id="rCount" placeholder="10" required="required">
+						<input type="text" class="form-control" name="rCount" id="rCount" placeholder="Пример: 10" required="required">
 					</div>
 					
 					<div class="form-group">
 						<label class="input" for="rWeight">Вес (в граммах):</label> 
-						<input type="text" class="form-control" name="rWeight" id="rWeight" placeholder="250" required="required">
+						<input type="text" class="form-control" name="rWeight" id="rWeight" placeholder="Пример: 250" required="required">
 					</div>
 
 					<div class="form-group">
