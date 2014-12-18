@@ -39,7 +39,7 @@ public class BrandsServiceImpl implements BrandsService {
 		List<List<Brands>> result = new ArrayList<List<Brands>>();
 		for (int i = 0; i < all.size(); i++) {
 			sorted.add(all.get(i));
-			if (sorted.size() % 3 == 0) {
+			if (sorted.size() % 8 == 0) {
 				result.add(sorted);
 				sorted = new ArrayList<Brands>();
 			}

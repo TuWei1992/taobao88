@@ -47,6 +47,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12 col-md-12 col-xs-12">
+			
+			<jsp:include page="../partials/errors.jsp"/>
+			
 			<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
 				
 					<div class="form-group">

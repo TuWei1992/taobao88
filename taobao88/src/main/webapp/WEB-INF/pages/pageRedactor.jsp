@@ -221,117 +221,11 @@
 				</div>
 				<div class="tab-pane" id="discount">
 					<br>
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Фото</th>
-								<th>Аттрибуты</th>
-								<th>Действия</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<c:forEach items="${discount}" var="dsc">
-								<tr>
-									<td>
-										<c:forEach items="${dsc.images}" var="img">
-											<img src="/images/${img.imageName}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="100" height="100"	class="img-thumbnail">
-										</c:forEach>
-									</td>
-									<td>
-										<ul class="list-group">
-  											<li class="list-group-item"><b>Краткое описание:</b> <span>${dsc.description}</span></li>
-  											<li class="list-group-item"><b>Подробное описание:</b> <span>${dsc.longDescription}</span></li>
-  											<li class="list-group-item"><b>Цена:</b> <span>${dsc.price}</span></li>
-  											<li class="list-group-item"><b>Ссылка:</b> <span>${dsc.href}</span></li>
-  											<li class="list-group-item"><b>Цвета:</b>  
-  												<c:forEach items="${dsc.colors}" var="color">
-  													<span>${color.colorName}</span>
-  												</c:forEach>
-  											</li>
-  											<li class="list-group-item"><b>Размеры:</b>  
-  												<c:forEach items="${dsc.sizes}" var="size">
-  													<span>${size.sizeName}</span>
-  												</c:forEach>
-  											</li>
-  											<li class="list-group-item"><b>Количество:</b> <span>${dsc.count}</span>, <b>Вес:</b> <span>${dsc.weight}</span></li>
-										</ul>
-									</td>
-									<td>
-										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateRecomendation?id=${dsc.id}" target="_blank" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${dsc.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+					<jsp:include page="recomendations/discount.jsp"/>
 				</div>
 				<div class="tab-pane" id="free_ship">
 					<br>
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Фото</th>
-								<th>Аттрибуты</th>
-								<th>Действия</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<c:forEach items="${free_ship}" var="fs">
-								<tr>
-									<td>
-										<c:forEach items="${fs.images}" var="img">
-											<img src="/images/${img.imageName}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="100" height="100"	class="img-thumbnail">
-										</c:forEach>
-									</td>
-									<td>
-										<ul class="list-group">
-  											<li class="list-group-item"><b>Краткое описание:</b> <span>${fs.description}</span></li>
-  											<li class="list-group-item"><b>Подробное описание:</b> <span>${fs.longDescription}</span></li>
-  											<li class="list-group-item"><b>Цена:</b> <span>${fs.price}</span></li>
-  											<li class="list-group-item"><b>Ссылка:</b> <span>${fs.href}</span></li>
-  											<li class="list-group-item"><b>Цвета:</b>  
-  												<c:forEach items="${fs.colors}" var="color">
-  													<span>${color.colorName}</span>
-  												</c:forEach>
-  											</li>
-  											<li class="list-group-item"><b>Размеры:</b>  
-  												<c:forEach items="${fs.sizes}" var="size">
-  													<span>${size.sizeName}</span>
-  												</c:forEach>
-  											</li>
-  											<li class="list-group-item"><b>Количество:</b> <span>${fs.count}</span>, <b>Вес:</b> <span>${fs.weight}</span></li>
-										</ul>
-									</td>
-									<td>
-										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateRecomendation?id=${fs.id}" target="_blank" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${fs.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+					<jsp:include page="recomendations/free_shipping.jsp"/>
 				</div>
 				<div class="tab-pane" id="brands">
 					<br>

@@ -18,10 +18,6 @@
 		    	image_advtab: true,
 		    	image_description: false
 		 });
-		
-		$('.back').click(function() {
-			window.history.go(-1);
-		});
 	});
 	</script>
 </head>
@@ -40,25 +36,9 @@
 		<div class="row">
 			<div class="col-sm-8 col-md-8 col-xs-8 col-xs-offset-2">
 			
-			<c:if test="${not empty errors}">
-		<div class="alert alert-danger" role="alert">
-			<strong>Ошибка!</strong> Проверьте правильность заполнения формы. Заполнены не все поля.
-			<a class="btn btn-danger back" role="button">Назад к заполнению</a>
-			<script type="text/javascript">
-				$(function() {
-					$('form').remove();
-				});
-			</script>
-		</div>
-	</c:if>
-	
-	<c:if test="${not empty unknown_error}">
-		<div class="alert alert-danger" role="alert">
-			<strong>Неизвестная ошибка!</strong> Ее быть никогда не должно.
-		</div>
-	</c:if>
+			<jsp:include page="../partials/errors.jsp"/>
 			
-			<form role="form" method="POST" accept-charset="utf-8" c enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation/doCreate">
+			<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation/doCreate">
 				
 					<div class="form-group">
 						<label class="input" for="rDesc">Краткое описание:</label> 

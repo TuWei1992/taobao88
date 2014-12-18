@@ -13,6 +13,6 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js" type="text/javascript"></script>
+<script	src="${pageContext.request.contextPath}/resources/js/taobao_admin.js"></script>
 

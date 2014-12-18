@@ -27,39 +27,38 @@
 							</tr>
 						</tfoot>
 						<tbody>
-							<c:forEach items="${recomendations}" var="rec">
+							<c:forEach items="${discount}" var="dsc">
 								<tr>
 									<td>
-										<c:forEach items="${rec.images}" var="img">
+										<c:forEach items="${dsc.images}" var="img">
 											<img src="/images/${img.imageName}" id="img_${img.imageId}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="100" height="100"	class="img-thumbnail">
 											<a type="button" for="img_${img.imageId}" class="btn btn-default glyphicon glyphicon-remove delete_image" data-toggle="tooltip" data-placement="top" title="Удалить"></a>
-											<a type="button" for="img_${img.imageId}&rec_${rec.id}" class="btn btn-default glyphicon glyphicon-picture main_image" data-toggle="tooltip" data-placement="top" title="Сделать основной картинкой"></a>
-											<br>
+											<a type="button" for="img_${img.imageId}&rec_${dsc.id}" class="btn btn-default glyphicon glyphicon-picture main_image" data-toggle="tooltip" data-placement="top" title="Сделать основной картинкой"></a>
 										</c:forEach>
 									</td>
 									<td>
 										<ul class="list-group">
-  											<li class="list-group-item"><b>Краткое описание:</b> <span>${rec.description}</span></li>
-  											<li class="list-group-item"><b>Подробное описание:</b> <span>${rec.longDescription}</span></li>
-  											<li class="list-group-item"><b>Цена:</b> <span>${rec.price}</span></li>
-  											<li class="list-group-item"><b>Ссылка:</b> <span>${rec.href}</span></li>
+  											<li class="list-group-item"><b>Краткое описание:</b> <span>${dsc.description}</span></li>
+  											<li class="list-group-item"><b>Подробное описание:</b> <span>${dsc.longDescription}</span></li>
+  											<li class="list-group-item"><b>Цена:</b> <span>${dsc.price}</span></li>
+  											<li class="list-group-item"><b>Ссылка:</b> <span>${dsc.href}</span></li>
   											<li class="list-group-item"><b>Цвета:</b>  
-  												<c:forEach items="${rec.colors}" var="color">
+  												<c:forEach items="${dsc.colors}" var="color">
   													<span>${color.colorName}</span>
   												</c:forEach>
   											</li>
   											<li class="list-group-item"><b>Размеры:</b>  
-  												<c:forEach items="${rec.sizes}" var="size">
+  												<c:forEach items="${dsc.sizes}" var="size">
   													<span>${size.sizeName}</span>
   												</c:forEach>
   											</li>
-  											<li class="list-group-item"><b>Количество:</b> <span>${rec.count}</span>, <b>Вес:</b> <span>${rec.weight}</span></li>
+  											<li class="list-group-item"><b>Количество:</b> <span>${dsc.count}</span>, <b>Вес:</b> <span>${dsc.weight}</span></li>
 										</ul>
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateRecomendation?id=${rec.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${rec.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateRecomendation?id=${dsc.id}" target="_blank" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${dsc.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
 										</div>
 									</td>
 								</tr>

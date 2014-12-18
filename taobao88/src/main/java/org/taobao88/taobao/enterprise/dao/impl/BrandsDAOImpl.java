@@ -19,7 +19,7 @@ public class BrandsDAOImpl implements BrandsDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Brands> getAllBrands() {
-		return (List<Brands>) sessionFactory.getCurrentSession().createQuery("from Brands").list();
+		return (List<Brands>) sessionFactory.getCurrentSession().createQuery("from Brands order by brand_name").list();
 	}
 
 	@Override

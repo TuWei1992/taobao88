@@ -1,8 +1,6 @@
 package org.taobao88.taobao.controllers;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,11 +31,9 @@ import org.taobao88.taobao.enterprise.entity.Country;
 import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.OrderStatus;
 import org.taobao88.taobao.enterprise.entity.OrderT;
-import org.taobao88.taobao.enterprise.entity.OrdersStatuses;
 import org.taobao88.taobao.enterprise.entity.PostService;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
-import org.taobao88.taobao.enterprise.entity.Status;
 import org.taobao88.taobao.enterprise.service.*;
 
 @Controller
@@ -85,6 +81,7 @@ public class IndexController extends MainController {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
 		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
 		model.addAttribute("brands", brandsService.getSortedBrands());
+//		model.addAttribute("brands", brandsService.getAllBrands());
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
 		return "index";

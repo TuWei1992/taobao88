@@ -306,7 +306,7 @@ public class PageRedactorController extends MainController {
 
 	@RequestMapping(value = "/createBrand", method = RequestMethod.POST)
 	public String createBrand(@RequestParam("bDesc") String desc,
-			@RequestParam("bPhoto") MultipartFile file) {
+						      @RequestParam("bPhoto") MultipartFile file) {
 		Brands brand = new Brands();
 		brand.setBrandName(desc);
 		Images image = new Images();
@@ -339,15 +339,28 @@ public class PageRedactorController extends MainController {
 	}
 
 	@RequestMapping(value = "/createTopMenu/doCreate", method = RequestMethod.POST)
-	public String doCreateTopMenu(@RequestParam("menuName") String menuName,
-			@RequestParam("menuDescription") String menuDescription,
-			@RequestParam("menuOrder") int menuOrder) {
-		TopMenu topMenu = new TopMenu();
-		topMenu.setMenuName(menuName);
-		topMenu.setMenuDescription(menuDescription);
-		topMenu.setMenuOrder(menuOrder);
-		topMenuService.addTopMenu(topMenu);
-		return "redirect:/admin/pageRedactor";
+	public String doCreateTopMenu(HttpServletRequest request, Model model) {
+		
+		validator = new PageRedactorValidator();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<String> errors = validator.validateCreateTopMenu(request, map);
+		if (errors.size() != 0) {
+			model.addAttribute("errors", toJSArray(errors.toArray()));
+			return "top_menus/create";
+		}
+		
+		try {
+			TopMenu topMenu = new TopMenu();
+			topMenu.setMenuName((String) map.get("menuName"));
+			topMenu.setMenuDescription((String) map.get("menuDescription"));
+			topMenu.setMenuOrder((int) map.get("menuOrder"));
+			topMenuService.addTopMenu(topMenu);
+			return "redirect:/admin/pageRedactor";
+		} catch (Exception e) {
+			model.addAttribute("unknown_error", true);
+			return "top_menus/create";
+		}
 	}
 
 	@RequestMapping(value = "/updateTopMenu", method = RequestMethod.GET)

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public class PageRedactorValidator extends AbstractValidator {
 
 	public List<String> validateCreateRecomendation(HttpServletRequest request, Map<String, Object> requestParams) {
@@ -24,7 +26,7 @@ public class PageRedactorValidator extends AbstractValidator {
 		return errors;
 	}
 	
-public List<String> validateUpdateRecomendation(HttpServletRequest request, Map<String, Object> requestParams) {
+	public List<String> validateUpdateRecomendation(HttpServletRequest request, Map<String, Object> requestParams) {
 		
 		validateStringParam(request.getParameter("rDesc"), "rDesc", requestParams);
 		validateStringParam(request.getParameter("rDescLong"), "rDescLong", requestParams);
@@ -36,6 +38,16 @@ public List<String> validateUpdateRecomendation(HttpServletRequest request, Map<
 		validateDoubleParam(request.getParameter("rWeight"), "rWeight", requestParams);
 		
 		validateIntegerParam(request.getParameter("rCount"), "rCount", requestParams);
+		
+		return errors;
+	}
+	
+	public List<String> validateCreateTopMenu(HttpServletRequest request, Map<String, Object> requestParams) {
+		
+		validateStringParam(request.getParameter("menuName"), "menuName", requestParams);
+		validateStringParam(request.getParameter("menuDescription"), "menuDescription", requestParams);
+		
+		validateIntegerParam(request.getParameter("menuOrder"), "menuOrder", requestParams);
 		
 		return errors;
 	}

@@ -71,7 +71,7 @@ public class PostServicesController {
 			service.setId(postServiceDAO.create(service));
 			
 			String [] weight = request.getParameterValues("weight");
-			String [] price = request.getParameterValues("weight");
+			String [] price = request.getParameterValues("price");
 		
 			for (int i = 0; i < weight.length; i++) {
 				PostServicePrice p = new PostServicePrice();
@@ -111,13 +111,12 @@ public class PostServicesController {
 				service.setImageId(img.getImageId());
 				saveUploadedFile(logo);
 			}
-			saveUploadedFile(logo);
-		
+					
 			service.setServiceName(serviceName);
 			postServiceDAO.update(service);
 		
 			String [] weight = request.getParameterValues("weight");
-			String [] price = request.getParameterValues("weight");
+			String [] price = request.getParameterValues("price");
 		
 			for (int i = 0; i < weight.length; i++) {
 				PostServicePrice p = postServicePriceDAO.findById(service.getPostServicesPrices().get(i).getId());
