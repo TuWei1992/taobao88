@@ -8,7 +8,6 @@ import org.taobao88.taobao.beans.OrderBEAN;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
 import org.taobao88.taobao.mail.MailMail;
-import org.taobao88.taobao.mail.Templates;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,6 +35,7 @@ public class MainController {
     @Autowired private PackageService packageDAO;
     @Autowired private PackageStatusService packageStatusDAO;
     @Autowired private MailService mailService;
+    @Autowired private RecomendationTypeService recomendationTypeService;
     
     private final int WEIGHT_LIMIT = 20000;
 
@@ -894,5 +894,38 @@ public class MainController {
 			}
 		}
 		return jsArray;
+	}
+    
+    protected void createRecomendation(MultipartFile file, Recomendation rec) {
+		saveUploadedFile(file);
+	}
+
+    protected void createRecomendation(MultipartFile[] files, Recomendation rec) {
+		Set<Images> images = new HashSet<Images>();
+		for (MultipartFile file : files) {
+			if (file.getSize() > 0) {
+				saveUploadedFile(file);
+				Images image = new Images();
+				image.setImageName(file.getOriginalFilename());
+				images.add(image);
+			}
+		}
+		if (rec.getImages() == null) {
+			rec.setImages(images);
+		} else {
+			rec.getImages().addAll(images);
+		}
+	}
+
+    protected List<RecomendationType> getRecomendationTypeList() {
+		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
+		Iterator<RecomendationType> iterator = typesList.iterator();
+		while (iterator.hasNext()) {
+			RecomendationType type = iterator.next();
+			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
+				iterator.remove();
+			}
+		}
+		return typesList;
 	}
 }

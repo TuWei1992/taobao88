@@ -7,7 +7,7 @@
 </div>
 	<jsp:include page="../partials/errors.jsp"/>
 	<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand/doCreate">
-				<div class="modal-body">
+				
 					<div class="form-group">
 						<label class="input" for="bDesc">Название</label> <input
 							type="text" class="form-control" name="bDesc" id="bDesc"
@@ -18,7 +18,7 @@
 						<label class="input" for="bPhoto">Фото</label> <input type="file"
 							name="bPhoto" required="required">
 					</div>
-				</div>
+				
 				
 					<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands" class="btn btn-default pull-left">Назад</a>
 					<button type="submit" class="btn btn-success pull-right">Создать</button>

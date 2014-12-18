@@ -1,7 +1,6 @@
 package org.taobao88.taobao.controllers;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +55,6 @@ public class PageRedactorController extends MainController {
 	public String pageRedactor(Model model) {
 //		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
 //		model.addAttribute("recomendations", recomendationService.getAllRecomendations(types.get(0)));
-//		model.addAttribute("slider", recomendationService.getAllRecomendations(types.get(1)));
 //		model.addAttribute("banner", recomendationService.getAllRecomendations(types.get(5)));
 //		model.addAttribute("discount", recomendationService.getAllRecomendations(types.get(2)));
 //		model.addAttribute("free_ship", recomendationService.getAllRecomendations(types.get(3)));
@@ -184,23 +182,6 @@ public class PageRedactorController extends MainController {
 			model.addAttribute("unknown_error", true);
 			return "recomendations/update";
 		}
-	}
-
-	@RequestMapping(value = "/createSlider", method = RequestMethod.POST)
-	public String createSlider(@RequestParam("rDesc") String desc,
-			@RequestParam("rPrice") String price,
-			@RequestParam("rHref") String href,
-			@RequestParam("rPhoto") MultipartFile file,
-			@RequestParam("recType") int recType) {
-		Recomendation rec = new Recomendation();
-		rec.setDescription(desc);
-		rec.setPrice(Double.parseDouble(price));
-		rec.setHref(href);
-		rec.setPhoto(file.getOriginalFilename());
-		rec.setType(recomendationTypeService.getTypeById(recType));
-		createRecomendation(file, rec);
-		recomendationService.addRecomendation(rec);
-		return "redirect:/admin/pageRedactor";
 	}
 
 	@RequestMapping(value = "/createBanner", method = RequestMethod.POST)
@@ -354,36 +335,36 @@ public class PageRedactorController extends MainController {
 		return "{\"success\":false, \"message\":\"image_or_rec_is_null\"}";
 	}
 
-	private void createRecomendation(MultipartFile file, Recomendation rec) {
-		saveUploadedFile(file);
-	}
-
-	private void createRecomendation(MultipartFile[] files, Recomendation rec) {
-		Set<Images> images = new HashSet<Images>();
-		for (MultipartFile file : files) {
-			if (file.getSize() > 0) {
-				saveUploadedFile(file);
-				Images image = new Images();
-				image.setImageName(file.getOriginalFilename());
-				images.add(image);
-			}
-		}
-		if (rec.getImages() == null) {
-			rec.setImages(images);
-		} else {
-			rec.getImages().addAll(images);
-		}
-	}
-
-	private List<RecomendationType> getRecomendationTypeList() {
-		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
-		Iterator<RecomendationType> iterator = typesList.iterator();
-		while (iterator.hasNext()) {
-			RecomendationType type = iterator.next();
-			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
-				iterator.remove();
-			}
-		}
-		return typesList;
-	}
+//	private void createRecomendation(MultipartFile file, Recomendation rec) {
+//		saveUploadedFile(file);
+//	}
+//
+//	private void createRecomendation(MultipartFile[] files, Recomendation rec) {
+//		Set<Images> images = new HashSet<Images>();
+//		for (MultipartFile file : files) {
+//			if (file.getSize() > 0) {
+//				saveUploadedFile(file);
+//				Images image = new Images();
+//				image.setImageName(file.getOriginalFilename());
+//				images.add(image);
+//			}
+//		}
+//		if (rec.getImages() == null) {
+//			rec.setImages(images);
+//		} else {
+//			rec.getImages().addAll(images);
+//		}
+//	}
+//
+//	private List<RecomendationType> getRecomendationTypeList() {
+//		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
+//		Iterator<RecomendationType> iterator = typesList.iterator();
+//		while (iterator.hasNext()) {
+//			RecomendationType type = iterator.next();
+//			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
+//				iterator.remove();
+//			}
+//		}
+//		return typesList;
+//	}
 }

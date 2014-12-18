@@ -15,10 +15,6 @@
 				$(this).tab('show')
 			})
 			
-			$('.create_sl_btn').on('click', function() {
-				$('#slModal').modal('show');
-			});
-			
 			$('.create_banner_btn').on('click', function() {
 				$('#bannerModal').modal('show');
 			});
@@ -37,7 +33,6 @@
 <body>
 
 	<jsp:include page="adminMenu.jsp" />
-	<jsp:include page="modal/slider_modal.jsp" />
 	<jsp:include page="modal/banner_modal.jsp" />
 	
 	<div class="container">
@@ -54,7 +49,7 @@
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="<c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu">Боковое меню</a></li>
 				<li><a href="#recomendations" role="tab" data-toggle="tab">Рекомендации</a></li>
-				<li><a href="#slider" role="tab" data-toggle="tab">Слайдер</a></li>
+				<li class="<c:if test="${slider_index || slider_create || slider_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/slider">Слайдер</a></li>
 				<li><a href="#banner" role="tab" data-toggle="tab">Баннер</a></li>
 				<li><a href="#discount" role="tab" data-toggle="tab">Товары	со скидками</a></li>
 				<li><a href="#free_ship" role="tab" data-toggle="tab">Бесплатная доставка</a></li>
@@ -82,48 +77,19 @@
 					<br>
 					<jsp:include page="recomendations/index.jsp"/>
 				</div>
-				<div class="tab-pane" id="slider">
-					<br>
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Фото</th>
-								<th>Аттрибуты</th>
-								<th>Действия</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>
-									<button type="button" role="button"
-										class="btn btn-success create_sl_btn">Создать</button>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<c:forEach items="${slider}" var="sli">
-								<tr>
-									<td><img src="/images/${sli.photo}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="250" height="250" class="img-thumbnail"></td>
-									<td>
-										<ul class="list-group">
-  											<li class="list-group-item"><b>Краткое описание:</b> <span>${sli.description}</span></li>
-  											<li class="list-group-item"><b>Цена:</b> <span>${sli.price}</span></li>
-  											<li class="list-group-item"><b>Ссылка:</b> <span>${sli.href}</span></li>
-  										</ul>
-									</td>
-									<td>
-										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateBanner?id=${sli.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${sli.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+				
+				<div class="tab-pane <c:if test="${slider_index || slider_create || slider_update}">active</c:if>" id="slider">
+					<c:if test="${slider_index}">
+						<jsp:include page="sliders/index.jsp"/>
+					</c:if>
+					<c:if test="${slider_create}">
+						<jsp:include page="sliders/create.jsp"/>
+					</c:if>
+					<c:if test="${slider_update}">
+						<jsp:include page="sliders/update.jsp"/>
+					</c:if>
 				</div>
+				
 				<div class="tab-pane" id="banner">
 					<br>
 					<table class="table table-hover">

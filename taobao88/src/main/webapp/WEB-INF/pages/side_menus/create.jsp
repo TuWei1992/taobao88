@@ -8,7 +8,7 @@
   <h4><span class="label label-primary">Создание меню</span></h4>
 </div>
 <form role="form" action="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu/doCreate" method="POST">
-				<div class="modal-body">
+				
 					<div class="form-group">
 						<label class="input" for="menu_name">Название меню</label> <input
 							id="menu_name" class="form-control menu_name" type="text"
@@ -44,7 +44,7 @@
 						</c:when>
 					</c:choose>
 
-				</div>
+				
 					<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu" role="button" class="btn btn-default pull-left">Назад</a>
 					<button type="submit" class="btn btn-success pull-right">Создать</button>
 			</form>
