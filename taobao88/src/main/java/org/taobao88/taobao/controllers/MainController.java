@@ -3,6 +3,7 @@ package org.taobao88.taobao.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 import org.taobao88.taobao.beans.OrderBEAN;
 import org.taobao88.taobao.enterprise.entity.*;
 import org.taobao88.taobao.enterprise.service.*;
@@ -12,6 +13,9 @@ import org.taobao88.taobao.mail.Templates;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -849,4 +853,46 @@ public class MainController {
         String to = getPath.getString("mailReceiver");
     	mailService.sendSimpleMessage(from, to, subject, message);
     }
+    
+    protected void saveUploadedFile(MultipartFile file) {
+		try {
+			byte[] bytes = file.getBytes();
+			String rootPath = System.getProperty("catalina.home");
+			File dir = new File(rootPath + "/webapps/images");
+			if (!dir.exists())
+				dir.mkdir();
+			File serverFile = new File(dir.getAbsolutePath() + "/"
+					+ file.getOriginalFilename());
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(serverFile));
+			stream.write(bytes);
+			stream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+    protected void deleteImage(Images image) {
+		String root = System.getProperty("catalina.home");
+		File imgDir = new File(root + "/webapps/images");
+		if (imgDir.exists()) {
+			File img = new File(imgDir.getAbsolutePath() + "/"
+					+ image.getImageName());
+			if (img.exists()) {
+				img.delete();
+			}
+		}
+	}
+    
+    protected String toJSArray(Object [] errors) {
+		String jsArray = "[";
+		for (int i = 0; i < errors.length; i++) {
+			if (i == (errors.length - 1)) {
+				jsArray += "'" + errors[i].toString() + "']";
+			} else {
+				jsArray += "'" + errors[i].toString() + "',";
+			}
+		}
+		return jsArray;
+	}
 }

@@ -15,10 +15,6 @@
 				$(this).tab('show')
 			})
 			
-			$('.create_menu').on('click', function() {
-				$('#sideMenuModal').modal('show');
-			});
-			
 			$('.create_sl_btn').on('click', function() {
 				$('#slModal').modal('show');
 			});
@@ -27,9 +23,6 @@
 				$('#bannerModal').modal('show');
 			});
 			
-			$('.create_brand_btn').on('click', function() {
-				$('#brandModal').modal('show');
-			});
 			tinymce.init({
 			    selector: "#content",
 			    height : 500,
@@ -46,7 +39,6 @@
 	<jsp:include page="adminMenu.jsp" />
 	<jsp:include page="modal/slider_modal.jsp" />
 	<jsp:include page="modal/banner_modal.jsp" />
-	<jsp:include page="modal/brands_modal.jsp" />
 	
 	<div class="container">
 		<div class="row">
@@ -60,19 +52,20 @@
 		<div class="row">
 
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="active"><a href="${pageContext.request.contextPath}//admin/pageRedactor/sideMenu">Боковое меню</a></li>
+				<li class="<c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu">Боковое меню</a></li>
 				<li><a href="#recomendations" role="tab" data-toggle="tab">Рекомендации</a></li>
 				<li><a href="#slider" role="tab" data-toggle="tab">Слайдер</a></li>
 				<li><a href="#banner" role="tab" data-toggle="tab">Баннер</a></li>
 				<li><a href="#discount" role="tab" data-toggle="tab">Товары	со скидками</a></li>
 				<li><a href="#free_ship" role="tab" data-toggle="tab">Бесплатная доставка</a></li>
-				<li><a href="#brands" role="tab" data-toggle="tab">Бренды</a></li>
+				<li class="<c:if test="${brands_index || brands_create || brands_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
 				<li><a href="#topMenu" role="tab" data-toggle="tab">Топ Меню</a></li>
 				<li><a href="#userAcc" role="tab" data-toggle="tab">Аккаунт пользователя</a></li>
 			</ul>
 
 			<!-- Tab panes -->
 			<div class="tab-content">
+			
 				<div class="tab-pane <c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>" id="sideMenu">
 					<c:if test="${side_menu_index}">
 						<jsp:include page="side_menus/index.jsp"/>
@@ -181,10 +174,19 @@
 					<br>
 					<jsp:include page="recomendations/free_shipping.jsp"/>
 				</div>
-				<div class="tab-pane" id="brands">
-					<br>
-					<jsp:include page="recomendations/brands_index.jsp"/>
+				
+				<div class="tab-pane <c:if test="${brands_index || brands_create || brands_update}">active</c:if>" id="brands">
+					<c:if test="${brands_index}">
+						<jsp:include page="brands/index.jsp"/>
+					</c:if>
+					<c:if test="${brands_create}">
+						<jsp:include page="brands/create.jsp"/>
+					</c:if>
+					<c:if test="${brands_update}">
+						<jsp:include page="brands/update.jsp"/>
+					</c:if>
 				</div>
+				
 				<div class="tab-pane" id="topMenu">
 					<br>
 					<jsp:include page="top_menus/index.jsp"/>

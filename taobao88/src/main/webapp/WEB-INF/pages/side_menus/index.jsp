@@ -18,7 +18,7 @@
 								<td></td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu" type="button" role="button" class="btn btn-success">Создать меню</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu" role="button" class="btn btn-success">Создать меню</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -33,6 +33,7 @@
 										<div class="btn-group">
 											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/updateMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
 											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/deleteMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu" role="button" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>
 								</tr>
@@ -46,6 +47,7 @@
 											<div class="btn-group">
 												<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/updateMenu?id=${m.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
 												<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/deleteMenu?id=${m.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+												<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu" role="button" class="btn btn-default glyphicon glyphicon-plus"></a>
 											</div>
 										</td>
 									</tr>

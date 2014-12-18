@@ -1,8 +1,5 @@
 package org.taobao88.taobao.controllers;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,13 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.taobao88.taobao.controllers.validators.PageRedactorValidator;
 import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
-import org.taobao88.taobao.enterprise.entity.Brands;
 import org.taobao88.taobao.enterprise.entity.Images;
 import org.taobao88.taobao.enterprise.entity.PageContent;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
 import org.taobao88.taobao.enterprise.entity.TopMenu;
-import org.taobao88.taobao.enterprise.service.BrandsService;
 import org.taobao88.taobao.enterprise.service.ColorsService;
 import org.taobao88.taobao.enterprise.service.ImagesService;
 import org.taobao88.taobao.enterprise.service.RecomendationService;
@@ -44,8 +39,6 @@ public class PageRedactorController extends MainController {
 	private RecomendationTypeService recomendationTypeService;
 	@Autowired
 	private RecomendationService recomendationService;
-	@Autowired
-	private BrandsService brandsService;
 	@Autowired
 	private TopMenuService topMenuService;
 	@Autowired
@@ -251,74 +244,6 @@ public class PageRedactorController extends MainController {
 		return "redirect:/admin/pageRedactor";
 	}
 
-	@RequestMapping(value = "/createBrand", method = RequestMethod.POST)
-	public String createBrand(@RequestParam("bDesc") String desc,
-						      @RequestParam("bPhoto") MultipartFile file) {
-		Brands brand = new Brands();
-		brand.setBrandName(desc);
-		Images image = new Images();
-		image.setImageName(file.getOriginalFilename());
-		image.setImageId(imagesService.addImage(image));
-		brand.setBrandImage(image.getImageId());
-		brand.setImage(image);
-		saveUploadedFile(file);
-		brandsService.addBrand(brand);
-		return "redirect:/admin/pageRedactor";
-	}
-
-	@RequestMapping(value = "/deleteBrand", method = RequestMethod.GET)
-	public String deleteBrand(@RequestParam("id") int id) {
-		Brands brand = brandsService.getBrandById(id);
-		deleteImage(brand.getImage());
-		brandsService.deleteBrand(brand);
-		return "redirect:/admin/pageRedactor";
-	}
-
-	@RequestMapping(value = "/updateBrand", method = RequestMethod.GET)
-	public String updateBrand(@RequestParam("id") int id,
-							  Model model) {
-		
-		Brands brand = brandsService.getBrandById(id);
-		model.addAttribute("brand", brand);
-		return "recomendations/brands_update";
-	}
-	
-	@RequestMapping(value = "/updateBrand/doUpdate", method = RequestMethod.POST)
-	public String doUpdateBrand(@RequestParam("id") int id,
-							    @RequestParam("bPhoto") MultipartFile file,
-							    HttpServletRequest request,
-							    Model model) {
-		
-		try {
-			Brands brand = brandsService.getBrandById(id);
-			validator = new PageRedactorValidator();
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			List<String> errors = validator.validateUpdateBrand(request, map);
-			if (errors.size() != 0) {
-				model.addAttribute("errors", toJSArray(errors.toArray()));
-				return "recomendations/brands_update";
-			}
-			
-			if (file.getSize() > 0) {
-				Images image = new Images();
-				image.setImageName(file.getOriginalFilename());
-				image.setImageId(imagesService.addImage(image));
-				brand.setBrandImage(image.getImageId());
-				brand.setImage(image);
-				saveUploadedFile(file);
-			}
-			
-			brand.setBrandName((String) map.get("bDesc")); 
-			brandsService.updateBrand(brand);
-			return "redirect:/admin/pageRedactor";
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("unknown_error", true);
-			return "recomendations/brands_update";
-		}		
-	}
-
 	@RequestMapping(value = "/createTopMenu", method = RequestMethod.GET)
 	public String createTopMenu(Model model) {
 		return "top_menus/create";
@@ -450,36 +375,6 @@ public class PageRedactorController extends MainController {
 		}
 	}
 
-	private void saveUploadedFile(MultipartFile file) {
-		try {
-			byte[] bytes = file.getBytes();
-			String rootPath = System.getProperty("catalina.home");
-			File dir = new File(rootPath + "/webapps/images");
-			if (!dir.exists())
-				dir.mkdir();
-			File serverFile = new File(dir.getAbsolutePath() + "/"
-					+ file.getOriginalFilename());
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(serverFile));
-			stream.write(bytes);
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void deleteImage(Images image) {
-		String root = System.getProperty("catalina.home");
-		File imgDir = new File(root + "/webapps/images");
-		if (imgDir.exists()) {
-			File img = new File(imgDir.getAbsolutePath() + "/"
-					+ image.getImageName());
-			if (img.exists()) {
-				img.delete();
-			}
-		}
-	}
-	
 	private List<RecomendationType> getRecomendationTypeList() {
 		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
 		Iterator<RecomendationType> iterator = typesList.iterator();
@@ -490,17 +385,5 @@ public class PageRedactorController extends MainController {
 			}
 		}
 		return typesList;
-	}
-	
-	private String toJSArray(Object [] errors) {
-		String jsArray = "[";
-		for (int i = 0; i < errors.length; i++) {
-			if (i == (errors.length - 1)) {
-				jsArray += "'" + errors[i].toString() + "']";
-			} else {
-				jsArray += "'" + errors[i].toString() + "',";
-			}
-		}
-		return jsArray;
 	}
 }
