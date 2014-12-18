@@ -28,14 +28,12 @@ import org.taobao88.taobao.enterprise.entity.Images;
 import org.taobao88.taobao.enterprise.entity.PageContent;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
-import org.taobao88.taobao.enterprise.entity.SideMenu;
 import org.taobao88.taobao.enterprise.entity.TopMenu;
 import org.taobao88.taobao.enterprise.service.BrandsService;
 import org.taobao88.taobao.enterprise.service.ColorsService;
 import org.taobao88.taobao.enterprise.service.ImagesService;
 import org.taobao88.taobao.enterprise.service.RecomendationService;
 import org.taobao88.taobao.enterprise.service.RecomendationTypeService;
-import org.taobao88.taobao.enterprise.service.SideMenuService;
 import org.taobao88.taobao.enterprise.service.SizesService;
 import org.taobao88.taobao.enterprise.service.TopMenuService;
 
@@ -46,8 +44,6 @@ public class PageRedactorController extends MainController {
 	private RecomendationTypeService recomendationTypeService;
 	@Autowired
 	private RecomendationService recomendationService;
-	@Autowired
-	private SideMenuService sideMenuService;
 	@Autowired
 	private BrandsService brandsService;
 	@Autowired
@@ -65,75 +61,26 @@ public class PageRedactorController extends MainController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String pageRedactor(Model model) {
-		Map<Integer, RecomendationType> types = recomendationTypeService
-				.getRecomendationTypes();
-		model.addAttribute("side_menu", sideMenuService.getSideMenu());
-		model.addAttribute("recomendations",
-				recomendationService.getAllRecomendations(types.get(0)));
-		model.addAttribute("slider",
-				recomendationService.getAllRecomendations(types.get(1)));
-		model.addAttribute("banner",
-				recomendationService.getAllRecomendations(types.get(5)));
-		model.addAttribute("discount",
-				recomendationService.getAllRecomendations(types.get(2)));
-		model.addAttribute("free_ship",
-				recomendationService.getAllRecomendations(types.get(3)));
-		model.addAttribute("comments",
-				recomendationService.getAllRecomendations(types.get(4)));
-		model.addAttribute("brands", brandsService.getAllBrands());
-		model.addAttribute("privateOffice",
-				pagesContentDAO.findContentByPageName("privateOffice"));
-		List<RecomendationType> typesList = recomendationTypeService
-				.getRecomendationTypesAsList();
-		Iterator<RecomendationType> iterator = typesList.iterator();
-		while (iterator.hasNext()) {
-			RecomendationType type = iterator.next();
-			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
-				iterator.remove();
-			}
-		}
-		model.addAttribute("recomendationTypes", typesList);
-		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
-		return "pageRedactor";
-	}
-
-	@RequestMapping(value = "/createMenu", method = RequestMethod.POST)
-	public String createMenu(@RequestParam("menuHref") String menuHref,
-			@RequestParam("menuName") String menuName,
-			@RequestParam("menuOrder") int menuOrder,
-			@RequestParam("parentId") int parentId, Model model) {
-		SideMenu sideMenu = new SideMenu();
-		sideMenu.setMenuHref(menuHref);
-		sideMenu.setMenuName(menuName);
-		sideMenu.setMenuOrder(menuOrder);
-		sideMenu.setParentId(parentId);
-		sideMenuService.addSideMenu(sideMenu);
-		return "redirect:/admin/pageRedactor";
-	}
-
-	@RequestMapping(value = "/deleteMenu", method = RequestMethod.GET)
-	public String deleteMenu(@RequestParam("id") int id, Model model) {
-		sideMenuService.deleteSideMenu(sideMenuService.getSideMenuById(id));
-		return "redirect:/admin/pageRedactor";
-	}
-
-	@RequestMapping(value = "/updateMenu", method = RequestMethod.GET)
-	public String updateMenu(@RequestParam("id") int id, Model model) {
-		model.addAttribute("menu", sideMenuService.getSideMenuById(id));
-		return "sideMenuUpdate";
-	}
-
-	@RequestMapping(value = "/updateMenu/doUpdate", method = RequestMethod.POST)
-	public String doUpdateSideMenu(@RequestParam("id") int id,
-			@RequestParam("menuName") String menuName,
-			@RequestParam("menuHref") String menuHref,
-			@RequestParam("menuOrder") int menuOrder) {
-		SideMenu sideMenu = sideMenuService.getSideMenuById(id);
-		sideMenu.setMenuName(menuName);
-		sideMenu.setMenuHref(menuHref);
-		sideMenu.setMenuOrder(menuOrder);
-		sideMenuService.updateSideMenu(sideMenu);
-		return "redirect:/admin/pageRedactor";
+//		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
+//		model.addAttribute("recomendations", recomendationService.getAllRecomendations(types.get(0)));
+//		model.addAttribute("slider", recomendationService.getAllRecomendations(types.get(1)));
+//		model.addAttribute("banner", recomendationService.getAllRecomendations(types.get(5)));
+//		model.addAttribute("discount", recomendationService.getAllRecomendations(types.get(2)));
+//		model.addAttribute("free_ship", recomendationService.getAllRecomendations(types.get(3)));
+//		model.addAttribute("comments", recomendationService.getAllRecomendations(types.get(4)));
+//		model.addAttribute("brands", brandsService.getAllBrands());
+//		model.addAttribute("privateOffice", pagesContentDAO.findContentByPageName("privateOffice"));
+//		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
+//		Iterator<RecomendationType> iterator = typesList.iterator();
+//		while (iterator.hasNext()) {
+//			RecomendationType type = iterator.next();
+//			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
+//				iterator.remove();
+//			}
+//		}
+//		model.addAttribute("recomendationTypes", typesList);
+//		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
+		return "redirect:/admin/pageRedactor/sideMenu";
 	}
 
 	@RequestMapping(value = "/createRecomendation", method = RequestMethod.GET)

@@ -44,7 +44,6 @@
 <body>
 
 	<jsp:include page="adminMenu.jsp" />
-	<jsp:include page="modal/sidemenu_modal.jsp" />
 	<jsp:include page="modal/slider_modal.jsp" />
 	<jsp:include page="modal/banner_modal.jsp" />
 	<jsp:include page="modal/brands_modal.jsp" />
@@ -61,7 +60,7 @@
 		<div class="row">
 
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="active"><a href="#sideMenu" role="tab" data-toggle="tab">Боковое меню</a></li>
+				<li class="active"><a href="${pageContext.request.contextPath}//admin/pageRedactor/sideMenu">Боковое меню</a></li>
 				<li><a href="#recomendations" role="tab" data-toggle="tab">Рекомендации</a></li>
 				<li><a href="#slider" role="tab" data-toggle="tab">Слайдер</a></li>
 				<li><a href="#banner" role="tab" data-toggle="tab">Баннер</a></li>
@@ -74,61 +73,16 @@
 
 			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane active" id="sideMenu">
-
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Название меню</th>
-								<th>Ссылка</th>
-								<th>Порядок</th>
-								<th>Родительская категория</th>
-								<th>Действия</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td>
-									<button type="button" role="button"
-										class="btn btn-success create_menu">Создать меню</button>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<c:forEach items="${side_menu}" var="menu">
-								<tr>
-									<td>${menu.menuName}</td>
-									<td>${menu.menuHref}</td>
-									<td>${menu.menuOrder}</td>
-									<td>${menu.parent.menuName}</td>
-									<td>
-										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-										</div>
-									</td>
-								</tr>
-								<c:forEach items="${menu.children}" var="m">
-									<tr>
-										<td>${m.menuName}</td>
-										<td>${m.menuHref}</td>
-										<td>${m.menuOrder}</td>
-										<td>${menu.menuName}</td>
-										<td>
-											<div class="btn-group">
-												<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateMenu?id=${m.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-												<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteMenu?id=${m.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-											</div>
-										</td>
-									</tr>
-								</c:forEach>
-							</c:forEach>
-						</tbody>
-					</table>
+				<div class="tab-pane <c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>" id="sideMenu">
+					<c:if test="${side_menu_index}">
+						<jsp:include page="side_menus/index.jsp"/>
+					</c:if>
+					<c:if test="${side_menu_create}">
+						<jsp:include page="side_menus/create.jsp"/>
+					</c:if>
+					<c:if test="${side_menu_update}">
+						<jsp:include page="side_menus/update.jsp"/>
+					</c:if>
 				</div>
 
 				<div class="tab-pane" id="recomendations">
