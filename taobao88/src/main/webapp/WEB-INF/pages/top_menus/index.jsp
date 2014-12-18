@@ -16,7 +16,7 @@
 								<td></td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/createTopMenu" type="button" role="button" class="btn btn-success">Создать</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu/createTopMenu" type="button" role="button" class="btn btn-success">Создать</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -28,9 +28,9 @@
 									<td>${menu.menuOrder}</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateTopMenu?id=${menu.id}" target="_blank" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/viewTopMenu?id=${menu.id}" target="_blank" class="btn btn-default glyphicon glyphicon-eye-open"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteTopMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu/updateTopMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu/viewTopMenu?id=${menu.id}" target="_blank" class="btn btn-default glyphicon glyphicon-eye-open"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu/deleteTopMenu?id=${menu.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
 										</div>
 									</td>
 								</tr>

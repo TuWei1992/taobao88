@@ -59,7 +59,6 @@ public class PageRedactorController extends MainController {
 //		model.addAttribute("discount", recomendationService.getAllRecomendations(types.get(2)));
 //		model.addAttribute("free_ship", recomendationService.getAllRecomendations(types.get(3)));
 //		model.addAttribute("comments", recomendationService.getAllRecomendations(types.get(4)));
-//		model.addAttribute("brands", brandsService.getAllBrands());
 //		model.addAttribute("privateOffice", pagesContentDAO.findContentByPageName("privateOffice"));
 //		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
 //		Iterator<RecomendationType> iterator = typesList.iterator();

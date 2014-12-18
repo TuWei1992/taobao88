@@ -1,23 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"	language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Update Top Menu</title>
-	<jsp:include page="../adminStyles.jsp"/>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/tinymce/tinymce.min.js"></script>
 	<script type="text/javascript">
 		$(function() {
 			$('.preview').click(function() {
-				var sourceHref = '${pageContext.request.contextPath}/admin/pageRedactor/previewTopMenu';
+				var sourceHref = '${pageContext.request.contextPath}/admin/pageRedactor/topMenu/previewTopMenu';
 				var form = $('form');
 				$(form).attr('action', sourceHref);
 				$(form).attr('target', '_blank');
 			});
 			$('.create').click(function() {
-				var sourceHref = '${pageContext.request.contextPath}/admin/pageRedactor/updateTopMenu/doUpdate';
+				var sourceHref = '${pageContext.request.contextPath}/admin/pageRedactor/topMenu/updateTopMenu/doUpdate';
 				var form = $('form');
 				$(form).attr('action', sourceHref);
 				$(form).submit();
@@ -31,23 +25,11 @@
 			    	image_description: false
 			 });
 		});
-	</script>
-</head>
-<body>
-	<jsp:include page="../adminMenu.jsp"/>
-	
-	<div class="container">
-		<div class="row">
-			<div class="page-header">
-  				<h1>Редактор <small>изменение топ-меню</small></h1>
-			</div>
-		</div>
-	</div>
-	
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12 col-md-12 col-xs-12">
-			
+</script>
+		<div class="col-md-6 col-md-offset-2">
+<div class="page-header">
+  <h4><span class="label label-primary">Редактирование топ-меню</span></h4>
+</div>
 			<jsp:include page="../partials/errors.jsp"/>
 			
 			<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
@@ -73,8 +55,5 @@
 						<button type="submit" role="button" class="btn btn-primary preview">Просмотр</button>
 					</div>
 			</form>
-			</div>
 		</div>
-	</div>
-</body>
-</html>
+			

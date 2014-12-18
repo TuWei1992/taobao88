@@ -54,7 +54,7 @@
 				<li><a href="#discount" role="tab" data-toggle="tab">Товары	со скидками</a></li>
 				<li><a href="#free_ship" role="tab" data-toggle="tab">Бесплатная доставка</a></li>
 				<li class="<c:if test="${brands_index || brands_create || brands_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
-				<li><a href="#topMenu" role="tab" data-toggle="tab">Топ Меню</a></li>
+				<li class="<c:if test="${top_menu_index || top_menu_create || top_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu">Топ Меню</a></li>
 				<li><a href="#userAcc" role="tab" data-toggle="tab">Аккаунт пользователя</a></li>
 			</ul>
 
@@ -153,9 +153,16 @@
 					</c:if>
 				</div>
 				
-				<div class="tab-pane" id="topMenu">
-					<br>
-					<jsp:include page="top_menus/index.jsp"/>
+				<div class="tab-pane <c:if test="${top_menu_index || top_menu_create || top_menu_update}">active</c:if>" id="topMenu">
+					<c:if test="${top_menu_index}">
+						<jsp:include page="top_menus/index.jsp"/>
+					</c:if>
+					<c:if test="${top_menu_create}">
+						<jsp:include page="top_menus/create.jsp"/>
+					</c:if>
+					<c:if test="${top_menu_update}">
+						<jsp:include page="top_menus/update.jsp"/>
+					</c:if>
 				</div>
 				<div class="tab-pane" id="userAcc">
 					<br>
