@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 public class PageRedactorValidator extends AbstractValidator {
 
 	public List<String> validateCreateRecomendation(HttpServletRequest request, Map<String, Object> requestParams) {
@@ -49,6 +47,11 @@ public class PageRedactorValidator extends AbstractValidator {
 		
 		validateIntegerParam(request.getParameter("menuOrder"), "menuOrder", requestParams);
 		
+		return errors;
+	}
+	
+	public List<String> validateUpdateBrand(HttpServletRequest request, Map<String, Object> requestParams) {
+		validateStringParam(request.getParameter("bDesc"), "bDesc", requestParams);
 		return errors;
 	}
 }

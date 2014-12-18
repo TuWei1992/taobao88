@@ -327,10 +327,49 @@ public class PageRedactorController extends MainController {
 		return "redirect:/admin/pageRedactor";
 	}
 
-	@RequestMapping(value = "/updateBrand", method = RequestMethod.POST)
-	public String updateBrand(@RequestParam("bDesc") String desc,
-			@RequestParam("id") int id) {
-		return "redirect:/admin/pageRedactor";
+	@RequestMapping(value = "/updateBrand", method = RequestMethod.GET)
+	public String updateBrand(@RequestParam("id") int id,
+							  Model model) {
+		
+		Brands brand = brandsService.getBrandById(id);
+		model.addAttribute("brand", brand);
+		return "recomendations/brands_update";
+	}
+	
+	@RequestMapping(value = "/updateBrand/doUpdate", method = RequestMethod.POST)
+	public String doUpdateBrand(@RequestParam("id") int id,
+							    @RequestParam("bPhoto") MultipartFile file,
+							    HttpServletRequest request,
+							    Model model) {
+		
+		try {
+			Brands brand = brandsService.getBrandById(id);
+			validator = new PageRedactorValidator();
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			List<String> errors = validator.validateUpdateBrand(request, map);
+			if (errors.size() != 0) {
+				model.addAttribute("errors", toJSArray(errors.toArray()));
+				return "recomendations/brands_update";
+			}
+			
+			if (file.getSize() > 0) {
+				Images image = new Images();
+				image.setImageName(file.getOriginalFilename());
+				image.setImageId(imagesService.addImage(image));
+				brand.setBrandImage(image.getImageId());
+				brand.setImage(image);
+				saveUploadedFile(file);
+			}
+			
+			brand.setBrandName((String) map.get("bDesc")); 
+			brandsService.updateBrand(brand);
+			return "redirect:/admin/pageRedactor";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("unknown_error", true);
+			return "recomendations/brands_update";
+		}		
 	}
 
 	@RequestMapping(value = "/createTopMenu", method = RequestMethod.GET)

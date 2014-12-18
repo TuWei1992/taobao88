@@ -11,9 +11,7 @@
 				</button>
 				<h4 class="modal-title" id="brandModalLabel">Создать</h4>
 			</div>
-			<form role="form" method="POST" accept-charset="utf-8"
-				enctype="multipart/form-data"
-				action="${pageContext.request.contextPath}/admin/pageRedactor/createBrand">
+			<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/createBrand">
 				<div class="modal-body">
 					<div class="form-group">
 						<label class="input" for="bDesc">Название</label> <input
