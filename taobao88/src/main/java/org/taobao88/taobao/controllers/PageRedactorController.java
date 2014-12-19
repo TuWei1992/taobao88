@@ -18,18 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.taobao88.taobao.controllers.validators.PageRedactorValidator;
-import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
 import org.taobao88.taobao.enterprise.entity.Images;
-import org.taobao88.taobao.enterprise.entity.PageContent;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
-import org.taobao88.taobao.enterprise.entity.TopMenu;
 import org.taobao88.taobao.enterprise.service.ColorsService;
 import org.taobao88.taobao.enterprise.service.ImagesService;
 import org.taobao88.taobao.enterprise.service.RecomendationService;
 import org.taobao88.taobao.enterprise.service.RecomendationTypeService;
 import org.taobao88.taobao.enterprise.service.SizesService;
-import org.taobao88.taobao.enterprise.service.TopMenuService;
 
 @Controller
 @RequestMapping("/admin/pageRedactor")
@@ -39,16 +35,12 @@ public class PageRedactorController extends MainController {
 	@Autowired
 	private RecomendationService recomendationService;
 	@Autowired
-	private TopMenuService topMenuService;
-	@Autowired
 	private ImagesService imagesService;
 	@Autowired
 	private ColorsService colorsService;
 	@Autowired
 	private SizesService sizesService;
-	@Autowired
-	private PagesContentDAO pagesContentDAO;
-	
+		
 	private PageRedactorValidator validator;
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -59,7 +51,6 @@ public class PageRedactorController extends MainController {
 //		model.addAttribute("discount", recomendationService.getAllRecomendations(types.get(2)));
 //		model.addAttribute("free_ship", recomendationService.getAllRecomendations(types.get(3)));
 //		model.addAttribute("comments", recomendationService.getAllRecomendations(types.get(4)));
-//		model.addAttribute("privateOffice", pagesContentDAO.findContentByPageName("privateOffice"));
 //		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
 //		Iterator<RecomendationType> iterator = typesList.iterator();
 //		while (iterator.hasNext()) {
@@ -69,7 +60,6 @@ public class PageRedactorController extends MainController {
 //			}
 //		}
 //		model.addAttribute("recomendationTypes", typesList);
-//		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		return "redirect:/admin/pageRedactor/sideMenu";
 	}
 
@@ -223,89 +213,6 @@ public class PageRedactorController extends MainController {
 		recomendationService.updateRecomendation(rec);
 		return "redirect:/admin/pageRedactor";
 	}
-
-	@RequestMapping(value = "/createTopMenu", method = RequestMethod.GET)
-	public String createTopMenu(Model model) {
-		return "top_menus/create";
-	}
-
-	@RequestMapping(value = "/createTopMenu/doCreate", method = RequestMethod.POST)
-	public String doCreateTopMenu(HttpServletRequest request, Model model) {
-		
-		validator = new PageRedactorValidator();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<String> errors = validator.validateCreateTopMenu(request, map);
-		if (errors.size() != 0) {
-			model.addAttribute("errors", toJSArray(errors.toArray()));
-			return "top_menus/create";
-		}
-		
-		try {
-			TopMenu topMenu = new TopMenu();
-			topMenu.setMenuName((String) map.get("menuName"));
-			topMenu.setMenuDescription((String) map.get("menuDescription"));
-			topMenu.setMenuOrder((int) map.get("menuOrder"));
-			topMenuService.addTopMenu(topMenu);
-			return "redirect:/admin/pageRedactor";
-		} catch (Exception e) {
-			model.addAttribute("unknown_error", true);
-			return "top_menus/create";
-		}
-	}
-
-	@RequestMapping(value = "/updateTopMenu", method = RequestMethod.GET)
-	public String updateTopMenu(@RequestParam("id") int id, Model model) {
-		TopMenu topMenu = topMenuService.getTopMenuById(id);
-		model.addAttribute("topMenu", topMenu);
-		return "top_menus/update";
-	}
-
-	@RequestMapping(value = "/updateTopMenu/doUpdate", method = RequestMethod.POST)
-	public String doUpdateTopMenu(@RequestParam("id") int id,
-			@RequestParam("menuName") String menuName,
-			@RequestParam("menuDescription") String menuDescription,
-			@RequestParam("menuOrder") int menuOrder) {
-		TopMenu topMenu = topMenuService.getTopMenuById(id);
-		topMenu.setMenuName(menuName);
-		topMenu.setMenuDescription(menuDescription);
-		topMenu.setMenuOrder(menuOrder);
-		topMenuService.updateTopMenu(topMenu);
-		return "redirect:/admin/pageRedactor";
-	}
-
-	@RequestMapping(value = "/deleteTopMenu", method = RequestMethod.GET)
-	public String deleteTopMenu(@RequestParam("id") int id) {
-		TopMenu topMenu = topMenuService.getTopMenuById(id);
-		topMenuService.deleteTopMenu(topMenu);
-		return "redirect:/admin/pageRedactor";
-	}
-
-	@RequestMapping(value = "/viewTopMenu", method = RequestMethod.GET)
-	public String viewTopMenu(@RequestParam("id") int id, Model model) {
-		model.addAttribute("topMenu", topMenuService.getTopMenuById(id));
-		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
-		return "_template";
-	}
-
-	@RequestMapping(value = "/previewTopMenu", method = RequestMethod.POST)
-	public String previewTopMenu(
-			@RequestParam("menuDescription") String menuDescription, Model model) {
-		TopMenu topMenu = new TopMenu();
-		topMenu.setMenuDescription(menuDescription);
-		model.addAttribute("topMenu", topMenu);
-		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
-		return "_template";
-	}
-
-	@RequestMapping(value = "/updatedPageContent", method = RequestMethod.POST)
-	public String updatedPageContent(@RequestParam("page") String page,
-			@RequestParam("content") String content) {
-		PageContent pageContent = pagesContentDAO.findContentByPageName(page);
-		pageContent.setContent(content);
-		pagesContentDAO.updatePageContent(pageContent);
-		return "redirect:/admin/pageRedactor";
-	}
 	
 	@RequestMapping(value = "/deleteImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String deleteImage(HttpServletRequest request) {
@@ -333,37 +240,4 @@ public class PageRedactorController extends MainController {
 		}
 		return "{\"success\":false, \"message\":\"image_or_rec_is_null\"}";
 	}
-
-//	private void createRecomendation(MultipartFile file, Recomendation rec) {
-//		saveUploadedFile(file);
-//	}
-//
-//	private void createRecomendation(MultipartFile[] files, Recomendation rec) {
-//		Set<Images> images = new HashSet<Images>();
-//		for (MultipartFile file : files) {
-//			if (file.getSize() > 0) {
-//				saveUploadedFile(file);
-//				Images image = new Images();
-//				image.setImageName(file.getOriginalFilename());
-//				images.add(image);
-//			}
-//		}
-//		if (rec.getImages() == null) {
-//			rec.setImages(images);
-//		} else {
-//			rec.getImages().addAll(images);
-//		}
-//	}
-//
-//	private List<RecomendationType> getRecomendationTypeList() {
-//		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
-//		Iterator<RecomendationType> iterator = typesList.iterator();
-//		while (iterator.hasNext()) {
-//			RecomendationType type = iterator.next();
-//			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
-//				iterator.remove();
-//			}
-//		}
-//		return typesList;
-//	}
 }
