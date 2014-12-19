@@ -11,7 +11,7 @@
 			<div class="goods-list">
 				<c:forEach items="${brandList}" var="brand">
 					<div id="${brand.brandId}">
-						<div class="shop-item" style="width: 100px;">
+						<div class="shop-item" style="width: 100px; height: 15px">
 							<div>
 								<div class="item-box" style="width: 100px;">
 									<div class="item-thumb">
