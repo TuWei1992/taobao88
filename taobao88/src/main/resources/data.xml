@@ -11,6 +11,6 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/taobao?useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=utf8&amp;connectionCollation=utf8_general_ci" />
 		<property name="username" value="root" />
-		<property name="password" value="p@ssw0rd" />
+		<property name="password" value="root" />
 	</bean>
 </beans>

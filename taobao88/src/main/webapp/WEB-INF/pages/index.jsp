@@ -67,7 +67,7 @@
 				<ul>
 					<li><a href="#">Самое популярное</a></li>
 					<c:forEach items="${banner}" var="item">
-						<div class="best1" style="background: url(/images/${item.photo});">
+						<div class="best1" style="background: url(/images/${item.photo}) no-repeat; background-size: cover;">
 							<a href="${item.href}">
 								<p>${item.price}$</p>${item.description}
 							</a>

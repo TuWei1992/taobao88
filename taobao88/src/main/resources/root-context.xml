@@ -22,7 +22,7 @@
 	<!-- Файл с настройками безопасности -->
 	<import resource="spring-security.xml" />
 	<!-- Scan classpath for annotations (eg: @Service, @Repository etc) -->
-	<context:component-scan base-package="org.taobao88.taobao.enterprise.*" />
+	<context:component-scan base-package="org.taobao88.taobao.*" />
 		
 	<tx:annotation-driven />
 
