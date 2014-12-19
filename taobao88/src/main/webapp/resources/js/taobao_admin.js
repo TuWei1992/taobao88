@@ -6,7 +6,7 @@ $(function() {
 			imageId = imageId.replace('img_', '');
 			$.ajax({
 				type: 'POST',
-				url: document.URL.replace('/recomendation', '').replace('/discount', '') + '/deleteImage',
+				url: document.URL.replace('/recomendation', '').replace('/discount', '').replace('/freeShip', '') + '/deleteImage',
 				data: 'imageId=' + imageId,
 				complete: function(jsonData) {
 					var response = JSON.parse(jsonData.responseText);
@@ -34,7 +34,7 @@ $(function() {
 			var recId = imgRec[1].replace('rec_', '');
 			$.ajax({
 				type: 'POST',
-				url: document.URL.replace('/recomendation', '').replace('/discount', '') + '/makeImageAsMain',
+				url: document.URL.replace('/recomendation', '').replace('/discount', '').replace('/freeShip', '') + '/makeImageAsMain',
 				data: 'imageId=' + imageId + '&recId=' + recId,
 				complete: function(jsonData) {
 					var response = JSON.parse(jsonData.responseText);

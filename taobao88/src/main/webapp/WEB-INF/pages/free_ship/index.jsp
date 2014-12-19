@@ -22,7 +22,7 @@
 								<td></td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip/createRecomendation" type="button" role="button" class="btn btn-success">Создать</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -57,8 +57,9 @@
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateRecomendation?id=${fs.id}" target="_blank" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${fs.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip/updateRecomendation?id=${fs.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip/deleteRecomendation?id=${fs.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip/createRecomendation" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>
 								</tr>

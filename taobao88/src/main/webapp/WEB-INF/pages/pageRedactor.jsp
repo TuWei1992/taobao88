@@ -19,7 +19,6 @@
 <body>
 
 	<jsp:include page="adminMenu.jsp" />
-	<jsp:include page="modal/banner_modal.jsp" />
 	
 	<div class="container">
 		<div class="row">
@@ -38,7 +37,7 @@
 				<li class="<c:if test="${slider_index || slider_create || slider_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/slider">Слайдер</a></li>
 				<li class="<c:if test="${banner_index || banner_create || banner_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner">Баннер</a></li>
 				<li class="<c:if test="${discount_index || discount_create || discount_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/discount">Товары	со скидками</a></li>
-				<li><a href="#free_ship" role="tab" data-toggle="tab">Бесплатная доставка</a></li>
+				<li class="<c:if test="${free_ship_index || free_ship_create || free_ship_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip">Бесплатная доставка</a></li>
 				<li class="<c:if test="${brands_index || brands_create || brands_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
 				<li class="<c:if test="${top_menu_index || top_menu_create || top_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu">Топ Меню</a></li>
 				<li class="<c:if test="${user_account_index}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/userAccount">Аккаунт пользователя</a></li>
@@ -107,9 +106,16 @@
 					</c:if>
 				</div>
 				
-				<div class="tab-pane" id="free_ship">
-					<br>
-					<jsp:include page="recomendations/free_shipping.jsp"/>
+				<div class="tab-pane <c:if test="${free_ship_index || free_ship_create || free_ship_update}">active</c:if>" id="free_ship">
+					<c:if test="${free_ship_index}">
+						<jsp:include page="free_ship/index.jsp"/>
+					</c:if>
+					<c:if test="${free_ship_create}">
+						<jsp:include page="free_ship/create.jsp"/>
+					</c:if>
+					<c:if test="${free_ship_update}">
+						<jsp:include page="free_ship/update.jsp"/>
+					</c:if>
 				</div>
 				
 				<div class="tab-pane <c:if test="${brands_index || brands_create || brands_update}">active</c:if>" id="brands">
