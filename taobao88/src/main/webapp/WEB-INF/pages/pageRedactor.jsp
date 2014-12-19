@@ -12,20 +12,7 @@
 			$('#myTab a').click(function (e) {
 				e.preventDefault()
 				$(this).tab('show')
-			})
-			
-			$('.create_banner_btn').on('click', function() {
-				$('#bannerModal').modal('show');
-			});
-			
-			tinymce.init({
-			    selector: "#content",
-			    height : 500,
-			    theme: "modern",
-			    plugins: "image",
-			    	image_advtab: true,
-			    	image_description: false
-			 });	
+			})			
 		});
 	</script>
 </head>
@@ -47,9 +34,9 @@
 
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="<c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu">Боковое меню</a></li>
-				<li><a href="#recomendations" role="tab" data-toggle="tab">Рекомендации</a></li>
+				<li class="<c:if test="${recomendation_index || recomendation_create || recomendation_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation">Рекомендации</a></li>
 				<li class="<c:if test="${slider_index || slider_create || slider_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/slider">Слайдер</a></li>
-				<li><a href="#banner" role="tab" data-toggle="tab">Баннер</a></li>
+				<li class="<c:if test="${banner_index || banner_create || banner_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner">Баннер</a></li>
 				<li><a href="#discount" role="tab" data-toggle="tab">Товары	со скидками</a></li>
 				<li><a href="#free_ship" role="tab" data-toggle="tab">Бесплатная доставка</a></li>
 				<li class="<c:if test="${brands_index || brands_create || brands_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
@@ -72,9 +59,16 @@
 					</c:if>
 				</div>
 
-				<div class="tab-pane" id="recomendations">
-					<br>
-					<jsp:include page="recomendations/index.jsp"/>
+				<div class="tab-pane <c:if test="${recomendation_index || recomendation_create || recomendation_update}">active</c:if>" id="recomendations">
+					<c:if test="${recomendation_index}">
+						<jsp:include page="recomendations/index.jsp"/>
+					</c:if>
+					<c:if test="${recomendation_create}">
+						<jsp:include page="recomendations/create.jsp"/>
+					</c:if>
+					<c:if test="${recomendation_update}">
+						<jsp:include page="recomendations/update.jsp"/>
+					</c:if>
 				</div>
 				
 				<div class="tab-pane <c:if test="${slider_index || slider_create || slider_update}">active</c:if>" id="slider">
@@ -89,52 +83,23 @@
 					</c:if>
 				</div>
 				
-				<div class="tab-pane" id="banner">
-					<br>
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Фото</th>
-								<th>Аттрибуты</th>
-								<th>Действия</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>
-									<button type="button" role="button"
-										class="btn btn-success create_banner_btn">Создать</button>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<c:forEach items="${banner}" var="item">
-								<tr>
-									<td><img src="/images/${item.photo}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="250" height="250" class="img-thumbnail"></td>
-									<td>
-										<ul class="list-group">
-  											<li class="list-group-item"><b>Краткое описание:</b> <span>${item.description}</span></li>
-  											<li class="list-group-item"><b>Цена:</b> <span>${item.price}</span></li>
-  											<li class="list-group-item"><b>Ссылка:</b> <span>${item.href}</span></li>
-  										</ul>
-									</td>
-									<td>
-										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateBanner?id=${item.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${item.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+				<div class="tab-pane <c:if test="${banner_index || banner_create || banner_update}">active</c:if>" id="banner">
+					<c:if test="${banner_index}">
+						<jsp:include page="banners/index.jsp"/>
+					</c:if>
+					<c:if test="${banner_create}">
+						<jsp:include page="banners/create.jsp"/>
+					</c:if>
+					<c:if test="${banner_update}">
+						<jsp:include page="banners/update.jsp"/>
+					</c:if>
 				</div>
+				
 				<div class="tab-pane" id="discount">
 					<br>
 					<jsp:include page="recomendations/discount.jsp"/>
 				</div>
+				
 				<div class="tab-pane" id="free_ship">
 					<br>
 					<jsp:include page="recomendations/free_shipping.jsp"/>

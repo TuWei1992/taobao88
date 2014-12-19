@@ -1,7 +1,6 @@
 package org.taobao88.taobao.controllers;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,13 +8,11 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.taobao88.taobao.controllers.validators.PageRedactorValidator;
 import org.taobao88.taobao.enterprise.entity.Images;
@@ -28,52 +25,29 @@ import org.taobao88.taobao.enterprise.service.RecomendationTypeService;
 import org.taobao88.taobao.enterprise.service.SizesService;
 
 @Controller
-@RequestMapping("/admin/pageRedactor")
-public class PageRedactorController extends MainController {
-	@Autowired
-	private RecomendationTypeService recomendationTypeService;
-	@Autowired
-	private RecomendationService recomendationService;
-	@Autowired
-	private ImagesService imagesService;
-	@Autowired
-	private ColorsService colorsService;
-	@Autowired
-	private SizesService sizesService;
-		
+@RequestMapping(value = "/admin/pageRedactor/recomendation")
+public class RecomendationController extends MainController {
+
+	@Autowired private RecomendationTypeService recomendationTypeService;
+	@Autowired private RecomendationService recomendationService;
+	@Autowired private ImagesService imagesService;
+	@Autowired private ColorsService colorsService;
+	@Autowired private SizesService sizesService;
 	private PageRedactorValidator validator;
-
+	
 	@RequestMapping(method = RequestMethod.GET)
-	public String pageRedactor(Model model) {
-//		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
-//		model.addAttribute("discount", recomendationService.getAllRecomendations(types.get(2)));
-//		model.addAttribute("free_ship", recomendationService.getAllRecomendations(types.get(3)));
-//		model.addAttribute("comments", recomendationService.getAllRecomendations(types.get(4)));
-//		List<RecomendationType> typesList = recomendationTypeService.getRecomendationTypesAsList();
-//		Iterator<RecomendationType> iterator = typesList.iterator();
-//		while (iterator.hasNext()) {
-//			RecomendationType type = iterator.next();
-//			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
-//				iterator.remove();
-//			}
-//		}
-//		model.addAttribute("recomendationTypes", typesList);
-		return "redirect:/admin/pageRedactor/sideMenu";
+	public String index(Model model) {
+		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
+		model.addAttribute("recomendations", recomendationService.getAllRecomendations(types.get(0)));
+		model.addAttribute("recomendation_index", true);
+		return "pageRedactor";
 	}
-
+	
 	@RequestMapping(value = "/createRecomendation", method = RequestMethod.GET)
 	public String createRecomendation(Model model) {
-		List<RecomendationType> typesList = recomendationTypeService
-				.getRecomendationTypesAsList();
-		Iterator<RecomendationType> iterator = typesList.iterator();
-		while (iterator.hasNext()) {
-			RecomendationType type = iterator.next();
-			if (type.getTypeId() == 1 || type.getTypeId() == 4) {
-				iterator.remove();
-			}
-		}
-		model.addAttribute("recomendationTypes", typesList);
-		return "recomendations/create";
+		model.addAttribute("recomendation_type", 0);
+		model.addAttribute("recomendation_create", true);
+		return "pageRedactor";
 	}
 
 	@RequestMapping(value = "/createRecomendation/doCreate", method = RequestMethod.POST)
@@ -88,7 +62,8 @@ public class PageRedactorController extends MainController {
 		if (errors.size() != 0) {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			model.addAttribute("recomendationTypes", getRecomendationTypeList());
-			return "recomendations/create";
+			model.addAttribute("recomendation_create", true);
+			return "pageRedactor";
 		}
 		
 		try {
@@ -105,11 +80,12 @@ public class PageRedactorController extends MainController {
 			rec.setCount((int) map.get("rCount"));
 			createRecomendation(files, rec);
 			recomendationService.addRecomendation(rec);
-			return "redirect:/admin/pageRedactor";
+			return "redirect:/admin/pageRedactor/recomendation";
 		} catch (Exception e) {
 			model.addAttribute("unknown_error", true);
 			model.addAttribute("recomendationTypes", getRecomendationTypeList());
-			return "recomendations/create";
+			model.addAttribute("recomendation_create", true);
+			return "pageRedactor";
 		}
 	}
 
@@ -123,14 +99,15 @@ public class PageRedactorController extends MainController {
 			}
 		}
 		recomendationService.deleteRecomendation(rec);
-		return "redirect:/admin/pageRedactor";
+		return "redirect:/admin/pageRedactor/recomendation";
 	}
 
 	@RequestMapping(value = "/updateRecomendation", method = RequestMethod.GET)
 	public String updateRecomendation(@RequestParam("id") int id, Model model) {
 		Recomendation rec = recomendationService.getRecomendationById(id);
 		model.addAttribute("rec", rec);
-		return "recomendations/update";
+		model.addAttribute("recomendation_update", true);
+		return "pageRedactor";
 	}
 
 	@RequestMapping(value = "/updateRecomendation/doUpdate", method = RequestMethod.POST)
@@ -147,7 +124,8 @@ public class PageRedactorController extends MainController {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			Recomendation rec = recomendationService.getRecomendationById(id);
 			model.addAttribute("rec", rec);
-			return "recomendations/update";
+			model.addAttribute("recomendation_update", true);
+			return "pageRedactor";
 		}
 		
 		try {
@@ -164,37 +142,12 @@ public class PageRedactorController extends MainController {
 				createRecomendation(files, rec);
 			}
 			recomendationService.updateRecomendation(rec);
-			return "redirect:/admin/pageRedactor";
+			return "redirect:/admin/pageRedactor/recomendation";
 		} catch (Exception e) {
 			model.addAttribute("unknown_error", true);
-			return "recomendations/update";
-		}
-	}
-
-	@RequestMapping(value = "/deleteImage", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String deleteImage(HttpServletRequest request) {
-		try {
-			Images image = imagesService.getImagesById(Integer.parseInt(request.getParameter("imageId")));
-			deleteImage(image);
-			imagesService.deleteImage(image);
-			return "{\"success\":true,\"message\":\"image_deleted\"}";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "{\"success\":false,\"message\":\"deleting_error\"}";
+			model.addAttribute("recomendation_update", true);
+			return "pageRedactor";
 		}
 	}
 	
-	@RequestMapping(value = "/makeImageAsMain", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String makeImageAsMain(@RequestParam ("imageId") int imageId,
-												@RequestParam ("recId") int recId) {
-		
-		Recomendation rec = recomendationService.getRecomendationById(recId);
-		Images img = imagesService.getImagesById(imageId);
-		if (img != null && rec != null) {
-			rec.setPhoto(img.getImageName());
-			recomendationService.updateRecomendation(rec);
-			return "{\"success\":true, \"message\":\"image_changed\"}";
-		}
-		return "{\"success\":false, \"message\":\"image_or_rec_is_null\"}";
-	}
 }

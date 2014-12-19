@@ -22,7 +22,7 @@
 								<td></td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -32,7 +32,7 @@
 									<td>
 										<c:forEach items="${rec.images}" var="img">
 											<img src="/images/${img.imageName}" id="img_${img.imageId}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="100" height="100"	class="img-thumbnail">
-											<a type="button" for="img_${img.imageId}" class="btn btn-default glyphicon glyphicon-remove delete_image" data-toggle="tooltip" data-placement="top" title="Удалить"></a>
+											<a type="button" for="img_${img.imageId}" class="btn btn-default glyphicon glyphicon-remove delete_image" onclick="" data-toggle="tooltip" data-placement="top" title="Удалить"></a>
 											<a type="button" for="img_${img.imageId}&rec_${rec.id}" class="btn btn-default glyphicon glyphicon-picture main_image" data-toggle="tooltip" data-placement="top" title="Сделать основной картинкой"></a>
 											<br>
 										</c:forEach>
@@ -58,8 +58,9 @@
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/updateRecomendation?id=${rec.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/deleteRecomendation?id=${rec.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/updateRecomendation?id=${rec.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/deleteRecomendation?id=${rec.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/createRecomendation" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>
 								</tr>
