@@ -36,7 +36,7 @@
 					</li>
 					<li>
 						<a href="${pageContext.request.contextPath}/privateOffice/showMessages">
-							<i class="icon mail"></i>Мои сообщения <span id="messages_count" style="font-size: 10pt; color: white;"></span>
+							<i class="icon mail"></i>Мои сообщения <span id="messages_count" style="font-size: 10pt; color: white;">0</span>
 						</a>
 					</li>
 					<li>
