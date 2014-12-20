@@ -32,18 +32,11 @@
 						<textarea class="form-control order-control" id="message" name="message" placeholder="" onchange="checkFilling();"></textarea>
 					</div>
 					<div class="form-group">
-						<c:choose>
-							<c:when test="${pageContext.request.userPrincipal.name != null}">
+						
+							
 								<button role="button" class="btn btn-primary btn-order"
 									type="submit">Отправить</button>
-							</c:when>
-							<c:otherwise>
-								<a role="button" class="btn btn-danger"
-									href="${pageContext.request.contextPath}/login" target="_blank">Авторизоваться</a>
-								<br>
-						Для написания сообщения необходима авторизация
-					</c:otherwise>
-						</c:choose>
+							
 					</div>
 				</form>
 			</div>
