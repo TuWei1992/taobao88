@@ -155,8 +155,11 @@ public class IndexController extends MainController {
 	
 	@RequestMapping(value = "item", method = RequestMethod.GET)
 	public String item(@RequestParam ("id") int id, Model model) {
-		model.addAttribute("item", recomendationService.getRecomendationById(id));
+		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
+		Recomendation item = recomendationService.getRecomendationById(id);
+		model.addAttribute("item", item);
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
+		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
 		return "item";
 	}
 	

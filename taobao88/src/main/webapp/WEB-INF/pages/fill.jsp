@@ -21,12 +21,15 @@
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="/css/ie.css"/>
 <![endif]-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.cslider.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.jcarousel.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.timers-1.2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.easing.1.3.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.galleryview-3.0-dev.js"></script>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/gallery/css/jquery.galleryview-3.0-dev.css" />
     <!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="./css/ie.css" />
     <script type="text/javascript" src="./js/curvycorners.js"></script>
@@ -48,34 +51,18 @@
     <![endif]-->
 <script>
         $(document).ready(function(){
-            var spinner = $( "#spinner" ).spinner();
-            $( "#tabs" ).tabs();
-            $(".product li:nth-child(3n)").css("margin-right","0");
-            <!--select-->
-            <!--jcarousel-->
-            $('#pr-carousel').jcarousel({
-                scroll:4,
-                start: 1
-            });
-            $(".jcarousel-item").click(function(){
-                $(".active").removeClass("active");
-                $(this).addClass("active");
-				var activeImage = $('.active img').attr('src');
-				$('.active-image').attr('src', activeImage);
-            });
-            <!--select-->
-            var params = {
-                changedEl: "#s-category,#s-color,#s-size",
-                visRows: 12,
-                scrollArrows: false,
-                refreshEl: "#s-category,#s-color,#s-size"
-            }
-            $('.jcarousel').jcarousel(params);
-            
             $('#basket').text('${basket}');
             $('#translate').click(function() {
             	translate();
             });
+            $('#myGallery').galleryView({
+            	panel_width: 350,
+            	panel_height: 350,
+            	frame_width: 70,
+            	frame_height: 50
+            });
+            $('.gv_gallery').width(340);
+            $('.gv_galleryWrap').height(405);
         });
 </script>
 </head>
@@ -90,18 +77,13 @@
 			<div class="content">
 	 		<!-- image slide -->
 				<div class="product-container">
-               		<div id="img-product">
-                   		<img src="/images/${orderT.goods.photo}" class="active-image" height="100%" alt="">
-               		</div>
-               		<div class="slides-product">
-                   		<ul id="pr-carousel" class="jcarousel">
-                  			<c:forEach items="${orderT.goods.recomendation.images}" var="img">
+					<ul id="myGallery">
+							<c:forEach items="${orderT.goods.recomendation.images}" var="img">
                           		<li class="" >
-                               		<a href="#"><img src="/images/${img.imageName}" alt=""></a>
+                               		<img src="/images/${img.imageName}" alt="" width="100%">
                            		</li>
                        		</c:forEach>
-                       	</ul>
-               		</div>	
+						</ul>
 			    </div>
 		 	<!-- central block -->
 				<div class="col">

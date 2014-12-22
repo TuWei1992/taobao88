@@ -49,10 +49,11 @@
 				<div class="side">
 					<div class="side-menu">
 						<ul>
-   							<li><a href="#">Оплатить через банк</a></li>
-							<li><a href="#">Вестерн Юнион (Western Union)</a></li>
-							<li><a href="#">Юнистрим</a></li>
-							<li><a href="#">Веб мани</a></li>
+							<c:forEach items="${paymentMethods}" var="method">
+								<li>
+									<a href="${pageContext.request.contextPath}/privateOffice/showBalance?method=${method.id}">${method.methodName}</a>
+								</li>								
+							</c:forEach>
     					</ul>
 					</div>
 				</div>
@@ -62,8 +63,16 @@
 					</c:if>
 					<div class="shop-ttl frst-ttl"><span>Методы оплаты</span></div>
 					<div class="prepouse">
-						Ваш счет: ${balance}
+						Ваш счет: $${balance}
 					</div>
+					<c:if test="${not empty method}">
+						<div class="prepouse">
+							<h4>${method.methodName}</h4>
+							<p>
+								${method.methodDescription}
+							</p>
+						</div>
+					</c:if>
 				</div>
 			</div>
 		</div>

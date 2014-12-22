@@ -22,6 +22,7 @@ import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
+import org.taobao88.taobao.enterprise.dao.PaymentMethodDAO;
 import org.taobao88.taobao.enterprise.dao.PostServiceDAO;
 import org.taobao88.taobao.enterprise.dao.ShippingAddressDAO;
 import org.taobao88.taobao.enterprise.dao.StatusesDAO;
@@ -54,6 +55,7 @@ public class OfficeController extends  MainController{
     @Autowired private OrdersStatusesDAO ordersStatusesDAO;
     @Autowired private PackagesStatusesDAO packagesStatusesDAO;
     @Autowired private ShippingAddressDAO shippingAddressDAO;
+    @Autowired private PaymentMethodDAO paymentMethodDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -607,10 +609,11 @@ public class OfficeController extends  MainController{
     				      Model model) {
     	model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
     	model.addAttribute("packageT", packageService.findPackageById(id));
+    	model.addAttribute("paymentMethods", paymentMethodDAO.getAll());
     	
     	int userId = (int) request.getSession().getAttribute("currentIdUser");
     	UserT userT = userService.findUserById(userId);
-    	request.setAttribute("balance", balanceService.getBalance(userT));
+    	model.addAttribute("balance", balanceService.getBalance(userT));
     	request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(userId));
     	return "pay";
     }
@@ -636,12 +639,21 @@ public class OfficeController extends  MainController{
     }
         
     @RequestMapping(value = "showBalance", method = RequestMethod.GET)
-    public String showBalance(HttpServletRequest request) {	
+    public String showBalance(Model model, HttpServletRequest request) {	
     	int userId = (int) request.getSession().getAttribute("currentIdUser");
     	UserT userT = userService.findUserById(userId);
+    	
+    	request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(userId));
+    	model.addAttribute("paymentMethods", paymentMethodDAO.getAll());
     	request.setAttribute("balance", balanceService.getBalance(userT));
     	request.setAttribute("topMenuList", topMenuService.getFullTopMenu());
-    	request.getSession().setAttribute("messages_count", messagesService.getUnreadedMessagesCount(userId));
+    	
+    	Object methodId = request.getParameter("method");
+    	if (methodId != null) {
+    		PaymentMethod method = paymentMethodDAO.findById(Integer.valueOf(methodId.toString()));
+    		model.addAttribute("method", method);
+    	}
+    	
     	return "pay";
     }
     

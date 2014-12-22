@@ -15,7 +15,7 @@
 							<div>
 								<div class="item-box" style="width: 100px;">
 									<div class="item-thumb">
-										<a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=http://s.taobao.com/search?q=${brand.brandName}"
+										<a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=http%3A%2F%2Fs.taobao.com%2Fsearch%3Fq%3D${brand.brandName}&sandbox=1"
 										   class="item-lnk thumbnail" target="_blank"> 
 										   <img src="/images/${brand.image.imageName}" alt="New fashion">
 										</a>

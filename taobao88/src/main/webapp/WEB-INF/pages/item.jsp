@@ -22,12 +22,16 @@
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="/css/ie.css"/>
 <![endif]-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.cslider.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.jcarousel.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.timers-1.2.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.easing.1.3.js"></script>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.galleryview-3.0-dev.js"></script>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/gallery/css/jquery.galleryview-3.0-dev.css" />
+
     <!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="./css/ie.css" />
     <script type="text/javascript" src="./js/curvycorners.js"></script>
@@ -48,35 +52,20 @@
     </script>
     <![endif]-->
 <script>
-        $(document).ready(function(){
-            var spinner = $( "#spinner" ).spinner();
-            $( "#tabs" ).tabs();
-            $(".product li:nth-child(3n)").css("margin-right","0");
-            <!--select-->
-            <!--jcarousel-->
-            $('#pr-carousel').jcarousel({
-                scroll:4,
-                start: 1
-            });
-            $(".jcarousel-item").click(function(){
-                $(".active").removeClass("active");
-                $(this).addClass("active");
-				var activeImage = $('.active img').attr('src');
-				$('.active-image').attr('src', activeImage);
-            });
-            <!--select-->
-            var params = {
-                changedEl: "#s-category,#s-color,#s-size",
-                visRows: 12,
-                scrollArrows: false,
-                refreshEl: "#s-category,#s-color,#s-size"
-            }
-            $('.jcarousel').jcarousel(params);
-            
+        $(document).ready(function(){          
             $('#basket').text('${basket}');
             $('#translate').click(function() {
             	translate();
             });
+            $('#myGallery').galleryView({
+            	panel_width: 350,
+            	panel_height: 350,
+            	frame_width: 70,
+            	frame_height: 50
+            });
+            $('.gv_gallery').width(340);
+            $('.gv_galleryWrap').height(405);
+            
         });
 </script>
 </head>
@@ -89,7 +78,7 @@
 			<div class="content">
 	 		<!-- image slide -->
 				<div class="product-container">
-               		<div id="img-product">
+               		<%--<div id="img-product">
                    		<img src="/images/${item.photo}" class="active-image" width="100%" alt="">
                		</div>
                		<div class="slides-product">
@@ -100,7 +89,14 @@
                            		</li>
                        		</c:forEach>
                        	</ul>
-               		</div>	
+               		</div>--%>
+               			<ul id="myGallery">
+							<c:forEach items="${item.images}" var="img">
+                          		<li class="" >
+                               		<img src="/images/${img.imageName}" alt="" width="100%">
+                           		</li>
+                       		</c:forEach>
+						</ul>
 			    </div>
 		 	<!-- central block -->
 				<div class="col">
@@ -150,16 +146,18 @@
 					</form>
 				</div>
 			</div>
+			<c:if test="${banner.size() != 0}">
 			<div class="main-hot-right">
 				<ul>
    					<li><a href="#">hot products</a></li>
 				</ul>
-				<div class="best1" style="background: url(/images/${item.photo}) no-repeat; background-size: cover;">
-					<a href="${item.href}">
-						<p>${item.price}$</p>${item.description}
+				<div class="best1" style="background: url(/images/${banner.get(0).photo}) no-repeat; background-size: cover;">
+					<a href="${banner.get(0).href}">
+						<p>${banner.get(0).price}$</p>${banner.get(0).description}
 					</a>
 				</div>
 			</div>
+			</c:if>
 		</div>
 	</div>
  </div>

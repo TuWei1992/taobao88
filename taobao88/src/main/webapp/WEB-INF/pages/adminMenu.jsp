@@ -24,6 +24,8 @@
 						href="${pageContext.request.contextPath}/admin/postServices">Почтовые сервисы</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/admin/countries">Страны/Регионы</a></li>
+					<li><a
+						href="${pageContext.request.contextPath}/admin/paymentMethods">Способы оплаты</a></li>
 					<li><a href="${pageContext.request.contextPath}/secure/logout">Выйти</a></li>
 				</ul>
 			</div>
