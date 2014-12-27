@@ -43,6 +43,13 @@ public class RecomendationController extends MainController {
 		return "pageRedactor";
 	}
 	
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public String view(@RequestParam ("id") int id, Model model) {
+		model.addAttribute("rec", recomendationService.getRecomendationById(id));
+		model.addAttribute("recomendation_view", true);
+		return "pageRedactor";
+	}
+	
 	@RequestMapping(value = "/createRecomendation", method = RequestMethod.GET)
 	public String createRecomendation(Model model) {
 		model.addAttribute("recomendation_type", 0);

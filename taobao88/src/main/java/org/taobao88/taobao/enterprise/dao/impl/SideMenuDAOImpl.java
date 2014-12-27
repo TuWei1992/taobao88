@@ -43,7 +43,7 @@ public class SideMenuDAOImpl implements SideMenuDAO {
 
 	@Override
 	public List<SideMenu> getSideMenu() {
-		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = 0 order by menu_order").list();
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = 0 order by parent_id").list();
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class SideMenuDAOImpl implements SideMenuDAO {
 
 	@Override
 	public List<SideMenu> getChildren(int parentId) {
-		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = :parent_id order by menu_order").setParameter("parent_id", parentId).list();
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = :parent_id order by parent_id").setParameter("parent_id", parentId).list();
 	}
 
 }

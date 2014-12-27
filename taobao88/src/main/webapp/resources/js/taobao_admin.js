@@ -1,12 +1,17 @@
 $(function() {
 	
+	var currentUrl = document.location.href;
+	var array = currentUrl.split('/');
+	var contextPath = '';
+	contextPath = array[0] + '//' + array[2] + '/' + array[3] + '/admin/pageRedactor';
+	
 	$('.delete_image').click(function() {
 			var delete_btn = $(this);
 			var imageId = $(delete_btn).attr('for');
 			imageId = imageId.replace('img_', '');
 			$.ajax({
 				type: 'POST',
-				url: document.URL.replace('/recomendation', '').replace('/discount', '').replace('/freeShip', '') + '/deleteImage',
+				url: contextPath + '/deleteImage',
 				data: 'imageId=' + imageId,
 				complete: function(jsonData) {
 					var response = JSON.parse(jsonData.responseText);
@@ -34,7 +39,7 @@ $(function() {
 			var recId = imgRec[1].replace('rec_', '');
 			$.ajax({
 				type: 'POST',
-				url: document.URL.replace('/recomendation', '').replace('/discount', '').replace('/freeShip', '') + '/makeImageAsMain',
+				url: contextPath + '/makeImageAsMain',
 				data: 'imageId=' + imageId + '&recId=' + recId,
 				complete: function(jsonData) {
 					var response = JSON.parse(jsonData.responseText);

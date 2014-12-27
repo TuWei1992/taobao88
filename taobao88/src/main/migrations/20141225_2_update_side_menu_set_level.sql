@@ -1,0 +1,1 @@
+update side_menu set level = 1 where parent_id > 0;

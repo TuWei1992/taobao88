@@ -49,19 +49,7 @@
 		<jsp:include page="partials/horizontal_menu.jsp"/>
 		<div class="side">
 			<div class="side-menu">
-				<c:if test="${sideMenu != null}">
-					<ul>
-						<c:forEach items="${sideMenu}" var="menu">
-							<li><a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=${menu.menuHref}" class="side_menu_parent" target="_blank">${menu.menuName}</a>
-								<ul class="side_menu_children">
-									<c:forEach items="${menu.children}" var="m">
-										<li><a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=${m.menuHref}" target="_blank">${m.menuName}</a></li>
-									</c:forEach>
-								</ul>
-							</li>
-						</c:forEach>
-					</ul>
-				</c:if>
+				<jsp:include page="info_block/side_menu.jsp"/>
 			</div>
 			<div class="side-best">
 				<ul>

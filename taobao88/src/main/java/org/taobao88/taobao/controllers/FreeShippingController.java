@@ -43,6 +43,13 @@ public class FreeShippingController extends MainController {
 		return "pageRedactor";		
 	}
 	
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public String view(@RequestParam ("id") int id, Model model) {
+		model.addAttribute("fs", recomendationService.getRecomendationById(id));
+		model.addAttribute("free_ship_view", true);
+		return "pageRedactor";
+	}
+	
 	@RequestMapping(value = "/createRecomendation", method = RequestMethod.GET)
 	public String createRecomendation(Model model) {
 		model.addAttribute("recomendation_type", 3);

@@ -33,11 +33,11 @@
 
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="<c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu">Боковое меню</a></li>
-				<li class="<c:if test="${recomendation_index || recomendation_create || recomendation_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation">Рекомендации</a></li>
+				<li class="<c:if test="${recomendation_index || recomendation_create || recomendation_update || recomendation_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation">Рекомендации</a></li>
 				<li class="<c:if test="${slider_index || slider_create || slider_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/slider">Слайдер</a></li>
 				<li class="<c:if test="${banner_index || banner_create || banner_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner">Баннер</a></li>
-				<li class="<c:if test="${discount_index || discount_create || discount_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/discount">Товары	со скидками</a></li>
-				<li class="<c:if test="${free_ship_index || free_ship_create || free_ship_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip">Бесплатная доставка</a></li>
+				<li class="<c:if test="${discount_index || discount_create || discount_update || discount_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/discount">Товары	со скидками</a></li>
+				<li class="<c:if test="${free_ship_index || free_ship_create || free_ship_update || free_ship_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip">Бесплатная доставка</a></li>
 				<li class="<c:if test="${brands_index || brands_create || brands_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
 				<li class="<c:if test="${top_menu_index || top_menu_create || top_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu">Топ Меню</a></li>
 				<li class="<c:if test="${user_account_index}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/userAccount">Аккаунт пользователя</a></li>
@@ -58,7 +58,7 @@
 					</c:if>
 				</div>
 
-				<div class="tab-pane <c:if test="${recomendation_index || recomendation_create || recomendation_update}">active</c:if>" id="recomendations">
+				<div class="tab-pane <c:if test="${recomendation_index || recomendation_create || recomendation_update || recomendation_view}">active</c:if>" id="recomendations">
 					<c:if test="${recomendation_index}">
 						<jsp:include page="recomendations/index.jsp"/>
 					</c:if>
@@ -67,6 +67,9 @@
 					</c:if>
 					<c:if test="${recomendation_update}">
 						<jsp:include page="recomendations/update.jsp"/>
+					</c:if>
+					<c:if test="${recomendation_view}">
+						<jsp:include page="recomendations/view.jsp"/>
 					</c:if>
 				</div>
 				
@@ -94,7 +97,7 @@
 					</c:if>
 				</div>
 				
-				<div class="tab-pane <c:if test="${discount_index || discount_create || discount_update}">active</c:if>" id="discount">
+				<div class="tab-pane <c:if test="${discount_index || discount_create || discount_update || discount_view}">active</c:if>" id="discount">
 					<c:if test="${discount_index}">
 						<jsp:include page="discount/index.jsp"/>
 					</c:if>
@@ -104,9 +107,12 @@
 					<c:if test="${discount_update}">
 						<jsp:include page="discount/update.jsp"/>
 					</c:if>
+					<c:if test="${discount_view}">
+						<jsp:include page="discount/view.jsp"/>
+					</c:if>
 				</div>
 				
-				<div class="tab-pane <c:if test="${free_ship_index || free_ship_create || free_ship_update}">active</c:if>" id="free_ship">
+				<div class="tab-pane <c:if test="${free_ship_index || free_ship_create || free_ship_update || free_ship_view}">active</c:if>" id="free_ship">
 					<c:if test="${free_ship_index}">
 						<jsp:include page="free_ship/index.jsp"/>
 					</c:if>
@@ -115,6 +121,9 @@
 					</c:if>
 					<c:if test="${free_ship_update}">
 						<jsp:include page="free_ship/update.jsp"/>
+					</c:if>
+					<c:if test="${free_ship_view}">
+						<jsp:include page="free_ship/view.jsp"/>
 					</c:if>
 				</div>
 				

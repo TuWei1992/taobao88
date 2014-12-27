@@ -48,6 +48,18 @@ public class SideMenuServiceImpl implements SideMenuService {
 		for (SideMenu menu : sideMenu) {
 			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
 			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));
+			if (menu.getChildren().size() != 0) {
+				for (SideMenu m1 : menu.getChildren()) {
+					m1.setChildren(sideMenuDAO.getChildren(m1.getId()));
+					m1.setParent(menu);
+					if (m1.getChildren().size() != 0) {
+						for (SideMenu m2 : m1.getChildren()) {
+							m2.setChildren(sideMenuDAO.getChildren(m2.getId()));
+							m2.setParent(m1);
+						}
+					}
+				}
+			}
 		}
 		return sideMenu;
 	}

@@ -19,14 +19,14 @@ public class SideMenuController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model) {
-		model.addAttribute("side_menu", sideMenuService.getSideMenu());
+		model.addAttribute("side_menu", sideMenuService.getAll());
 		model.addAttribute("side_menu_index", true);
 		return "pageRedactor";
 	}
 	
 	@RequestMapping(value = "/createMenu", method = RequestMethod.GET)
 	public String createMenu(Model model) {
-		model.addAttribute("side_menu", sideMenuService.getSideMenu());
+		model.addAttribute("side_menu", sideMenuService.getAll());
 		model.addAttribute("side_menu_create", true);		
 		return "pageRedactor";
 	}
@@ -43,6 +43,12 @@ public class SideMenuController {
 		sideMenu.setMenuName(menuName);
 		sideMenu.setMenuOrder(menuOrder);
 		sideMenu.setParentId(parentId);
+		
+		if (parentId != 0) {
+			SideMenu parent = sideMenuService.getSideMenuById(parentId);
+			sideMenu.setLevel(parent.getLevel() + 1);
+		}
+		
 		sideMenuService.addSideMenu(sideMenu);
 		return "redirect:/admin/pageRedactor/sideMenu";
 	}

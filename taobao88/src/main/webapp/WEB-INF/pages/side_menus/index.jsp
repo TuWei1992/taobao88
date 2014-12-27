@@ -37,21 +37,6 @@
 										</div>
 									</td>
 								</tr>
-								<c:forEach items="${menu.children}" var="m">
-									<tr>
-										<td>${m.menuName}</td>
-										<td>${m.menuHref}</td>
-										<td>${m.menuOrder}</td>
-										<td>${menu.menuName}</td>
-										<td>
-											<div class="btn-group">
-												<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/updateMenu?id=${m.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-												<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/deleteMenu?id=${m.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-												<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu" role="button" class="btn btn-default glyphicon glyphicon-plus"></a>
-											</div>
-										</td>
-									</tr>
-								</c:forEach>
 							</c:forEach>
 						</tbody>
 					</table>

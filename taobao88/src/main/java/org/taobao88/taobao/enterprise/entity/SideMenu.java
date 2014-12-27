@@ -37,6 +37,9 @@ public class SideMenu implements Serializable {
 	@Column(name = "parent_id")
 	private int parentId;
 	
+	@Column(name = "level")
+	private int level;
+	
 	@Transient
 	private SideMenu parent;
 	
@@ -83,6 +86,14 @@ public class SideMenu implements Serializable {
 		return parentId;
 	}
 
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
@@ -108,6 +119,7 @@ public class SideMenu implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + id;
+		result = prime * result + level;
 		result = prime * result
 				+ ((menuHref == null) ? 0 : menuHref.hashCode());
 		result = prime * result
@@ -127,6 +139,8 @@ public class SideMenu implements Serializable {
 			return false;
 		SideMenu other = (SideMenu) obj;
 		if (id != other.id)
+			return false;
+		if (level != other.level)
 			return false;
 		if (menuHref == null) {
 			if (other.menuHref != null)
