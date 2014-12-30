@@ -15,4 +15,6 @@ public interface PostServicePriceDAO {
 	public void update(PostServicePrice postPrice);
 	
 	public void delete(PostServicePrice postPrice);
+	
+	public double getPriceByWeight(double weight, int postServiceId);
 }

@@ -41,4 +41,14 @@ public class PostServicePriceDAOImpl implements PostServicePriceDAO {
 		sessionFactory.getCurrentSession().delete(postPrice);
 	}
 
+	@Override
+	public double getPriceByWeight(double weight, int postServiceId) {
+		Double realWeight = (Double) sessionFactory.getCurrentSession().createSQLQuery("SELECT MIN(weight) FROM post_services_prices WHERE weight >= " + weight + " AND post_service_id = " + postServiceId).uniqueResult();
+		if (realWeight != null) {
+			return (double) sessionFactory.getCurrentSession().createSQLQuery("SELECT price FROM post_services_prices WHERE weight = " + realWeight.doubleValue() + " AND post_service_id = " + postServiceId).uniqueResult();
+		}
+		return 0.0;
+		
+	}
+
 }

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
+import org.taobao88.taobao.enterprise.dao.PostServicePriceDAO;
 import org.taobao88.taobao.enterprise.entity.Goods;
 import org.taobao88.taobao.enterprise.entity.OrderT;
 import org.taobao88.taobao.enterprise.entity.PostService;
@@ -20,6 +21,7 @@ import org.taobao88.taobao.enterprise.service.PriceService;
 public class PriceServiceImpl implements PriceService {
 	
 	@Autowired private GoodsDAO goodsDAO;
+	@Autowired private PostServicePriceDAO postServicePriceDAO;
 
 	@Override
 	public double getPriceOfOrder(int amount, double priceForOne) {
@@ -218,21 +220,13 @@ public class PriceServiceImpl implements PriceService {
 	public int getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService) {
 		double totalWeight = calculatePackageWeight(orders);
 		double totalPrice = priceWithoutDelivery;
-				
-		boolean found = false;
-		List<PostServicePrice> prices = postService.getPostServicesPrices();
-		for (PostServicePrice postPrice : prices) {
-			if (totalWeight == postPrice.getWeight() && !found) {
-				totalPrice += postPrice.getPrice() * 0.19;
-				found = true;
-			}
-		}
-		if (!found) {
-			return 0;
-		} else {	
+		double priceByWeight = postServicePriceDAO.getPriceByWeight(totalWeight, postService.getId());
+		if (priceByWeight != 0.0) {
+			totalPrice += priceByWeight * 0.19;
 			totalPrice = Math.round(totalPrice);
 			return (int) totalPrice;
-		}
+		} 
+		return 0;
 	}
 
 	@Override
