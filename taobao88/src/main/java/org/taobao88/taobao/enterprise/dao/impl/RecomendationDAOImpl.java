@@ -1,7 +1,10 @@
 package org.taobao88.taobao.enterprise.dao.impl;
 
+import java.math.BigInteger;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -52,6 +55,20 @@ public class RecomendationDAOImpl implements RecomendationDAO {
 	@Override
 	public List<Recomendation> getFirstFourRecomendations(RecomendationType type) {
 		return (List<Recomendation>) sessionFactory.getCurrentSession().createQuery("from Recomendation where type.typeId = :type_id").setParameter("type_id", type.getTypeId()).setMaxResults(4).list();
+	}
+
+	@Override
+	public List<Recomendation> getRecomendationsPartials(int start, int end, RecomendationType type) {
+		Query q = sessionFactory.getCurrentSession().createQuery("from Recomendation where type.typeId = :type_id").setParameter("type_id", type.getTypeId());
+		q.setFirstResult(start);
+		q.setMaxResults(end);
+		return (List<Recomendation>) q.list();
+	}
+
+	@Override
+	public int getRecomendationsCount(RecomendationType type) {
+		BigInteger count = (BigInteger) sessionFactory.getCurrentSession().createSQLQuery("SELECT COUNT(*) FROM recomendations WHERE type = :typeId").setParameter("typeId", type.getTypeId()).uniqueResult();
+		return count.intValue(); 
 	}
 
 }

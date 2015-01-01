@@ -3,6 +3,8 @@ package org.taobao88.taobao.controllers;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +26,19 @@ public class BannerController extends MainController {
 	@Autowired private RecomendationService recomendationService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(Model model) {
-		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();		
-		model.addAttribute("banner", recomendationService.getAllRecomendations(types.get(5)));
+	public String index(HttpServletRequest request, Model model) {
+		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
+		int totalCount = recomendationService.getRecomendationsCount(types.get(5));
+		int totalPages = totalCount % 2;
+		int page = 1;
+		
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		model.addAttribute("curr_page", page);
+		model.addAttribute("total_pages", totalPages == 0 ? 1 : totalPages);
+		model.addAttribute("banner", recomendationService.getRecomendationsPartial(page, types.get(5)));
 		model.addAttribute("banner_index", true);
 		return "pageRedactor";
 	}

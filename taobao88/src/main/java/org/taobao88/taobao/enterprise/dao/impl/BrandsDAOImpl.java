@@ -1,5 +1,6 @@
 package org.taobao88.taobao.enterprise.dao.impl;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -45,6 +46,17 @@ public class BrandsDAOImpl implements BrandsDAO {
 	@Override
 	public void updateBrand(Brands brand) {
 		sessionFactory.getCurrentSession().update(brand);
+	}
+
+	@Override
+	public int getBrandsCount() {
+		BigInteger count = (BigInteger) sessionFactory.getCurrentSession().createSQLQuery("SELECT COUNT(*) FROM brands").uniqueResult();
+		return count.intValue(); 
+	}
+
+	@Override
+	public List<Brands> getBrandsPartial(int start, int end) {
+		return (List<Brands>) sessionFactory.getCurrentSession().createQuery("from Brands").setFirstResult(start).setMaxResults(end).list();
 	}
 
 }

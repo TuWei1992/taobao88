@@ -7,6 +7,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,6 +36,7 @@ import freemarker.template.Configuration;
 @RequestMapping("/privateOffice")
 public class OfficeController extends  MainController{
 
+	private static final Logger logger = Logger.getLogger(OfficeController.class);
     @Autowired private OrderService orderDAO;
     @Autowired private UserService userDAO;
     @Autowired private GoodsService goodsDAO;
@@ -341,52 +343,59 @@ public class OfficeController extends  MainController{
     }
 
     @RequestMapping(value="/deleteOrder", method = RequestMethod.GET)
-    public String deleteOrderStatus(HttpServletRequest request){
-        HttpSession session = request.getSession(true);
+    public String deleteOrderStatus(HttpServletRequest request) {
+    	
+    	try {
+    		HttpSession session = request.getSession(true);
 
-        int idUser = (int) session.getAttribute("currentIdUser");
-        int idOrder = Integer.parseInt(request.getParameter("idOrderForDelete"));
+    		int idUser = (int) session.getAttribute("currentIdUser");
+    		int idOrder = Integer.parseInt(request.getParameter("idOrderForDelete"));
                 
-        OrderT orderT = orderDAO.findOrderById(idOrder);
-        if(orderT != null) {
-        	ordersStatusesDAO.deleteAllByOrder(orderT);
-        	orderDAO.deleteOrder(orderT.getIdOrder());
-        	orderStatusDAO.deleteOrderStatus(orderT.getIdOrderStatus());
+    		OrderT orderT = orderDAO.findOrderById(idOrder);
+    		if(orderT != null) {
+    			ordersStatusesDAO.deleteAllByOrder(orderT);
+    			orderDAO.deleteOrder(orderT.getIdOrder());
+    			orderStatusDAO.deleteOrderStatus(orderT.getIdOrderStatus());
         	
-        	goodsDAO.deleteGood(orderT.getIdGoods());
-        }
+    			goodsDAO.deleteGood(orderT.getIdGoods());
+    		}
 
-        List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
-        request.getSession().setAttribute("basket", orders.size());
+    		List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);
+    		request.getSession().setAttribute("basket", orders.size());
         
-        if (request.getParameter("idPackage") != null) {
-        	PackageT packageT = packageService.findPackageById(Integer.parseInt(request.getParameter("idPackage")));
+    		if (request.getParameter("idPackage") != null) {
+    			PackageT packageT = packageService.findPackageById(Integer.parseInt(request.getParameter("idPackage")));
         	
-        	if (packageT.getOrders().size() == 0) {
-        		packagesStatusesDAO.deleteAllByPackage(packageT);
-        		messagesService.deleteMessagesByPackage(packageT);
-        		packageService.deletePackage(packageT.getIdPackage());
-        		packageStatusDAO.deletePackageStatus(packageT.getIdPackageStatus());
-        		return "redirect:/privateOffice/toPackages";
-        	} else {
-        		List<OrderT> orderList = new ArrayList<OrderT>();
+    			if (packageT.getOrders().size() == 0) {
+    				packagesStatusesDAO.deleteAllByPackage(packageT);
+    				messagesService.deleteMessagesByPackage(packageT);
+    				packageService.deletePackage(packageT.getIdPackage());
+    				packageStatusDAO.deletePackageStatus(packageT.getIdPackageStatus());
+    				return "redirect:/privateOffice/toPackages";
+    			} else {
+    				List<OrderT> orderList = new ArrayList<OrderT>();
         	
-        		double priceWithoutDelivery = 0;
-        		double packageWeight = 0;
-        		for(OrderT o : packageT.getOrders()) {
-        			priceWithoutDelivery += o.getFullPrice();
-        			packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
-        			orderList.add(o);
-        		}
+    				double priceWithoutDelivery = 0;
+    				double packageWeight = 0;
+    				for(OrderT o : packageT.getOrders()) {
+    					priceWithoutDelivery += o.getFullPrice();
+    					packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
+    					orderList.add(o);
+    				}
         	
-        		packageT.setFullPrice(priceService.getDeliveryPrice(orderList, userDAO.findUserById(idUser), priceWithoutDelivery, packageT.getPostService()));
-        		packageT.setWeight(packageWeight / 1000);
-        		packageService.updatePackage(packageT);
-        		return "redirect:/privateOffice/showPackage?idPackage=" + packageT.getIdPackage();
-        	}
-        } else {
-            return "redirect:/basket";
-        }
+    				packageT.setFullPrice(priceService.getDeliveryPrice(orderList, userDAO.findUserById(idUser), priceWithoutDelivery, packageT.getPostService()));
+    				packageT.setWeight(packageWeight / 1000);
+    				packageService.updatePackage(packageT);
+    				return "redirect:/privateOffice/showPackage?idPackage=" + packageT.getIdPackage();
+    			}
+    		} else {
+    			return "redirect:/basket";
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		logger.error(e);
+    		return null;
+    	}
     }
 
     @RequestMapping(value="/changeOrder", method = RequestMethod.GET)

@@ -21,4 +21,8 @@ public interface RecomendationDAO {
 	
 	public Recomendation getRecomendationByDescription(String desc);
 	
+	public List<Recomendation> getRecomendationsPartials(int start, int end, RecomendationType type);
+	
+	public int getRecomendationsCount(RecomendationType type);
+	
 }

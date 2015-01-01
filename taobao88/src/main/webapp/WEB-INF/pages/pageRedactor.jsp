@@ -38,7 +38,7 @@
 				<li class="<c:if test="${banner_index || banner_create || banner_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner">Баннер</a></li>
 				<%-- <li class="<c:if test="${discount_index || discount_create || discount_update || discount_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/discount">Товары	со скидками</a></li>
 				<li class="<c:if test="${free_ship_index || free_ship_create || free_ship_update || free_ship_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/freeShip">Бесплатная доставка</a></li> --%>
-				<li class="<c:if test="${brands_index || brands_create || brands_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
+				<li class="<c:if test="${brands_index || brands_create || brands_update || brands_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/brands">Бренды</a></li>
 				<li class="<c:if test="${top_menu_index || top_menu_create || top_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/topMenu">Топ Меню</a></li>
 				<li class="<c:if test="${user_account_index}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/userAccount">Аккаунт пользователя</a></li>
 			</ul>
@@ -127,7 +127,7 @@
 					</c:if>
 				</div>
 				
-				<div class="tab-pane <c:if test="${brands_index || brands_create || brands_update}">active</c:if>" id="brands">
+				<div class="tab-pane <c:if test="${brands_index || brands_create || brands_update || brands_view}">active</c:if>" id="brands">
 					<c:if test="${brands_index}">
 						<jsp:include page="brands/index.jsp"/>
 					</c:if>
@@ -136,6 +136,9 @@
 					</c:if>
 					<c:if test="${brands_update}">
 						<jsp:include page="brands/update.jsp"/>
+					</c:if>
+					<c:if test="${brands_view}">
+						<jsp:include page="brands/view.jsp"/>
 					</c:if>
 				</div>
 				

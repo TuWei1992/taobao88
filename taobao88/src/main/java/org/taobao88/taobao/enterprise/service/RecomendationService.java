@@ -17,6 +17,10 @@ public interface RecomendationService {
 	
 	public List<Recomendation> getAllRecomendations(RecomendationType type);
 	
+	public List<Recomendation> getRecomendationsPartial(int page, RecomendationType type);
+	
+	public int getRecomendationsCount(RecomendationType type);
+	
 	public List<Recomendation> getFirstFourRecomendations(RecomendationType type);
 	
 	public Recomendation getRecomendationById(int id);

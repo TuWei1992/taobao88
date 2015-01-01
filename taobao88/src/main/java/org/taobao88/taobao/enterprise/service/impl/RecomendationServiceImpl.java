@@ -70,4 +70,26 @@ public class RecomendationServiceImpl implements RecomendationService {
 		return recomendationDAO.getFirstFourRecomendations(type);
 	}
 
+	@Override
+	public List<Recomendation> getRecomendationsPartial(int page, RecomendationType type) {
+		
+		int start = 0;
+		int end = 2;
+		
+		if (page == 2) {
+			start = end;
+//			end = end * page;
+		} else if (page > 2) {
+			start = end * page;
+//			end = end + (end * page);
+		}
+		
+		return recomendationDAO.getRecomendationsPartials(start, end, type);
+	}
+
+	@Override
+	public int getRecomendationsCount(RecomendationType type) {
+		return recomendationDAO.getRecomendationsCount(type);
+	}
+
 }

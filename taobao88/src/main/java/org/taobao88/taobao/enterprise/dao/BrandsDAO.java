@@ -17,5 +17,9 @@ public interface BrandsDAO {
 	public void deleteBrand(Brands brand);
 	
 	public void updateBrand(Brands brand);
+	
+	public int getBrandsCount();
+	
+	public List<Brands> getBrandsPartial(int start, int end);
 
 }

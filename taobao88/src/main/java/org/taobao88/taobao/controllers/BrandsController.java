@@ -28,9 +28,30 @@ public class BrandsController extends MainController {
 	private PageRedactorValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(Model model) {
-		model.addAttribute("brands", brandsService.getAllBrands());
+	public String index(HttpServletRequest request, Model model) {
+		
+		int totalCount = brandsService.getBrandsCount();
+		int totalPages = (int) totalCount / 54;
+		if (totalCount % 54 != 0) {
+			totalPages++;
+		}
+		int page = 1;
+		
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		model.addAttribute("curr_page", page);
+		model.addAttribute("total_pages", totalPages == 0 ? 1 : totalPages);
+		model.addAttribute("brands", brandsService.getBrandsPartial(page));
 		model.addAttribute("brands_index", true);
+		return "pageRedactor";
+	}
+	
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public String view(@RequestParam ("id") int id, Model model) {
+		model.addAttribute("brand", brandsService.getBrandById(id));
+		model.addAttribute("brands_view", true);
 		return "pageRedactor";
 	}
 	

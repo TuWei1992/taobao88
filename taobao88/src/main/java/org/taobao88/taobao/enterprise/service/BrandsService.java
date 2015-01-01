@@ -20,4 +20,8 @@ public interface BrandsService {
 	
 	public void updateBrand(Brands brand);
 	
+	public int getBrandsCount();
+	
+	public List<Brands> getBrandsPartial(int page);
+	
 }

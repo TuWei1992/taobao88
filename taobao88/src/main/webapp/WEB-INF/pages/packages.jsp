@@ -153,7 +153,7 @@
 										<div class="item-box">
 											<div class="item-thumb">
 												<a href="${pageContext.request.contextPath}/item?id=${rec.id}" target="_blank" class="item-lnk thumbnail"> 
-													<img src="images/${rec.photo}" alt="New fashion">
+													<img src="/images/${rec.photo}" alt="New fashion">
 												</a>
 											</div>
 											<div class="item-meta">

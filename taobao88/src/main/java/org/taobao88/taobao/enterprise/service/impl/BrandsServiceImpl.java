@@ -78,4 +78,24 @@ public class BrandsServiceImpl implements BrandsService {
 	public void updateBrand(Brands brand) {
 		brandsDAO.updateBrand(brand);
 	}
+
+	@Override
+	public int getBrandsCount() {
+		return brandsDAO.getBrandsCount();
+	}
+
+	@Override
+	public List<Brands> getBrandsPartial(int page) {
+		
+		int start = 0;
+		int end = 54;
+		
+		if (page == 2) {
+			start = end;
+		} else if (page > 2) {
+			start = end * (page - 1);
+		}
+		
+		return brandsDAO.getBrandsPartial(start, end);
+	}
 }
