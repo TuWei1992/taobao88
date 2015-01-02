@@ -30,7 +30,19 @@
             $('#translate').click(function() {
             	translate();
             });
-        });      
+            
+            $('.print_btn').click(function() {
+            	printDiv('print_method');
+            })
+        });   
+        
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+       }
     </script>
 </head>
 <body>
@@ -66,11 +78,14 @@
 						Ваш счет: $${balance}
 					</div>
 					<c:if test="${not empty method}">
-						<div class="prepouse">
+						<div class="prepouse" id="print_method" style="margin-top: 20px;">
 							<h4>${method.methodName}</h4>
 							<p>
 								${method.methodDescription}
 							</p>
+						</div>
+						<div class="btn-card">
+							<a href="javascript:void(0);" class="print_btn">Распечатать</a>
 						</div>
 					</c:if>
 				</div>

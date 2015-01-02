@@ -27,4 +27,5 @@ public interface RecomendationService {
 	
 	public Recomendation getRecomendationByDescription(String desc);
 	
+	public List<Recomendation> getRandomRecomendations(RecomendationType type);
 }

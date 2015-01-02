@@ -46,7 +46,7 @@ public class RecomendationServiceImpl implements RecomendationService {
 
 	@Override
 	public List<List<Recomendation>> getSortedRecomendations(RecomendationType type) {
-		List<Recomendation> all = recomendationDAO.getRecomendations(type);
+		List<Recomendation> all = recomendationDAO.getRandomRecomendations(type);
 		List<Recomendation> sorted = new ArrayList<Recomendation>();
 		List<List<Recomendation>> result = new ArrayList<List<Recomendation>>();
 		for (int i = 0; i < all.size(); i++) {
@@ -88,6 +88,11 @@ public class RecomendationServiceImpl implements RecomendationService {
 	@Override
 	public int getRecomendationsCount(RecomendationType type) {
 		return recomendationDAO.getRecomendationsCount(type);
+	}
+
+	@Override
+	public List<Recomendation> getRandomRecomendations(RecomendationType type) {
+		return recomendationDAO.getRandomRecomendations(type);
 	}
 
 }

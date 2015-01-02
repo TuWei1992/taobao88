@@ -57,6 +57,7 @@ public class RecomendationDAOImpl implements RecomendationDAO {
 		return (List<Recomendation>) sessionFactory.getCurrentSession().createQuery("from Recomendation where type.typeId = :type_id").setParameter("type_id", type.getTypeId()).setMaxResults(4).list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Recomendation> getRecomendationsPartials(int start, int end, RecomendationType type) {
 		Query q = sessionFactory.getCurrentSession().createQuery("from Recomendation where type.typeId = :type_id").setParameter("type_id", type.getTypeId());
@@ -69,6 +70,12 @@ public class RecomendationDAOImpl implements RecomendationDAO {
 	public int getRecomendationsCount(RecomendationType type) {
 		BigInteger count = (BigInteger) sessionFactory.getCurrentSession().createSQLQuery("SELECT COUNT(*) FROM recomendations WHERE type = :typeId").setParameter("typeId", type.getTypeId()).uniqueResult();
 		return count.intValue(); 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Recomendation> getRandomRecomendations(RecomendationType type) {
+		return (List<Recomendation>) sessionFactory.getCurrentSession().createQuery("from Recomendation where type.typeId = :type_id ORDER BY RAND()").setParameter("type_id", type.getTypeId()).list();
 	}
 
 }

@@ -430,7 +430,7 @@
 				<div class="goods-list">
        				<c:forEach items="${postServices}" var="service">
 						<div id="${service.value.id}">
-							<div class="shop-item">
+							<div class="shop-item" style="height: 250px;">
 								<div>
 									<div class="item-box">
 										<div class="item-thumb">

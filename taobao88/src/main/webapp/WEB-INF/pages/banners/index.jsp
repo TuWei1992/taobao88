@@ -23,7 +23,7 @@
 	<c:forEach items="${banners}" var="banner">
 		<div class="col-sm-4 col-md-2">
     		<div class="thumbnail" style="margin-top: 20px; height: 200px;">
-      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/view?id=${banner.id}"><img src="/images/${banner.photo}" width="75" height="75"></a>
+      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/view?id=${banner.id}"><img src="/images/${banner.photo}" width="45"></a>
       			<div class="caption">
         			<h5>${banner.description}</h5>
       			</div>

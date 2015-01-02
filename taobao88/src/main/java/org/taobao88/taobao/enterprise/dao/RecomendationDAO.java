@@ -25,4 +25,5 @@ public interface RecomendationDAO {
 	
 	public int getRecomendationsCount(RecomendationType type);
 	
+	public List<Recomendation> getRandomRecomendations(RecomendationType type);
 }

@@ -81,7 +81,6 @@ public class IndexController extends MainController {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
 		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
 		model.addAttribute("brands", brandsService.getSortedBrands());
-//		model.addAttribute("brands", brandsService.getAllBrands());
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
 		return "index";
