@@ -74,14 +74,12 @@ public class RecomendationServiceImpl implements RecomendationService {
 	public List<Recomendation> getRecomendationsPartial(int page, RecomendationType type) {
 		
 		int start = 0;
-		int end = 2;
+		int end = 54;
 		
 		if (page == 2) {
 			start = end;
-//			end = end * page;
 		} else if (page > 2) {
 			start = end * page;
-//			end = end + (end * page);
 		}
 		
 		return recomendationDAO.getRecomendationsPartials(start, end, type);

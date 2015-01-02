@@ -95,7 +95,13 @@ public class BrandsServiceImpl implements BrandsService {
 		} else if (page > 2) {
 			start = end * (page - 1);
 		}
-		
-		return brandsDAO.getBrandsPartial(start, end);
+		List<Brands> brands = brandsDAO.getBrandsPartial(start, end);
+		List<Brands> brandsWithImg = new ArrayList<Brands>();
+		for (Brands brand : brands) {
+			Images image = imagesService.getImagesById(brand.getBrandImage());
+			brand.setImage(image);
+			brandsWithImg.add(brand);
+		}
+		return brandsWithImg;
 	}
 }

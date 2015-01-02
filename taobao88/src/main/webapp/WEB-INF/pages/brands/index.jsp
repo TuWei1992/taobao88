@@ -22,8 +22,8 @@
 <div class="row">
 	<c:forEach items="${brands}" var="brand">
 		<div class="col-sm-4 col-md-2">
-    		<div class="thumbnail" style="margin-top: 20px;">
-      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/view?id=${brand.brandId}"><img src="/images/${brand.image.imageName}" style="max-height: 100px;"></a>
+    		<div class="thumbnail" style="margin-top: 20px; height: 200px;">
+      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/view?id=${brand.brandId}"><img src="/images/${brand.image.imageName}" width="75" height="75"></a>
       			<div class="caption">
         			<h5>${brand.brandName}</h5>
       			</div>

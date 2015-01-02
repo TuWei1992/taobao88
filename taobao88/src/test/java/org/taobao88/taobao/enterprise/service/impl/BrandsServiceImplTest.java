@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class BrandsServiceImplTest {
 	}
 
 	@Test
+	@Ignore
 	public void test() {
 		List<Brands> brands = null;
 		brands = brandsService.getBrandsPartial(1);

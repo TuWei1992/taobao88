@@ -36,9 +36,24 @@ public class RecomendationController extends MainController {
 	private PageRedactorValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(Model model) {
+	public String index(Model model, HttpServletRequest request) {
 		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
-		model.addAttribute("recomendations", recomendationService.getAllRecomendations(types.get(0)));
+		
+		int totalCount = recomendationService.getRecomendationsCount(types.get(0));
+		int totalPages = (int) totalCount / 54;
+		if (totalCount % 54 != 0) {
+			totalPages++;
+		}
+		int page = 1;
+		
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		model.addAttribute("curr_page", page);
+		model.addAttribute("total_pages", totalPages == 0 ? 1 : totalPages);
+		
+		model.addAttribute("recomendations", recomendationService.getRecomendationsPartial(page, types.get(0)));
 		model.addAttribute("recomendation_index", true);
 		return "pageRedactor";
 	}
