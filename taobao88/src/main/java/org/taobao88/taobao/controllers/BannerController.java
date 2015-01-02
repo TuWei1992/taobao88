@@ -28,8 +28,12 @@ public class BannerController extends MainController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(HttpServletRequest request, Model model) {
 		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
+		
 		int totalCount = recomendationService.getRecomendationsCount(types.get(5));
-		int totalPages = totalCount % 2;
+		int totalPages = (int) totalCount / 54;
+		if (totalCount % 54 != 0) {
+			totalPages++;
+		}
 		int page = 1;
 		
 		if (request.getParameter("page") != null) {
@@ -38,8 +42,15 @@ public class BannerController extends MainController {
 		
 		model.addAttribute("curr_page", page);
 		model.addAttribute("total_pages", totalPages == 0 ? 1 : totalPages);
-		model.addAttribute("banner", recomendationService.getRecomendationsPartial(page, types.get(5)));
+		model.addAttribute("banners", recomendationService.getRecomendationsPartial(page, types.get(5)));
 		model.addAttribute("banner_index", true);
+		return "pageRedactor";
+	}
+	
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public String view(@RequestParam ("id") int id, Model model) {
+		model.addAttribute("banner", recomendationService.getRecomendationById(id));
+		model.addAttribute("banner_view", true);
 		return "pageRedactor";
 	}
 	

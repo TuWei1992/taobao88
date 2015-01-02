@@ -1,42 +1,56 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"	language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>Фото</th>
-								<th>Аттрибуты</th>
-								<th>Действия</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner" role="button" class="btn btn-success">Создать</a>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							<c:forEach items="${banner}" var="item">
-								<tr>
-									<td><img src="/images/${item.photo}" alt="${pageContext.request.contextPath}/resources/img/empty_good.png" width="250" height="250" class="img-thumbnail"></td>
-									<td>
-										<ul class="list-group">
-  											<li class="list-group-item"><b>Краткое описание:</b> <span>${item.description}</span></li>
-  											<li class="list-group-item"><b>Цена:</b> <span>${item.price}</span></li>
-  											<li class="list-group-item"><b>Ссылка:</b> <span>${item.href}</span></li>
-  										</ul>
-									</td>
-									<td>
-										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/updateBanner?id=${item.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/deleteBanner?id=${item.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner" class="btn btn-default glyphicon glyphicon-plus"></a>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="${pageContext.request.contextPath}/admin/pageRedactor/banner?page=${curr_page - 1}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <c:forEach begin="1" end="${total_pages}" varStatus="loop">
+    	<li <c:if test="${loop.index == curr_page}">class="active"</c:if>><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner?page=${loop.index}">${loop.index}</a></li>
+    </c:forEach>
+    <li>
+      <a href="${pageContext.request.contextPath}/admin/pageRedactor/banner?page=${curr_page + 1}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="row">
+	<c:forEach items="${banners}" var="banner">
+		<div class="col-sm-4 col-md-2">
+    		<div class="thumbnail" style="margin-top: 20px; height: 200px;">
+      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/view?id=${banner.id}"><img src="/images/${banner.photo}" width="75" height="75"></a>
+      			<div class="caption">
+        			<h5>${banner.description}</h5>
+      			</div>
+    		</div>
+    	</div>
+	</c:forEach>
+</div>
+<div class="row">
+	<div class="col-sm-4 col-md-2 pull-right" style="padding-top: 20px;">
+		<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
+	</div>
+</div>
+
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="${pageContext.request.contextPath}/admin/pageRedactor/banner?page=${curr_page - 1}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <c:forEach begin="1" end="${total_pages}" varStatus="loop">
+    	<li <c:if test="${loop.index == curr_page}">class="active"</c:if>><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner?page=${loop.index}">${loop.index}</a></li>
+    </c:forEach>
+    <li>
+      <a href="${pageContext.request.contextPath}/admin/pageRedactor/banner?page=${curr_page + 1}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
