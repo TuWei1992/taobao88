@@ -20,4 +20,5 @@ public void addSideMenu(SideMenu sideMenu);
 	
 	public List<SideMenu> getAll();
 	
+	public List<SideMenu> getSideMenuForPage(int page);
 }

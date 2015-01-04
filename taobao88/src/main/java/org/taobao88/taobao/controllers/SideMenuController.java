@@ -18,15 +18,30 @@ public class SideMenuController {
 	@Autowired private SideMenuService sideMenuService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(Model model) {
-		model.addAttribute("side_menu", sideMenuService.getAll());
+	public String index(Model model, HttpServletRequest request) {
+		
+		int page = 1;
+		
+		if (request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
+		}
+		
+		model.addAttribute("curr_page", page);
+		model.addAttribute("total_pages", 4);
+		model.addAttribute("side_menu", sideMenuService.getSideMenuForPage(page));
 		model.addAttribute("side_menu_index", true);
 		return "pageRedactor";
 	}
 	
 	@RequestMapping(value = "/createMenu", method = RequestMethod.GET)
-	public String createMenu(Model model) {
-		model.addAttribute("side_menu", sideMenuService.getAll());
+	public String createMenu(Model model, HttpServletRequest request) {
+		
+		if (request.getParameter("parentId") != null) {
+			int parentId = Integer.parseInt(request.getParameter("parentId"));
+			model.addAttribute("parent", sideMenuService.getSideMenuById(parentId));
+		} else {
+			model.addAttribute("side_menu", sideMenuService.getAll());
+		}
 		model.addAttribute("side_menu_create", true);		
 		return "pageRedactor";
 	}

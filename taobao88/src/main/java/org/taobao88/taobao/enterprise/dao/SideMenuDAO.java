@@ -22,4 +22,5 @@ public interface SideMenuDAO {
 	
 	public List<SideMenu> getChildren(int parentId);
 	
+	public List<SideMenu> getSideMenuByLevel(int level);
 }

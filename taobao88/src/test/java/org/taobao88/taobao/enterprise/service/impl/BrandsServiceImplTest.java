@@ -11,13 +11,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.taobao88.taobao.enterprise.dao.BrandsDAO;
 import org.taobao88.taobao.enterprise.entity.Brands;
 import org.taobao88.taobao.enterprise.service.BrandsService;
 
 @RunWith( SpringJUnit4ClassRunner.class )
 @ContextConfiguration(locations = {"classpath:root-context.xml"})
-//@Transactional
+@Transactional
 public class BrandsServiceImplTest {
 
 	@Autowired private BrandsService brandsService;

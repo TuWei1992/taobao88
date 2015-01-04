@@ -74,4 +74,14 @@ public class SideMenuServiceImpl implements SideMenuService {
 		return sideMenu;
 	}
 
+	@Override
+	public List<SideMenu> getSideMenuForPage(int page) {
+		List<SideMenu> sideMenu = sideMenuDAO.getSideMenuByLevel(page - 1);
+		for (SideMenu menu : sideMenu) {
+			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
+			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));
+		}
+		return sideMenu;
+	}
+
 }

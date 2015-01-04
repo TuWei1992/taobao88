@@ -41,19 +41,28 @@ public class SideMenuDAOImpl implements SideMenuDAO {
 		return (SideMenu) sessionFactory.getCurrentSession().createQuery("from SideMenu where menu_name = :menu_name").setParameter("menu_name", menuName).uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<SideMenu> getSideMenu() {
 		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = 0 order by parent_id").list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<SideMenu> getAll() {
-		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu order by menu_order").list();
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu order by menu_name").list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<SideMenu> getChildren(int parentId) {
 		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = :parent_id order by parent_id").setParameter("parent_id", parentId).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SideMenu> getSideMenuByLevel(int level) {
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where level = :level order by menu_name").setParameter("level", level).list();
 	}
 
 }

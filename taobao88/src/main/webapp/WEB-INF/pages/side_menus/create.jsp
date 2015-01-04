@@ -39,7 +39,13 @@
 								</select>
 							</div>
 						</c:when>
-						<c:when test="${sideMenu == null}">
+						<c:when test="${parent != null}">
+							<div class="form-group">
+								<label>Родительская категория: </label><span class="label label-info"> ${parent.menuName}</span>
+								<input type="hidden" name="parentId" value="${parent.id}">
+							</div>
+						</c:when>
+						<c:when test="${sideMenu == null && parent == null}">
 							<input type="hidden" name="parentId" value="0">
 						</c:when>
 					</c:choose>
