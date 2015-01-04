@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
+
 @Entity
 @Table(name="goods")
 public class Goods implements Serializable {
@@ -53,6 +55,7 @@ public class Goods implements Serializable {
     
     @ManyToOne
 	@JoinColumn(name = "recomendation_id", referencedColumnName = "id")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.DELETE})
 	private Recomendation recomendation;
     
     @OneToOne

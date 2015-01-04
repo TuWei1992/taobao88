@@ -71,9 +71,8 @@ public class BannerController extends MainController {
 		rec.setDescription(desc);
 		rec.setPrice(Double.parseDouble(price));
 		rec.setHref(href);
-		rec.setPhoto(file.getOriginalFilename());
+		rec.setPhoto(saveUploadedFile(file));
 		rec.setType(recomendationTypeService.getTypeById(recType));
-		createRecomendation(file, rec);
 		recomendationService.addRecomendation(rec);
 		return "redirect:/admin/pageRedactor/banner";
 	}
@@ -96,8 +95,7 @@ public class BannerController extends MainController {
 		rec.setPrice(Double.parseDouble(price));
 		rec.setHref(href);
 		if (file.getSize() > 0) {
-			rec.setPhoto(file.getOriginalFilename());
-			saveUploadedFile(file);
+			rec.setPhoto(saveUploadedFile(file));
 		}
 		recomendationService.updateRecomendation(rec);
 		return "redirect:/admin/pageRedactor/banner";

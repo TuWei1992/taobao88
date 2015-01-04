@@ -37,6 +37,8 @@ public class MainController {
     @Autowired private MailService mailService;
     @Autowired private RecomendationTypeService recomendationTypeService;
     
+    protected final String IMAGES_PATH = System.getProperty("catalina.home") + "/webapps/images";
+    
     private final int WEIGHT_LIMIT = 20000;
 
     public Goods getObjectGoods(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -854,30 +856,37 @@ public class MainController {
     	mailService.sendSimpleMessage(from, to, subject, message);
     }
     
-    protected void saveUploadedFile(MultipartFile file) {
+    protected String saveUploadedFile(MultipartFile file) {
 		try {
 			byte[] bytes = file.getBytes();
-			String rootPath = System.getProperty("catalina.home");
-			File dir = new File(rootPath + "/webapps/images");
-			if (!dir.exists())
-				dir.mkdir();
-			File serverFile = new File(dir.getAbsolutePath() + "/"
-					+ file.getOriginalFilename());
-			BufferedOutputStream stream = new BufferedOutputStream(
-					new FileOutputStream(serverFile));
+			File dir = new File(IMAGES_PATH);
+			if (!dir.exists()) dir.mkdir();
+			
+			File serverFile = null;
+			String fileName = file.getOriginalFilename();
+			String[] nameAndExtension = fileName.split("\\.");
+			String savedFile = UUID.randomUUID().toString() + (nameAndExtension.length > 1 ? "." + nameAndExtension[1] : "");
+			serverFile = new File(dir.getAbsolutePath() + "/" + savedFile);
+			
+			while(serverFile.exists()) {
+				savedFile = UUID.randomUUID().toString() + (nameAndExtension.length > 1 ? nameAndExtension[1] : "");
+				serverFile = new File(dir.getAbsolutePath() + "/" + savedFile);
+			}
+			
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 			stream.write(bytes);
 			stream.close();
+			return savedFile;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
     protected void deleteImage(Images image) {
-		String root = System.getProperty("catalina.home");
-		File imgDir = new File(root + "/webapps/images");
+		File imgDir = new File(IMAGES_PATH);
 		if (imgDir.exists()) {
-			File img = new File(imgDir.getAbsolutePath() + "/"
-					+ image.getImageName());
+			File img = new File(imgDir.getAbsolutePath() + "/" + image.getImageName());
 			if (img.exists()) {
 				img.delete();
 			}
@@ -904,9 +913,8 @@ public class MainController {
 		Set<Images> images = new HashSet<Images>();
 		for (MultipartFile file : files) {
 			if (file.getSize() > 0) {
-				saveUploadedFile(file);
 				Images image = new Images();
-				image.setImageName(file.getOriginalFilename());
+				image.setImageName(saveUploadedFile(file));
 				images.add(image);
 			}
 		}

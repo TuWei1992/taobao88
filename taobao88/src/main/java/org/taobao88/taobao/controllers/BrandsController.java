@@ -67,11 +67,10 @@ public class BrandsController extends MainController {
 		Brands brand = new Brands();
 		brand.setBrandName(desc);
 		Images image = new Images();
-		image.setImageName(file.getOriginalFilename());
+		image.setImageName(saveUploadedFile(file));
 		image.setImageId(imagesService.addImage(image));
 		brand.setBrandImage(image.getImageId());
 		brand.setImage(image);
-		saveUploadedFile(file);
 		brandsService.addBrand(brand);
 		return "redirect:/admin/pageRedactor/brands";
 	}
@@ -113,11 +112,10 @@ public class BrandsController extends MainController {
 			
 			if (file.getSize() > 0) {
 				Images image = new Images();
-				image.setImageName(file.getOriginalFilename());
+				image.setImageName(saveUploadedFile(file));
 				image.setImageId(imagesService.addImage(image));
 				brand.setBrandImage(image.getImageId());
 				brand.setImage(image);
-				saveUploadedFile(file);
 			}
 			
 			brand.setBrandName((String) map.get("bDesc")); 

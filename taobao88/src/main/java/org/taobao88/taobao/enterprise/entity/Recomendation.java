@@ -84,7 +84,8 @@ public class Recomendation implements Serializable {
 			inverseJoinColumns = { @JoinColumn(name = "sizes_id", nullable = false, updatable = false) })
 	private Set<Sizes> sizes;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "recomendation", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "recomendation")
+	@Cascade(value = {org.hibernate.annotations.CascadeType.DELETE})
 	private Set<Goods> goods;
 	
 	public Recomendation() {

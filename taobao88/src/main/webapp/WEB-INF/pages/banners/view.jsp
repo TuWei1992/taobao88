@@ -31,8 +31,8 @@
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/updateBanner?id=${item.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/deleteBanner?id=${item.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/updateBanner?id=${banner.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/deleteBanner?id=${banner.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
 											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>

@@ -94,7 +94,7 @@ public class RecomendationController extends MainController {
 			rec.setLongDescription((String) map.get("rDescLong"));
 			rec.setPrice((double) map.get("rPrice"));
 			rec.setHref((String) map.get("rHref"));
-			rec.setPhoto(files[0].getOriginalFilename());
+			rec.setPhoto(saveUploadedFile(files[0]));
 			rec.setType(recomendationTypeService.getTypeById((int) map.get("rType")));
 			rec.setColors(colorsService.prepareColorsFromString((String) map.get("rColor")));
 			rec.setSizes(sizesService.prepareSizesFromString((String) map.get("rSize")));

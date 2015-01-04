@@ -85,7 +85,7 @@
 					</c:if>
 				</div>
 				
-				<div class="tab-pane <c:if test="${banner_index || banner_create || banner_view}">active</c:if>" id="banner">
+				<div class="tab-pane <c:if test="${banner_index || banner_create || banner_update || banner_view}">active</c:if>" id="banner">
 					<c:if test="${banner_index}">
 						<jsp:include page="banners/index.jsp"/>
 					</c:if>
