@@ -73,4 +73,9 @@ public class GoodsServiceImpl implements GoodsService{
 		good.setRecomendation(recomendation);
 		return good;
 	}
+
+	@Override
+	public void delete(Goods goods) {
+		goodsDAO.delete(goods);		
+	}
 }

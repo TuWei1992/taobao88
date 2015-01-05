@@ -24,5 +24,7 @@ public interface GoodsService {
     public int saveGoods(Goods goods);
     
     public Goods convertFromRecomendationToGoods(Recomendation recomendation);
+    
+    public void delete(Goods goods);
 
 }

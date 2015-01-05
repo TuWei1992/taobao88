@@ -10,16 +10,18 @@ import java.util.List;
  */
 public interface GoodsDAO {
 
-    void persistEmployee(Goods employee);
+	public void persistEmployee(Goods employee);
 
-    Goods findEmployeeById(int id);
+    public Goods findEmployeeById(int id);
 
-    void updateEmployee(Goods employee);
+    public void updateEmployee(Goods employee);
 
-    void deleteGood(int id);
+    public void deleteGood(int id);
 
-    int saveGoods(Goods goods);
+    public int saveGoods(Goods goods);
 
-    List<Goods> getAll(List<OrderT> orderTs);
+    public List<Goods> getAll(List<OrderT> orderTs);
+    
+    public void delete(Goods goods);
 
 }

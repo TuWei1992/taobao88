@@ -55,10 +55,9 @@ public class Goods implements Serializable {
     
     @ManyToOne
 	@JoinColumn(name = "recomendation_id", referencedColumnName = "id")
-    @Cascade(value = {org.hibernate.annotations.CascadeType.DELETE})
 	private Recomendation recomendation;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @PrimaryKeyJoinColumn
     private OrderT orderT;
     

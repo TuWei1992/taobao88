@@ -357,7 +357,7 @@ public class OfficeController extends  MainController{
     			orderDAO.deleteOrder(orderT.getIdOrder());
     			orderStatusDAO.deleteOrderStatus(orderT.getIdOrderStatus());
         	
-    			goodsDAO.deleteGood(orderT.getIdGoods());
+    			goodsDAO.delete(goodsDAO.findEmployeeById(orderT.getIdGoods()));
     		}
 
     		List<OrderT> orders = orderDAO.getOrdersOnStartPage(idUser);

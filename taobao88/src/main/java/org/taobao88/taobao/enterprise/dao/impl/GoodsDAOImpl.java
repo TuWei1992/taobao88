@@ -68,4 +68,9 @@ public class GoodsDAOImpl implements GoodsDAO {
         return null;
     }
 
+	@Override
+	public void delete(Goods goods) {
+		sessionFactory.getCurrentSession().delete(goods);		
+	}
+
 }
