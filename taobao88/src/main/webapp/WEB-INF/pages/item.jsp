@@ -135,7 +135,14 @@
 							</div>
 							<div class="row-form">
 								<label>Вес:</label>
-								<a href="#">${item.weight}g</a>
+								<a href="javascript:void(0);">${item.weight}g</a>
+							</div>
+							<div class="row-form">
+								<label>Цена:</label>
+								<a href="javascript:void(0);">${item.price}</a>
+							</div>
+							<div>
+								<label class="label label-success"><a href="${item.href}" title="Ссылка на тао" target="_blank">Ссылка на тао</a></label>
 							</div>
 							<div class="btn-form">
 								<c:if test="${pageContext.request.userPrincipal.name != null}">

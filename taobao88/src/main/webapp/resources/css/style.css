@@ -522,7 +522,7 @@ span {
 
 .shop-item {
 	float: left;
-	width: 253px;
+	width: 276px;
 	padding: 0 20px 0 0;
 	margin: 40px 0;
 }
@@ -532,8 +532,9 @@ span {
 }
 
 .item-meta a {
-	color: #9B9898;
+	color: #464646;
 	text-decoration: none;
+	font: 14px Verdana;
 }
 
 .item-meta a:hover {
@@ -567,6 +568,11 @@ span {
 .item-prc {
 	float: left;
 	height: 24px;
+}
+
+.item-prc span {
+	color: #d1233e;
+    font: bold 16px Verdana;
 }
 
 .item-buy {
