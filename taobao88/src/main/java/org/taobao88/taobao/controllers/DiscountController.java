@@ -36,9 +36,19 @@ public class DiscountController extends MainController {
 	private PageRedactorValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(Model model) {
+	public String index(@RequestParam(value = "page", required = false, defaultValue = "1") String page, Model model) {
 		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();		
-		model.addAttribute("discount", recomendationService.getAllRecomendations(types.get(2)));
+		
+		int totalCount = recomendationService.getRecomendationsCount(types.get(2));
+		int totalPages = (int) totalCount / 54;
+		if (totalCount % 54 != 0) {
+			totalPages++;
+		}
+		
+		model.addAttribute("curr_page", Integer.parseInt(page));
+		model.addAttribute("total_pages", totalPages == 0 ? 1 : totalPages);
+		
+		model.addAttribute("discount", recomendationService.getRecomendationsPartial(Integer.parseInt(page), types.get(2)));
 		model.addAttribute("discount_index", true);
 		return "pageRedactor";
 	}

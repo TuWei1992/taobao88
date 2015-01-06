@@ -365,6 +365,13 @@ public class OfficeController extends  MainController{
         
     		if (request.getParameter("idPackage") != null) {
     			PackageT packageT = packageService.findPackageById(Integer.parseInt(request.getParameter("idPackage")));
+    			
+    			List<OrderT> packageOrdersList = orderDAO.getOrdersForPackages(packageT.getIdPackage());
+    			Set<OrderT> packageOrdersSet = new HashSet<>();
+    			for (OrderT o : packageOrdersList) {
+    				packageOrdersSet.add(o);
+    			}
+    			packageT.setOrders(packageOrdersSet);
         	
     			if (packageT.getOrders().size() == 0) {
     				packagesStatusesDAO.deleteAllByPackage(packageT);
@@ -378,6 +385,7 @@ public class OfficeController extends  MainController{
     				double priceWithoutDelivery = 0;
     				double packageWeight = 0;
     				for(OrderT o : packageT.getOrders()) {
+    					o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
     					priceWithoutDelivery += o.getFullPrice();
     					packageWeight += o.getGoods().getWeightGoods() * o.getGoods().getAmountGoods();
     					orderList.add(o);
