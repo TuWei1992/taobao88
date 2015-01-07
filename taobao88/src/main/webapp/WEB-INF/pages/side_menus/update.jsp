@@ -7,6 +7,7 @@
   <h4><span class="label label-primary">Редактирование меню</span></h4>
 </div>
 				<form role="form" method="POST" accept-charset="utf-8" action="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/updateMenu/doUpdate">
+				<input type="hidden" name="page" value="${curr_page}">
 					<div class="form-group">
 						<label class="input" for="menu_name">Название меню</label>
 						<input id="menu_name" class="form-control menu_name" type="text" name="menuName" value="${menu.menuName}">
@@ -20,6 +21,15 @@
 						<label class="input" for="menu_order">Порядок</label> 
 						<input class="form-control menu_order" id="menu_order" type="text" name="menuOrder" value="${menu.menuOrder}">
 					</div>
+					<div class="form-group">
+								<label class="input" for="menu_order">Подкатегория в:</label> 
+								<select class="form-control" name="parentId" id="parentId">
+									<option value="0">Корневая</option>
+									<c:forEach items="${side_menu}" var="m">
+										<option value="${m.id}" <c:if test="${m.id == menu.parentId}">selected</c:if>>${m.menuName}</option>							
+									</c:forEach>
+								</select>
+							</div>
 					<div class="form-group">
 						<a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu" role="button" class="btn btn-default pull-left">Назад</a>
 						<button class="btn btn-success pull-right" type="submit">Обновить</button>

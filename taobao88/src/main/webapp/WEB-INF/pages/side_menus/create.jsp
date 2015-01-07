@@ -8,7 +8,7 @@
   <h4><span class="label label-primary">Создание меню</span></h4>
 </div>
 <form role="form" action="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/createMenu/doCreate" method="POST">
-				
+					<input type="hidden" name="page" value="${curr_page}">
 					<div class="form-group">
 						<label class="input" for="menu_name">Название меню</label> <input
 							id="menu_name" class="form-control menu_name" type="text"

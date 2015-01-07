@@ -24,7 +24,7 @@
 								</td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/discount/createRecomendation" type="button" role="button" class="btn btn-success">Создать</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/discount/createRecomendation?page=${curr_page}" type="button" role="button" class="btn btn-success">Создать</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -59,9 +59,9 @@
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/discount/updateRecomendation?id=${dsc.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/discount/deleteRecomendation?id=${dsc.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/discount/createRecomendation" class="btn btn-default glyphicon glyphicon-plus"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/discount/updateRecomendation?id=${dsc.id}&page=${curr_page}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/discount/deleteRecomendation?id=${dsc.id}&page=${curr_page}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/discount/createRecomendation?page=${curr_page}" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>
 								</tr>

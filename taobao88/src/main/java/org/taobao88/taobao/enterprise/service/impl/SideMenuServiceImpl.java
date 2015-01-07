@@ -43,8 +43,8 @@ public class SideMenuServiceImpl implements SideMenuService {
 	}
 
 	@Override
-	public List<SideMenu> getSideMenu() {
-		List<SideMenu> sideMenu = sideMenuDAO.getSideMenu();
+	public List<SideMenu> getSideMenu(String orderBy) {
+		List<SideMenu> sideMenu = sideMenuDAO.getSideMenu(orderBy);
 		for (SideMenu menu : sideMenu) {
 			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
 			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));
@@ -75,8 +75,8 @@ public class SideMenuServiceImpl implements SideMenuService {
 	}
 
 	@Override
-	public List<SideMenu> getSideMenuForPage(int page) {
-		List<SideMenu> sideMenu = sideMenuDAO.getSideMenuByLevel(page - 1);
+	public List<SideMenu> getSideMenuForPage(int page, String orderBy) {
+		List<SideMenu> sideMenu = sideMenuDAO.getSideMenuByLevel(page - 1, orderBy);
 		for (SideMenu menu : sideMenu) {
 			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
 			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));

@@ -43,8 +43,8 @@ public class SideMenuDAOImpl implements SideMenuDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SideMenu> getSideMenu() {
-		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = 0 order by parent_id").list();
+	public List<SideMenu> getSideMenu(String orderBy) {
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = 0 order by " + orderBy).list();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -61,8 +61,8 @@ public class SideMenuDAOImpl implements SideMenuDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SideMenu> getSideMenuByLevel(int level) {
-		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where level = :level order by menu_name").setParameter("level", level).list();
+	public List<SideMenu> getSideMenuByLevel(int level, String orderBy) {
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where level = :level order by " + orderBy).setParameter("level", level).list();
 	}
 
 }

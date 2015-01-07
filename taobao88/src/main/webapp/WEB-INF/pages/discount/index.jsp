@@ -23,10 +23,9 @@
 	<c:forEach items="${discount}" var="dsc">
 		<div class="col-sm-4 col-md-2">
     		<div class="thumbnail" style="margin-top: 20px;">
-      			<img src="/images/${dsc.photo}" style="max-height: 100px;">
+      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/discount/view?id=${dsc.id}&page=${curr_page}"><img src="/images/${dsc.photo}" style="max-height: 100px;"></a>
       			<div class="caption">
         			<h5>${dsc.description}</h5>
-        			<p><a href="${pageContext.request.contextPath}/admin/pageRedactor/discount/view?id=${dsc.id}" class="btn btn-primary" role="button">Просмотр</a></p>
       			</div>
     		</div>
     	</div>
@@ -34,7 +33,7 @@
 </div>
 <div class="row">
 	<div class="col-sm-4 col-md-2 pull-right" style="padding-top: 20px;">
-		<a href="${pageContext.request.contextPath}/admin/pageRedactor/discount/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
+		<a href="${pageContext.request.contextPath}/admin/pageRedactor/discount/createRecomendation?page=${curr_page}" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
 	</div>
 </div>
 

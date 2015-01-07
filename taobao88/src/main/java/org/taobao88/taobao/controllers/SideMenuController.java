@@ -28,13 +28,15 @@ public class SideMenuController {
 		
 		model.addAttribute("curr_page", page);
 		model.addAttribute("total_pages", 4);
-		model.addAttribute("side_menu", sideMenuService.getSideMenuForPage(page));
+		model.addAttribute("side_menu", sideMenuService.getSideMenuForPage(page, "parent_id, menu_order"));
 		model.addAttribute("side_menu_index", true);
 		return "pageRedactor";
 	}
 	
 	@RequestMapping(value = "/createMenu", method = RequestMethod.GET)
-	public String createMenu(Model model, HttpServletRequest request) {
+	public String createMenu(@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+						     Model model, 
+						     HttpServletRequest request) {
 		
 		if (request.getParameter("parentId") != null) {
 			int parentId = Integer.parseInt(request.getParameter("parentId"));
@@ -42,6 +44,7 @@ public class SideMenuController {
 		} else {
 			model.addAttribute("side_menu", sideMenuService.getAll());
 		}
+		model.addAttribute("curr_page", page);
 		model.addAttribute("side_menu_create", true);		
 		return "pageRedactor";
 	}
@@ -51,6 +54,7 @@ public class SideMenuController {
 							 @RequestParam("menuName") String menuName,
 							 @RequestParam("menuOrder") int menuOrder,
 							 @RequestParam("parentId") int parentId,
+							 @RequestParam(value = "page", required = false, defaultValue = "1") int page,
 							 HttpServletRequest request,
 							 Model model) {
 		SideMenu sideMenu = new SideMenu();
@@ -65,19 +69,24 @@ public class SideMenuController {
 		}
 		
 		sideMenuService.addSideMenu(sideMenu);
-		return "redirect:/admin/pageRedactor/sideMenu";
+		return "redirect:/admin/pageRedactor/sideMenu?page=" + page;
 	}
 
 	@RequestMapping(value = "/deleteMenu", method = RequestMethod.GET)
-	public String deleteMenu(@RequestParam("id") int id, Model model) {
+	public String deleteMenu(@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+							 @RequestParam("id") int id, 
+							 Model model) {
 		sideMenuService.deleteSideMenu(sideMenuService.getSideMenuById(id));
-		return "redirect:/admin/pageRedactor/sideMenu";
+		return "redirect:/admin/pageRedactor/sideMenu?page=" + page;
 	}
 
 	@RequestMapping(value = "/updateMenu", method = RequestMethod.GET)
-	public String updateMenu(@RequestParam("id") int id, Model model) {
+	public String updateMenu(@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+						     @RequestParam("id") int id, Model model) {
+		model.addAttribute("side_menu", sideMenuService.getAll());
 		model.addAttribute("menu", sideMenuService.getSideMenuById(id));
 		model.addAttribute("side_menu_update", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 
@@ -85,13 +94,16 @@ public class SideMenuController {
 	public String doUpdateSideMenu(@RequestParam("id") int id,
 								   @RequestParam("menuName") String menuName,
 								   @RequestParam("menuHref") String menuHref,
-								   @RequestParam("menuOrder") int menuOrder) {
+								   @RequestParam("menuOrder") int menuOrder,
+								   @RequestParam("parentId") int parentId,
+								   @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
 		SideMenu sideMenu = sideMenuService.getSideMenuById(id);
 		sideMenu.setMenuName(menuName);
 		sideMenu.setMenuHref(menuHref);
 		sideMenu.setMenuOrder(menuOrder);
+		sideMenu.setParentId(parentId);
 		sideMenuService.updateSideMenu(sideMenu);
-		return "redirect:/admin/pageRedactor/sideMenu";
+		return "redirect:/admin/pageRedactor/sideMenu?page=" + page;
 	}
 	
 }

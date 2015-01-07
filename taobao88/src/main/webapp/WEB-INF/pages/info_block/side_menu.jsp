@@ -4,16 +4,16 @@
 <c:if test="${sideMenu != null}">
 					<ul>
 						<c:forEach items="${sideMenu}" var="menu">
-							<li><a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=${menu.menuHref}" class="side_menu_parent" target="_blank">${menu.menuName}</a>
+							<li><a href="${menu.menuHref}" class="side_menu_parent" target="_blank">${menu.menuName}</a>
 								<ul class="side_menu_children">
 									<c:forEach items="${menu.children}" var="menu">
-										<li><a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=${menu.menuHref}" target="_blank">${menu.menuName}</a>
+										<li><a href="${menu.menuHref}" target="_blank">${menu.menuName}</a>
 											<ul class="side_menu_children">
 												<c:forEach items="${menu.children}" var="menu">
-													<li><a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=${menu.menuHref}" target="_blank">${menu.menuName}</a>
+													<li><a href="${menu.menuHref}" target="_blank">${menu.menuName}</a>
 														<ul class="side_menu_children">
 															<c:forEach items="${menu.children}" var="menu">
-																<li><a href="http://translate.google.ru/translate?hl=ru&sl=zh-CN&tl=ru&u=${menu.menuHref}" target="_blank">${menu.menuName}</a>
+																<li><a href="${menu.menuHref}" target="_blank">${menu.menuName}</a>
 															</c:forEach>
 														</ul>
 												</c:forEach>

@@ -8,7 +8,7 @@
 			<jsp:include page="../partials/errors.jsp"/>
 
 <form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner/doCreate">
-				
+				<input type="hidden" name="page" value="${curr_page}">
 					<div class="form-group">
 						<label class="input" for="bDesc">Краткое описание</label> 
 						<input type="text" class="form-control" name="rDesc" id="bDesc" placeholder="Краткое описание" required="required">

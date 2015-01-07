@@ -16,9 +16,10 @@ public void addSideMenu(SideMenu sideMenu);
 	
 	public SideMenu getSideMenuByName(String menuName);
 	
-	public List<SideMenu> getSideMenu();
+	public List<SideMenu> getSideMenu(String orderBy);
 	
 	public List<SideMenu> getAll();
 	
-	public List<SideMenu> getSideMenuForPage(int page);
+	public List<SideMenu> getSideMenuForPage(int page, String orderBy);
+	
 }

@@ -27,11 +27,11 @@ public class SideMenuServiceImplTest {
 
 	@Test
 	public void test() {
-		List<SideMenu> menus = sideMenuService.getSideMenuForPage(1);
+		List<SideMenu> menus = sideMenuService.getSideMenuForPage(1, "parent_id");
 		assertTrue(menus.size() != 0);
 		assertTrue(menus.get(0).getLevel() == 0);
 		
-		menus = sideMenuService.getSideMenuForPage(2);
+		menus = sideMenuService.getSideMenuForPage(2, "parent_id");
 		assertTrue(menus.size() != 0);
 		assertTrue(menus.get(0).getLevel() == 1);
 	}

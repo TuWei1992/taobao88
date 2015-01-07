@@ -36,7 +36,9 @@ public class RecomendationController extends MainController {
 	private PageRedactorValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(Model model, HttpServletRequest request) {
+	public String index(@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+					    Model model, 
+					    HttpServletRequest request) {
 		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
 		
 		int totalCount = recomendationService.getRecomendationsCount(types.get(0));
@@ -44,12 +46,7 @@ public class RecomendationController extends MainController {
 		if (totalCount % 54 != 0) {
 			totalPages++;
 		}
-		int page = 1;
-		
-		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
-		}
-		
+				
 		model.addAttribute("curr_page", page);
 		model.addAttribute("total_pages", totalPages == 0 ? 1 : totalPages);
 		
@@ -59,21 +56,26 @@ public class RecomendationController extends MainController {
 	}
 	
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(@RequestParam ("id") int id, Model model) {
+	public String view(@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+					   @RequestParam ("id") int id, Model model) {
 		model.addAttribute("rec", recomendationService.getRecomendationById(id));
 		model.addAttribute("recomendation_view", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 	
 	@RequestMapping(value = "/createRecomendation", method = RequestMethod.GET)
-	public String createRecomendation(Model model) {
+	public String createRecomendation(@RequestParam(value = "page", required = false, defaultValue = "1") int page, 
+									  Model model) {
 		model.addAttribute("recomendation_type", 0);
 		model.addAttribute("recomendation_create", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 
 	@RequestMapping(value = "/createRecomendation/doCreate", method = RequestMethod.POST)
-	public String doCreate(@RequestParam("rPhoto") MultipartFile[] files,
+	public String doCreate(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+							@RequestParam("rPhoto") MultipartFile[] files,
 			         		HttpServletRequest request,
 			         		Model model) {
 		
@@ -85,6 +87,7 @@ public class RecomendationController extends MainController {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			model.addAttribute("recomendationTypes", getRecomendationTypeList());
 			model.addAttribute("recomendation_create", true);
+			model.addAttribute("curr_page", page);
 			return "pageRedactor";
 		}
 		
@@ -102,17 +105,19 @@ public class RecomendationController extends MainController {
 			rec.setCount((int) map.get("rCount"));
 			createRecomendation(files, rec);
 			recomendationService.addRecomendation(rec);
-			return "redirect:/admin/pageRedactor/recomendation";
+			return "redirect:/admin/pageRedactor/recomendation?page=" + page;
 		} catch (Exception e) {
 			model.addAttribute("unknown_error", true);
 			model.addAttribute("recomendationTypes", getRecomendationTypeList());
 			model.addAttribute("recomendation_create", true);
+			model.addAttribute("curr_page", page);
 			return "pageRedactor";
 		}
 	}
 
 	@RequestMapping(value = "/deleteRecomendation", method = RequestMethod.GET)
-	public String deleteRecomendation(@RequestParam("id") int id) {
+	public String deleteRecomendation(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+									  @RequestParam("id") int id) {
 		Recomendation rec = recomendationService.getRecomendationById(id);
 		Set<Images> images = rec.getImages();
 		if (images != null || !images.isEmpty()) {
@@ -121,19 +126,22 @@ public class RecomendationController extends MainController {
 			}
 		}
 		recomendationService.deleteRecomendation(rec);
-		return "redirect:/admin/pageRedactor/recomendation";
+		return "redirect:/admin/pageRedactor/recomendation?page=" + page;
 	}
 
 	@RequestMapping(value = "/updateRecomendation", method = RequestMethod.GET)
-	public String updateRecomendation(@RequestParam("id") int id, Model model) {
+	public String updateRecomendation(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+									  @RequestParam("id") int id, Model model) {
 		Recomendation rec = recomendationService.getRecomendationById(id);
 		model.addAttribute("rec", rec);
 		model.addAttribute("recomendation_update", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 
 	@RequestMapping(value = "/updateRecomendation/doUpdate", method = RequestMethod.POST)
-	public String doUpdate(@RequestParam("rPhoto") MultipartFile[] files,
+	public String doUpdate(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+						   @RequestParam("rPhoto") MultipartFile[] files,
 						   @RequestParam("id") int id,
 						   HttpServletRequest request,
 						   Model model) {
@@ -147,6 +155,7 @@ public class RecomendationController extends MainController {
 			Recomendation rec = recomendationService.getRecomendationById(id);
 			model.addAttribute("rec", rec);
 			model.addAttribute("recomendation_update", true);
+			model.addAttribute("curr_page", page);
 			return "pageRedactor";
 		}
 		
@@ -164,10 +173,11 @@ public class RecomendationController extends MainController {
 				createRecomendation(files, rec);
 			}
 			recomendationService.updateRecomendation(rec);
-			return "redirect:/admin/pageRedactor/recomendation";
+			return "redirect:/admin/pageRedactor/recomendation?page=" + page;
 		} catch (Exception e) {
 			model.addAttribute("unknown_error", true);
 			model.addAttribute("recomendation_update", true);
+			model.addAttribute("curr_page", page);
 			return "pageRedactor";
 		}
 	}

@@ -23,7 +23,7 @@
 	<c:forEach items="${recomendations}" var="rec">
 		<div class="col-sm-4 col-md-2">
     		<div class="thumbnail" style="margin-top: 20px; height: 200px;">
-      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/view?id=${rec.id}"><img src="/images/${rec.photo}" style="max-height: 100px;"></a>
+      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/view?id=${rec.id}&page=${curr_page}"><img src="/images/${rec.photo}" style="max-height: 100px;"></a>
       			<div class="caption">
         			<h5>${rec.description}</h5>
         			<p></p>
@@ -34,7 +34,7 @@
 </div>
 <div class="row">
 	<div class="col-sm-4 col-md-2 pull-right" style="padding-top: 20px;">
-		<a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/createRecomendation" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
+		<a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation/createRecomendation?page=${curr_page}" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
 	</div>
 </div>
 

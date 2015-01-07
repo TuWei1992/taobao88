@@ -16,7 +16,7 @@
 								</td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand" role="button" class="btn btn-success">Создать</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand?page=${curr_page}" role="button" class="btn btn-success">Создать</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -32,9 +32,9 @@
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/brands/updateBrand?id=${brand.brandId}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/brands/deleteBrand?id=${brand.brandId}" class="btn btn-default glyphicon glyphicon-remove"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand" class="btn btn-default glyphicon glyphicon-plus"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/brands/updateBrand?id=${brand.brandId}&page=${curr_page}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/brands/deleteBrand?id=${brand.brandId}&page=${curr_page}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand?page=${curr_page}" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>
 								</tr>

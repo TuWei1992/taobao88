@@ -23,7 +23,7 @@
 	<c:forEach items="${brands}" var="brand">
 		<div class="col-sm-4 col-md-2">
     		<div class="thumbnail" style="margin-top: 20px; height: 200px;">
-      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/view?id=${brand.brandId}"><img src="/images/${brand.image.imageName}" width="75" height="75"></a>
+      			<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/view?id=${brand.brandId}&page=${curr_page}"><img src="/images/${brand.image.imageName}" width="75" height="75"></a>
       			<div class="caption">
         			<h5>${brand.brandName}</h5>
       			</div>
@@ -33,7 +33,7 @@
 </div>
 <div class="row">
 	<div class="col-sm-4 col-md-2 pull-right" style="padding-top: 20px;">
-		<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
+		<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands/createBrand?page=${curr_page}" type="button" role="button" class="btn btn-success create_rec_btn">Создать</a>
 	</div>
 </div>
 

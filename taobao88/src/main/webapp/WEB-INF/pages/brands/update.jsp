@@ -7,6 +7,7 @@
 </div>
 		<jsp:include page="../partials/errors.jsp"/>
 				<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/brands/updateBrand/doUpdate">
+					<input type="hidden" name="page" value="${curr_page}">
 					<input type="hidden" name="id" value="${brand.brandId}">
 					
 					<div class="form-group">

@@ -14,7 +14,7 @@
 								<td></td>
 								<td></td>
 								<td>
-									<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner" role="button" class="btn btn-success">Создать</a>
+									<a href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner?page=${curr_page}" role="button" class="btn btn-success">Создать</a>
 								</td>
 							</tr>
 						</tfoot>
@@ -31,9 +31,9 @@
 									</td>
 									<td>
 										<div class="btn-group">
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/updateBanner?id=${banner.id}" class="btn btn-default glyphicon glyphicon-pencil"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/deleteBanner?id=${banner.id}" class="btn btn-default glyphicon glyphicon-remove"></a>
-											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner" class="btn btn-default glyphicon glyphicon-plus"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/updateBanner?id=${banner.id}&page=${curr_page}" class="btn btn-default glyphicon glyphicon-pencil"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/deleteBanner?id=${banner.id}&page=${curr_page}" class="btn btn-default glyphicon glyphicon-remove"></a>
+											<a type="button" href="${pageContext.request.contextPath}/admin/pageRedactor/banner/createBanner?page=${curr_page}" class="btn btn-default glyphicon glyphicon-plus"></a>
 										</div>
 									</td>
 								</tr>

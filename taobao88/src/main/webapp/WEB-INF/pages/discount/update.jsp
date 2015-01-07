@@ -23,7 +23,7 @@
 			<jsp:include page="../partials/errors.jsp"/>
 			
 			<form role="form" method="POST" accept-charset="utf-8" enctype="multipart/form-data" action="${pageContext.request.contextPath}/admin/pageRedactor/discount/updateRecomendation/doUpdate">
-				
+				<input type="hidden" name="page" value="${curr_page}">
 					<div class="form-group">
 						<label class="input" for="rDesc">Краткое описание:</label> 
 						<input type="hidden" class="form-control" name="id" value="${rec.id}">

@@ -26,18 +26,15 @@ public class BannerController extends MainController {
 	@Autowired private RecomendationService recomendationService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(HttpServletRequest request, Model model) {
+	public String index(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+					    HttpServletRequest request, 
+					    Model model) {
 		Map<Integer, RecomendationType> types = recomendationTypeService.getRecomendationTypes();
 		
 		int totalCount = recomendationService.getRecomendationsCount(types.get(5));
 		int totalPages = (int) totalCount / 54;
 		if (totalCount % 54 != 0) {
 			totalPages++;
-		}
-		int page = 1;
-		
-		if (request.getParameter("page") != null) {
-			page = Integer.parseInt(request.getParameter("page"));
 		}
 		
 		model.addAttribute("curr_page", page);
@@ -48,21 +45,26 @@ public class BannerController extends MainController {
 	}
 	
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public String view(@RequestParam ("id") int id, Model model) {
+	public String view(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+					   @RequestParam ("id") int id, Model model) {
 		model.addAttribute("banner", recomendationService.getRecomendationById(id));
 		model.addAttribute("banner_view", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 	
 	@RequestMapping(value = "/createBanner", method = RequestMethod.GET)
-	public String createBanner(Model model) {
+	public String createBanner(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+							   Model model) {
 		model.addAttribute("recomendation_type", 5);
 		model.addAttribute("banner_create", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 	
 	@RequestMapping(value = "/createBanner/doCreate", method = RequestMethod.POST)
-	public String doCreate(@RequestParam("rDesc") String desc,
+	public String doCreate(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+							@RequestParam("rDesc") String desc,
 							   @RequestParam("rPrice") String price,
 							   @RequestParam("rHref") String href,
 							   @RequestParam("rPhoto") MultipartFile file,
@@ -74,19 +76,22 @@ public class BannerController extends MainController {
 		rec.setPhoto(saveUploadedFile(file));
 		rec.setType(recomendationTypeService.getTypeById(recType));
 		recomendationService.addRecomendation(rec);
-		return "redirect:/admin/pageRedactor/banner";
+		return "redirect:/admin/pageRedactor/banner?page=" + page;
 	}
 
 	@RequestMapping(value = "/updateBanner", method = RequestMethod.GET)
-	public String updateBanner(@RequestParam("id") int id, Model model) {
+	public String updateBanner(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+							   @RequestParam("id") int id, Model model) {
 		Recomendation rec = recomendationService.getRecomendationById(id);
 		model.addAttribute("rec", rec);
 		model.addAttribute("banner_update", true);
+		model.addAttribute("curr_page", page);
 		return "pageRedactor";
 	}
 
 	@RequestMapping(value = "/updateBanner/doUpdate", method = RequestMethod.POST)
-	public String doUpdateBanner(@RequestParam("rDesc") String desc,
+	public String doUpdateBanner(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam("rDesc") String desc,
 			@RequestParam("rPrice") String price,
 			@RequestParam("rHref") String href, @RequestParam("id") int id,
 			@RequestParam("rPhoto") MultipartFile file) {
@@ -98,11 +103,12 @@ public class BannerController extends MainController {
 			rec.setPhoto(saveUploadedFile(file));
 		}
 		recomendationService.updateRecomendation(rec);
-		return "redirect:/admin/pageRedactor/banner";
+		return "redirect:/admin/pageRedactor/banner?page=" + page;
 	}
 	
 	@RequestMapping(value = "/deleteBanner", method = RequestMethod.GET)
-	public String deleteBanner(@RequestParam("id") int id) {
+	public String deleteBanner(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+								 @RequestParam("id") int id) {
 		Recomendation rec = recomendationService.getRecomendationById(id);
 		Set<Images> images = rec.getImages();
 		if (images != null || !images.isEmpty()) {
@@ -111,7 +117,7 @@ public class BannerController extends MainController {
 			}
 		}
 		recomendationService.deleteRecomendation(rec);
-		return "redirect:/admin/pageRedactor/banner";
+		return "redirect:/admin/pageRedactor/banner?page=" + page;
 	}
 
 }

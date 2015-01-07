@@ -16,11 +16,11 @@ public interface SideMenuDAO {
 	
 	public SideMenu getSideMenuByName(String menuName);
 	
-	public List<SideMenu> getSideMenu();
+	public List<SideMenu> getSideMenu(String orderBy);
 	
 	public List<SideMenu> getAll();
 	
 	public List<SideMenu> getChildren(int parentId);
 	
-	public List<SideMenu> getSideMenuByLevel(int level);
+	public List<SideMenu> getSideMenuByLevel(int level, String orderBy);
 }

@@ -67,7 +67,7 @@ public class IndexController extends MainController {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
 		List<OrderT> basket = new ArrayList<OrderT>();
 		
-		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
+		model.addAttribute("sideMenu", sideMenuService.getSideMenu("menu_order"));
 		model.addAttribute("recomendations", recomendationService.getSortedRecomendations(recomendationTypes.get(0)));
 		model.addAttribute("slider", recomendationService.getAllRecomendations(recomendationTypes.get(1)));
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
@@ -79,7 +79,7 @@ public class IndexController extends MainController {
 	@RequestMapping(value = "brands", method = RequestMethod.GET)
 	public String brands(Model model) {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
-		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
+		model.addAttribute("sideMenu", sideMenuService.getSideMenu("menu_order"));
 		model.addAttribute("brands", brandsService.getSortedBrands());
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
@@ -89,7 +89,7 @@ public class IndexController extends MainController {
 	@RequestMapping(value = "discount", method = RequestMethod.GET)
 	public String discount(Model model) {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
-		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
+		model.addAttribute("sideMenu", sideMenuService.getSideMenu("menu_order"));
 		model.addAttribute("discount", recomendationService.getSortedRecomendations(recomendationTypes.get(2)));
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
@@ -99,7 +99,7 @@ public class IndexController extends MainController {
 	@RequestMapping(value = "free", method = RequestMethod.GET)
 	public String free(Model model) {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
-		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
+		model.addAttribute("sideMenu", sideMenuService.getSideMenu("menu_order"));
 		model.addAttribute("free", recomendationService.getSortedRecomendations(recomendationTypes.get(3)));
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
@@ -109,7 +109,7 @@ public class IndexController extends MainController {
 	@RequestMapping(value = "comments", method = RequestMethod.GET)
 	public String comments(Model model) {
 		Map<Integer, RecomendationType> recomendationTypes = recomendationTypeService.getRecomendationTypes();
-		model.addAttribute("sideMenu", sideMenuService.getSideMenu());
+		model.addAttribute("sideMenu", sideMenuService.getSideMenu("menu_order"));
 		model.addAttribute("comments", recomendationService.getSortedRecomendations(recomendationTypes.get(4)));
 		model.addAttribute("topMenuList", topMenuService.getFullTopMenu());
 		model.addAttribute("banner", recomendationService.getAllRecomendations(recomendationTypes.get(5)));
