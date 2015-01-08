@@ -14,10 +14,13 @@
 						<div class="shop-item">
 							<div>
 								<div class="item-box">
-									<div class="item-thumb">
+									<%-- <div class="item-thumb">
 										<a href="${pageContext.request.contextPath}/item?id=${disc.id}" target="_blank" class="item-lnk thumbnail"> 
 											<img src="/images/${disc.photo}" alt="New fashion">
 										</a>
+									</div> --%>
+									<div class="grow pic">
+										<a href="${pageContext.request.contextPath}/item?id=${disc.id}" target="_blank"><img src="/images/${disc.photo}" alt="New fashion"></a>
 									</div>
 									<div class="item-meta">
 										<div class="item-ttl">
