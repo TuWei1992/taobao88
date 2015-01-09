@@ -1,5 +1,8 @@
 package org.taobao88.taobao.controllers;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.taobao88.taobao.enterprise.dao.PagesContentDAO;
+import org.taobao88.taobao.enterprise.entity.PageContent;
 import org.taobao88.taobao.enterprise.entity.SideMenu;
 import org.taobao88.taobao.enterprise.service.SideMenuService;
 
@@ -16,6 +21,7 @@ import org.taobao88.taobao.enterprise.service.SideMenuService;
 public class SideMenuController {
 
 	@Autowired private SideMenuService sideMenuService;
+	@Autowired private PagesContentDAO pagesContentDAO;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Model model, HttpServletRequest request) {
@@ -104,6 +110,31 @@ public class SideMenuController {
 		sideMenu.setParentId(parentId);
 		sideMenuService.updateSideMenu(sideMenu);
 		return "redirect:/admin/pageRedactor/sideMenu?page=" + page;
+	}
+	
+	@RequestMapping(value = "/other", method = RequestMethod.GET)
+	public String anotherIndex(Model model) {
+		model.addAttribute("another_menu_index", true);
+		model.addAttribute("anotherMenu", pagesContentDAO.findContentByPageName("anotherMenu"));
+		return "pageRedactor";
+	}
+	
+	@RequestMapping(value = "/other/update", method = RequestMethod.GET)
+	public String anotherUpdate(Model model) {
+		model.addAttribute("another_menu_update", true);
+		model.addAttribute("anotherMenu", pagesContentDAO.findContentByPageName("anotherMenu"));
+		return "pageRedactor";
+	}
+	
+	@RequestMapping(value = "/other/doUpdate", method = RequestMethod.POST)
+	public String anotherDoUpdate(@RequestParam ("content") String content,
+								  @RequestParam ("page") String page,
+							      Model model) {
+		PageContent anotherMenu = pagesContentDAO.findContentByPageName(page);
+		anotherMenu.setContent(content);
+		anotherMenu.setUpdated_at(new Timestamp(new Date().getTime()));
+		pagesContentDAO.updatePageContent(anotherMenu);
+		return "redirect:/admin/pageRedactor/sideMenu/other";
 	}
 	
 }

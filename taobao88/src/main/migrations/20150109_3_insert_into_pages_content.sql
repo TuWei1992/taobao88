@@ -1,0 +1,1 @@
+insert into pages_content (page, content, created_at, updated_at) values ('anotherMenu', '', now(), now());

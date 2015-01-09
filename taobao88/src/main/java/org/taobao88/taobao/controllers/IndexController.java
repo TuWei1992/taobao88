@@ -34,6 +34,7 @@ import org.taobao88.taobao.enterprise.entity.OrderT;
 import org.taobao88.taobao.enterprise.entity.PostService;
 import org.taobao88.taobao.enterprise.entity.Recomendation;
 import org.taobao88.taobao.enterprise.entity.RecomendationType;
+import org.taobao88.taobao.enterprise.entity.SideMenu;
 import org.taobao88.taobao.enterprise.service.*;
 
 @Controller
@@ -261,6 +262,13 @@ public class IndexController extends MainController {
 		}
 		
 		return null;
+	}
+	
+	@RequestMapping(value = "/index/other", method = RequestMethod.GET)
+	public String other(Model model) {
+		List<SideMenu> menus = sideMenuService.getSideMenu("level");
+		model.addAttribute("other_menu", sideMenuService.getSideMenu("level"));
+		return "side_menus/other";
 	}
 }
 

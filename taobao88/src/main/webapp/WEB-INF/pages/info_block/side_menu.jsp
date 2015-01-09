@@ -23,5 +23,6 @@
 								</ul>
 							</li>
 						</c:forEach>
+						<li><a href="${pageContext.request.contextPath}/index/other" target="_blank">Другие категории</a></li>
 					</ul>
 </c:if>

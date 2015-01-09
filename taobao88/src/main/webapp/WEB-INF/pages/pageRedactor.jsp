@@ -33,6 +33,7 @@
 
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="<c:if test="${side_menu_index || side_menu_create || side_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu">Боковое меню</a></li>
+				<%--<li class="<c:if test="${another_menu_index || another_menu_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/sideMenu/other">Другие категории</a></li>--%>
 				<li class="<c:if test="${recomendation_index || recomendation_create || recomendation_update || recomendation_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/recomendation">Рекомендации</a></li>
 				<li class="<c:if test="${slider_index || slider_create || slider_update}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/slider">Слайдер</a></li>
 				<li class="<c:if test="${banner_index || banner_create || banner_update || banner_view}">active</c:if>"><a href="${pageContext.request.contextPath}/admin/pageRedactor/banner">Баннер</a></li>
@@ -55,6 +56,16 @@
 					</c:if>
 					<c:if test="${side_menu_update}">
 						<jsp:include page="side_menus/update.jsp"/>
+					</c:if>
+				</div>
+				
+				<div class="tab-pane <c:if test="${another_menu_index || another_menu_update}">active</c:if>" id="anotherMenu">
+					<c:if test="${another_menu_index}">
+						<jsp:include page="side_menus/another_index.jsp"/>
+					</c:if>
+					
+					<c:if test="${another_menu_update}">
+						<jsp:include page="side_menus/another_update.jsp"/>
 					</c:if>
 				</div>
 
