@@ -204,7 +204,7 @@ $(function() {
 							</td>
 					</table>
 					<input type="submit" class="submitbutton"
-						<c:if test="${changeSettingsBool == 'false' && adminSettingsBool == 'false'}">value="Обновить"</c:if>
+						<c:if test="${changeSettingsBool == 'false' && adminSettingsBool == 'false'}">value="Внести изменения"</c:if>
 						<c:if test="${changeSettingsBool == 'true' && adminSettingsBool == 'false'}">value="Сохранить"</c:if> />
 					</form>
 				</div>
