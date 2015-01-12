@@ -23,13 +23,13 @@
 <link rel="stylesheet" type="text/css" href="/css/ie.css"/>
 <![endif]-->
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.timers-1.2.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.easing.1.3.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/gallery/js/jquery.galleryview-3.0-dev.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/gallery/css/jquery.galleryview-3.0-dev.css" />
 
     <!--[if lt IE 9]>
@@ -139,15 +139,23 @@
 							</div>
 							<div class="row-form">
 								<label>Цена:</label>
-								<a href="javascript:void(0);">${item.price}</a>
+								
+									<a href="javascript:void(0);" style="color: #d1233e; font: bold 16px Verdana;">${item.price}</a>
+								
 							</div>
 							<div>
 								<label class="label label-success"><a href="${item.href}" title="Ссылка на тао" target="_blank">Ссылка на тао</a></label>
 							</div>
-							<div class="btn-form">
-								<c:if test="${pageContext.request.userPrincipal.name != null}">
-									<input type="button" class="submitbutton" value="В корзину" onclick="addToBasket('${pageContext.request.contextPath}',${item.id});">
-								</c:if>
+							<div class="btn-card btn-form">
+								
+								<c:choose>
+												<c:when test="${pageContext.request.userPrincipal.name != null}">
+													<a href="#" onclick="addToBasket('${pageContext.request.contextPath}',${item.id});" style="margin-right: 0px;">В корзину</a>
+												</c:when>
+												<c:otherwise>
+													<a href="${pageContext.request.contextPath}/login" target="_blank" style="margin-right: 0px;">В корзину</a>
+												</c:otherwise>
+											</c:choose>
 							</div>
 						</fieldset>
 					</form>
@@ -170,13 +178,14 @@
  </div>
 
  <div class="width">
- 	<div class="tabs">
+ 	${item.longDescription}
+ 	<%--<div class="tabs">
     	<ul>
         	<li>
             	<input type="radio" name="tabs0" checked="checked" id="tabs0-0" /><label for="tabs0-0">Информация</label>
             	<div>
                 	<h3>${item.description}</h3>
-					<p>${item.longDescription}</p>
+					<p></p>
             	</div>
         	</li>
         	<li>
@@ -193,7 +202,7 @@
             	</div>
         	</li>
     	</ul>
-	</div>
+	</div>--%>
 </div> 
 <jsp:include page="partials/index_footer.jsp"/>
 </body>

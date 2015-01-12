@@ -226,7 +226,7 @@
 					</c:if>
 				</c:if>
 				<div class="alert alert-warning">
-					Для того, чтобы оформить заказ, выделите галочкой те товары, которые хотите заказать, и нажмите кнопку "Оформить заказ".
+					Для того, чтобы оформить заказ, выделите галочкой те товары, которые хотите положить в посылку, и нажмите кнопку "Оформить заказ".
 				</div>
 					
 			<form name="toOrder" class="form-horizontal" role="form" action="${pageContext.request.contextPath}/privateOffice/toOrder" accept-charset="utf-8">	
