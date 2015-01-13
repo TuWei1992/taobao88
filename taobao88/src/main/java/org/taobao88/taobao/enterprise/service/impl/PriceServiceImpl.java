@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.taobao88.taobao.enterprise.dao.GoodsDAO;
@@ -20,6 +21,7 @@ import org.taobao88.taobao.enterprise.service.PriceService;
 @Repository("priceService")
 public class PriceServiceImpl implements PriceService {
 	
+	private static final Logger logger = Logger.getLogger(PriceServiceImpl.class);
 	@Autowired private GoodsDAO goodsDAO;
 	@Autowired private PostServicePriceDAO postServicePriceDAO;
 
@@ -216,17 +218,25 @@ public class PriceServiceImpl implements PriceService {
 		return (int) price;
 	}
 
+	@SuppressWarnings("finally")
 	@Override
 	public int getDeliveryPrice(List<OrderT> orders, UserT user, double priceWithoutDelivery, PostService postService) {
-		double totalWeight = calculatePackageWeight(orders);
-		double totalPrice = priceWithoutDelivery;
-		double priceByWeight = postServicePriceDAO.getPriceByWeight(totalWeight, postService.getId());
-		if (priceByWeight != 0.0) {
-			totalPrice += priceByWeight * 0.19;
-			totalPrice = Math.round(totalPrice);
+		double totalPrice = 0;
+		try {
+			totalPrice = priceWithoutDelivery;
+			double totalWeight = calculatePackageWeight(orders);
+			double priceByWeight = postServicePriceDAO.getPriceByWeight(totalWeight, postService.getId());
+			if (priceByWeight != 0.0) {
+				totalPrice += priceByWeight * 0.19;
+				totalPrice = Math.round(totalPrice);
+			} 
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			totalPrice = 0;
+		} finally {
 			return (int) totalPrice;
-		} 
-		return 0;
+		}
+		
 	}
 
 	@Override

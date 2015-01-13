@@ -34,7 +34,7 @@ public class PriceController {
 	@Autowired private CountryRegCityDAO countryRegCityDAO;
 	
 	@RequestMapping(value = "adjustPrice", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody double addOrder(@RequestParam ("idOrder") int[] orderIds,
+	public @ResponseBody String addOrder(@RequestParam ("idOrder") int[] orderIds,
 									     @RequestParam ("price") int[] price,
 									     @RequestParam ("postServiceId") int postServiceId,
 									     @RequestParam ("countryId") int countryId,
@@ -48,21 +48,27 @@ public class PriceController {
 			chosenService = postServiceDAO.findByNameAndCountry(service.getServiceName(), countryId);
 		}
 		
-		List<OrderT> orders = new ArrayList<>();
-		for (int id : orderIds) {
-			OrderT o = orderDAO.findOrderById(id);
-			o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
-			orders.add(o);
-		}
+		if (chosenService == null) {
+			return "{\"success\":false,\"error\":\"chosen_service_null\"}";
+		} else {
+			List<OrderT> orders = new ArrayList<>();
+			for (int id : orderIds) {
+				OrderT o = orderDAO.findOrderById(id);
+				o.setGoods(goodsDAO.findEmployeeById(o.getIdGoods()));
+				orders.add(o);
+			}
 		
-		double priceWithoutDelivery = 0;
-		for (double p : price) {
-			priceWithoutDelivery += p;
-		}
+			double priceWithoutDelivery = 0;
+			for (double p : price) {
+				priceWithoutDelivery += p;
+			}
 		
-		int userId = (int) request.getSession().getAttribute("currentIdUser");
-		UserT user = userDAO.findUserById(userId);
-				
-		return priceService.getDeliveryPrice(orders, user, priceWithoutDelivery, chosenService);
+			int userId = (int) request.getSession().getAttribute("currentIdUser");
+			UserT user = userDAO.findUserById(userId);
+			
+			int priceWithDelivery = priceService.getDeliveryPrice(orders, user, priceWithoutDelivery, chosenService);
+			
+			return priceWithDelivery == 0 ? "{\"success\":false,\"error\":\"weight_limit\"}" : "{\"success\":true,\"message\":\"" + priceWithDelivery + "\"}";
+		}
 	}
 }

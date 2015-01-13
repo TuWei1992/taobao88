@@ -88,8 +88,10 @@
 		
 		$('#countryId').change(function() {
 			$('.shipping_address input').val('');
-			var dataDelivery = data + '&postServiceId=' + $('.service').val() + '&countryId=' + $('#countryId').val();
-			send(dataDelivery);
+			if ($('.service:checked').val() != null) {
+				var dataDelivery = data + '&postServiceId=' + $('.service:checked').val() + '&countryId=' + $('#countryId').val();
+				send(dataDelivery);
+			}
 		});
 		
 		$('.service').click(function() {
@@ -149,15 +151,33 @@
   		    data: dataDelivery,
   		    dataType: 'json',
   			complete: function(jsonData) {
-  				if (jsonData.responseText == 0.0) {
+  				var response = JSON.parse(jsonData.responseText);
+  				if (response.success) {
+  					$('.price_with_delivery').text(parseInt(response.message));
+  					$('input[name="price"]').val(parseInt(response.message));
+  				} else {
+  					if (response.error == 'chosen_service_null') {
+  						$('.service').prop('checked', false);
+  						$('#commonModal').modal('show');
+  						$('.modal_text').html('Сервис, который вы выбрали, не осуществляет доставку в Вашу страну.');
+  					} else if (response.error == 'weight_limit') {
+  						$('#weightLimitModal').modal('show');
+  	  					$('.price_with_delivery').text(0);
+  	  					$('input[name="price"]').val(0);
+  	  					$('.service').prop('checked', false);
+  					}
+  				}
+  				/*if (jsonData.responseText == 0.0) {
   					$('#weightLimitModal').modal('show');
   					$('.price_with_delivery').text(0);
   					$('input[name="price"]').val(0);
   					$('.service').prop('checked', false);
+  					return false;
   				} else {
   					$('.price_with_delivery').text(parseInt(jsonData.responseText));
   					$('input[name="price"]').val(parseInt(jsonData.responseText));
-  				}
+  					return true;
+  				}*/
   			}
     	});
 	}
@@ -177,6 +197,7 @@
 	<jsp:include page="./modal/basket_bad_price_modal.jsp"/>
 	<jsp:include page="./modal/post_service_not_chosen_modal.jsp"/>
 	<jsp:include page="./modal/loading_modal.jsp"/>
+	<jsp:include page="./modal/common_modal.jsp"/>
 	
 	<div id="wrapper">
  	<!-- HEADER -->
