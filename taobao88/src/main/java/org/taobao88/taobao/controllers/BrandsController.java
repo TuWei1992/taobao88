@@ -1,8 +1,6 @@
 package org.taobao88.taobao.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -106,10 +104,8 @@ public class BrandsController extends MainController {
 		
 		try {
 			Brands brand = brandsService.getBrandById(id);
-			validator = new PageRedactorValidator();
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			List<String> errors = validator.validateUpdateBrand(request, map);
+			validator = new PageRedactorValidator();			
+			List<String> errors = validator.validateUpdateBrand(request);
 			if (errors.size() != 0) {
 				model.addAttribute("errors", toJSArray(errors.toArray()));
 				model.addAttribute("brands_update", true);
@@ -125,7 +121,7 @@ public class BrandsController extends MainController {
 				brand.setImage(image);
 			}
 			
-			brand.setBrandName((String) map.get("bDesc")); 
+			brand.setBrandName(validator.getString("bDesc")); 
 			brandsService.updateBrand(brand);
 			return "redirect:/admin/pageRedactor/brands?page=" + page;
 		} catch (Exception e) {

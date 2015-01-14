@@ -1,8 +1,6 @@
 package org.taobao88.taobao.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,9 +38,7 @@ public class TopMenuController extends MainController {
 	public String doCreateTopMenu(HttpServletRequest request, Model model) {
 		
 		validator = new PageRedactorValidator();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<String> errors = validator.validateCreateTopMenu(request, map);
+		List<String> errors = validator.validateCreateTopMenu(request);
 		if (errors.size() != 0) {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			model.addAttribute("top_menu_create", true);
@@ -51,9 +47,9 @@ public class TopMenuController extends MainController {
 		
 		try {
 			TopMenu topMenu = new TopMenu();
-			topMenu.setMenuName((String) map.get("menuName"));
-			topMenu.setMenuDescription((String) map.get("menuDescription"));
-			topMenu.setMenuOrder((int) map.get("menuOrder"));
+			topMenu.setMenuName(validator.getString("menuName"));
+			topMenu.setMenuDescription(validator.getString("menuDescription"));
+			topMenu.setMenuOrder(validator.getInt("menuOrder"));
 			topMenuService.addTopMenu(topMenu);
 			return "redirect:/admin/pageRedactor/topMenu";
 		} catch (Exception e) {

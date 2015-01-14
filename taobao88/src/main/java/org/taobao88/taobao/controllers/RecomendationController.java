@@ -80,9 +80,8 @@ public class RecomendationController extends MainController {
 			         		Model model) {
 		
 		validator = new PageRedactorValidator();
-		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<String> errors = validator.validateCreateRecomendation(request, map);
+		List<String> errors = validator.validateCreateRecomendation(request);
 		if (errors.size() != 0) {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			model.addAttribute("recomendationTypes", getRecomendationTypeList());
@@ -93,16 +92,16 @@ public class RecomendationController extends MainController {
 		
 		try {
 			Recomendation rec = new Recomendation();
-			rec.setDescription((String) map.get("rDesc"));
-			rec.setLongDescription((String) map.get("rDescLong"));
-			rec.setPrice((double) map.get("rPrice"));
-			rec.setHref((String) map.get("rHref"));
+			rec.setDescription(validator.getString("rDesc"));
+			rec.setLongDescription(validator.getString("rDescLong"));
+			rec.setPrice(validator.getDouble("rPrice"));
+			rec.setHref(validator.getString("rHref"));
 			rec.setPhoto(saveUploadedFile(files[0]));
-			rec.setType(recomendationTypeService.getTypeById((int) map.get("rType")));
-			rec.setColors(colorsService.prepareColorsFromString((String) map.get("rColor")));
-			rec.setSizes(sizesService.prepareSizesFromString((String) map.get("rSize")));
-			rec.setWeight((double) map.get("rWeight"));
-			rec.setCount((int) map.get("rCount"));
+			rec.setType(recomendationTypeService.getTypeById(validator.getInt("rType")));
+			rec.setColors(colorsService.prepareColorsFromString(validator.getString("rColor")));
+			rec.setSizes(sizesService.prepareSizesFromString(validator.getString("rSize")));
+			rec.setWeight(validator.getDouble("rWeight"));
+			rec.setCount(validator.getInt("rCount"));
 			createRecomendation(files, rec);
 			recomendationService.addRecomendation(rec);
 			return "redirect:/admin/pageRedactor/recomendation?page=" + page;
@@ -147,9 +146,8 @@ public class RecomendationController extends MainController {
 						   Model model) {
 		
 		validator = new PageRedactorValidator();
-		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<String> errors = validator.validateUpdateRecomendation(request, map);
+		List<String> errors = validator.validateUpdateRecomendation(request);
 		if (errors.size() != 0) {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			Recomendation rec = recomendationService.getRecomendationById(id);
@@ -161,14 +159,14 @@ public class RecomendationController extends MainController {
 		
 		try {
 			Recomendation rec = recomendationService.getRecomendationById(id);
-			rec.setDescription((String) map.get("rDesc"));
-			rec.setLongDescription((String) map.get("rDescLong"));
-			rec.setPrice((double) map.get("rPrice"));
-			rec.setHref((String) map.get("rHref"));
-			rec.setColors(colorsService.prepareColorsFromString((String) map.get("rColor")));
-			rec.setSizes(sizesService.prepareSizesFromString((String) map.get("rSize")));
-			rec.setCount((int) map.get("rCount"));
-			rec.setWeight((double) map.get("rWeight"));
+			rec.setDescription(validator.getString("rDesc"));
+			rec.setLongDescription(validator.getString("rDescLong"));
+			rec.setPrice(validator.getDouble("rPrice"));
+			rec.setHref(validator.getString("rHref"));
+			rec.setColors(colorsService.prepareColorsFromString(validator.getString("rColor")));
+			rec.setSizes(sizesService.prepareSizesFromString(validator.getString("rSize")));
+			rec.setCount(validator.getInt("rCount"));
+			rec.setWeight(validator.getDouble("rWeight"));
 			if (files.length > 0) {
 				createRecomendation(files, rec);
 			}

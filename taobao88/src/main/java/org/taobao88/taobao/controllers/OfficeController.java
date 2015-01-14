@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.taobao88.taobao.controllers.validators.OfficeValidator;
+import org.taobao88.taobao.controllers.validators.PageRedactorValidator;
 import org.taobao88.taobao.enterprise.dao.CountryRegCityDAO;
 import org.taobao88.taobao.enterprise.dao.OrdersStatusesDAO;
 import org.taobao88.taobao.enterprise.dao.PackagesStatusesDAO;
@@ -58,6 +60,7 @@ public class OfficeController extends  MainController{
     @Autowired private PackagesStatusesDAO packagesStatusesDAO;
     @Autowired private ShippingAddressDAO shippingAddressDAO;
     @Autowired private PaymentMethodDAO paymentMethodDAO;
+    private OfficeValidator validator;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	 public String userOffice(HttpServletRequest request) throws UnsupportedEncodingException {
@@ -107,70 +110,53 @@ public class OfficeController extends  MainController{
 	}
 		
 	@RequestMapping(value="/FromOrder", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String fromOrder(@RequestParam ("HREFGOODS") String hrefGoods,
-							@RequestParam ("NAMEGOODS") String nameGoods,
-							@RequestParam ("AMOUNTGOODS") int amountGoods,
-							@RequestParam ("PRICEGOODS") double priceGoods,
-							@RequestParam ("CHINAGOODS") String chinaGoods,
-							@RequestParam ("WEIGHTGOODS") double weightGoods,
-							@RequestParam ("COLORGOODS") String colorGoods,
-							@RequestParam ("SIZEGOODS") String sizeGoods,
-							@RequestParam ("COMPLEXGOODS") String complexGoods,
-					        HttpServletRequest request) {
+	public @ResponseBody String fromOrder(@RequestParam (value = "COMPLEXGOODS", required = false, defaultValue = "") String complexGoods,
+					        			  HttpServletRequest request) {
+		
+		validator = new OfficeValidator();
+		List<String> errors = validator.validateOrder(request);
+		if (errors.size() != 0) {
+			return "{\"success\":false,\"message\":\"order_fail\",\"fail_fields\":\"" + Arrays.asList(errors) + "\"}";
+		}
 		
 		try {
 			int userId = (int) request.getSession().getAttribute("currentIdUser");
-			List<String> failFields = new ArrayList<>();
-		
 			Goods goods = new Goods();
-			if (hrefGoods.isEmpty() || hrefGoods == null) { failFields.add("HREFGOODS"); } 
-			if (nameGoods.isEmpty() || nameGoods == null) {	failFields.add("NAMEGOODS"); } 
-			if (amountGoods < 1) { failFields.add("AMOUNTGOODS"); }
-			if (priceGoods < 1) { failFields.add("PRICEGOODS");	}
-			if (chinaGoods.isEmpty() || chinaGoods == null) { failFields.add("CHINAGOODS"); }
-			if (weightGoods < 1) { failFields.add("WEIGHTGOODS"); }
-			if (colorGoods.isEmpty() || colorGoods == null) { failFields.add("COLORGOODS"); }
-			if (sizeGoods.isEmpty() || sizeGoods == null) { failFields.add("SIZEGOODS"); }
-			
-			if (failFields.size() > 0) {
-				return "{\"success\":false,\"message\":\"order_fail\",\"fail_fields\":\"" + Arrays.asList(failFields) + "\"}";
+			goods.setHrefGoods(validator.getString("HREFGOODS"));
+			goods.setNameGoods(validator.getString("NAMEGOODS"));
+			goods.setAmountGoods(validator.getInt("AMOUNTGOODS"));
+			goods.setPriceGoods(validator.getDouble("PRICEGOODS"));
+			goods.setChinaGoods(validator.getString("CHINAGOODS"));
+			goods.setWeightGoods(validator.getDouble("WEIGHTGOODS"));
+			goods.setColorGoods(validator.getString("COLORGOODS"));
+			goods.setSizeGoods(validator.getString("SIZEGOODS"));
+			goods.setComplexGoods(complexGoods);
+			Object photoGoods = request.getParameter("PHOTOGOODS");
+			if (photoGoods != null) {
+				goods.setPhotoGoods("true");
 			} else {
-				goods.setHrefGoods(hrefGoods);
-				goods.setNameGoods(nameGoods);
-				goods.setAmountGoods(amountGoods);
-				goods.setPriceGoods(priceGoods);
-				goods.setChinaGoods(chinaGoods);
-				goods.setWeightGoods(weightGoods);
-				goods.setColorGoods(colorGoods);
-				goods.setSizeGoods(sizeGoods);
-				goods.setComplexGoods(complexGoods);
-				Object photoGoods = request.getParameter("PHOTOGOODS");
-				if (photoGoods != null) {
-					goods.setPhotoGoods("true");
-				} else {
-					goods.setPhotoGoods("false");
-				}
-				goods.setIdGoods(goodsDAO.saveGoods(goods));
-				
-				OrderStatus orderStatus = getOrderStatus();
-				orderStatusDAO.saveStatus(orderStatus);
-		
-				OrderT order = new OrderT();
-				order.setIdGoods(goods.getIdGoods());
-				order.setDateOrder(new Timestamp(new Date().getTime()));
-				order.setApprove("false");
-				order.setIdUser(userId);
-				order.setIdOrderStatus(orderStatus.getIdOrderStatus());
-				order.setFullPrice(priceService.getOrderPrice(order));
-				orderDAO.addOrder(order);
-		
-				clearOrderInSession(request);
-				request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
-				return "{\"success\":true,\"message\":\"order_accepted\"}";
+				goods.setPhotoGoods("false");
 			}
+			goods.setIdGoods(goodsDAO.saveGoods(goods));
+				
+			OrderStatus orderStatus = getOrderStatus();
+			orderStatusDAO.saveStatus(orderStatus);
+		
+			OrderT order = new OrderT();
+			order.setIdGoods(goods.getIdGoods());
+			order.setDateOrder(new Timestamp(new Date().getTime()));
+			order.setApprove("false");
+			order.setIdUser(userId);
+			order.setIdOrderStatus(orderStatus.getIdOrderStatus());
+			order.setFullPrice(priceService.getOrderPrice(order));
+			orderDAO.addOrder(order);
+		
+			clearOrderInSession(request);
+			request.getSession().setAttribute("basket", orderDAO.getOrdersOnStartPage(userId).size());
+			return "{\"success\":true,\"message\":\"order_accepted\"}";
 		} catch (Exception e) {
 			return "{\"success\":false,\"message\":\"order_fail\"}";
-		}
+		}		
 	}
 
     private List<PackageT> preparePackage(UserT user, List<OrderT> orders) {

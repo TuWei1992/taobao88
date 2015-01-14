@@ -106,32 +106,32 @@
 					
 					<div class="form-group">
 						<label class="input" for="HREFGOODS">Ссылка</label> 
-						<input class="form-control order-control valid" type="text" id="HREFGOODS" name="HREFGOODS" placeholder="" required="required" value="${HREFGOODS}">
+						<input class="form-control order-control valid" type="text" id="HREFGOODS" name="HREFGOODS" placeholder="" required value="${HREFGOODS}">
 					</div>
 
 					<div class="form-group">
 						<label class="input" for="NAMEGOODS">Название товара</label> 
-						<input class="form-control order-control valid" type="text" id="NAMEGOODS" name="NAMEGOODS" placeholder="" required="required" value="${NAMEGOODS}">
+						<input class="form-control order-control valid" type="text" id="NAMEGOODS" name="NAMEGOODS" placeholder="" required value="${NAMEGOODS}">
 					</div>
 
 					<div class="form-group">
 						<div class="input-group">
 							<label class="input" for="AMOUNTGOODS">Количество единиц</label>
-							<input class="form-control order-control valid" type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" required="required" value="${AMOUNTGOODS}">
+							<input class="form-control order-control valid" type="number" id="AMOUNTGOODS" max="1000" name="AMOUNTGOODS" placeholder="" required value="${AMOUNTGOODS}">
 						</div>
 						<div class="input-group">
 							<label class="input" for="PRICEGOODS">Цена на taobao</label> 
 							<input
 								class="form-control order-control valid" type="text" id="PRICEGOODS"
 								name="PRICEGOODS" placeholder="Пример: 10, 10.343"
-								required="required"
+								required
 								value="${PRICEGOODS}" data-toggle="tooltip" data-placement="top" title="Стоимость товара на taobao в юанях. Пример: 159, 49.9, 500">
 						</div>
 						<div class="input-group">
 							<label class="input" for="CHINAGOODS">Доставка по Китаю</label>
 							<input class="form-control order-control valid" type="number"
 								id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder=""
-								required="required"
+								required
 								value="${CHINAGOODS}">
 						</div>
 						<div class="input-group">
@@ -139,19 +139,19 @@
 								продукции (в граммах)</label> <input class="form-control order-control valid"
 								type="text" id="WEIGHTGOODS" max="1000000" name="WEIGHTGOODS"
 								placeholder="Пример: 100, 150, 1100"
-								required="required"
+								required
 								value="${WEIGHTGOODS}" data-toggle="tooltip" data-placement="top" title="Вес товара влияет на итоговую стоимость посылки. Пример: 100, 150, 1000">
 						</div>
 						<div class="input-group">
 							<label class="input" for="COLORGOODS">Цвет</label> <input
 								class="form-control order-control valid" type="text" id="COLORGOODS"
-								name="COLORGOODS" placeholder="" required="required" value="${COLORGOODS}">
+								name="COLORGOODS" placeholder="" required value="${COLORGOODS}">
 						</div>
 						<div class="input-group">
 							<label class="input" for="SIZEGOODS">Размер</label>
 							<input
 								class="form-control order-control valid" type="text" id="SIZEGOODS"
-								name="SIZEGOODS" placeholder="не указан" required="required" value="${SIZEGOODS}" data-toggle="tooltip" data-placement="top" title="Если размер не указан, ставьте 0">
+								name="SIZEGOODS" placeholder="не указан" required value="${SIZEGOODS}" data-toggle="tooltip" data-placement="top" title="Если размер не указан, ставьте 0">
 						</div>
 					</div>
 

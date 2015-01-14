@@ -1,8 +1,6 @@
 package org.taobao88.taobao.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,17 +36,15 @@ public class PaymentMethodsController extends MainController {
 	public String doCreate(Model model, HttpServletRequest request) {
 		
 		validator = new PaymentMethodValidator();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<String> errors = validator.validateCreatePaymentMethod(request, map);
+		List<String> errors = validator.validateCreatePaymentMethod(request);
 		if (errors.size() != 0) {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			return "payment/create";
 		}
 		
 		PaymentMethod method = new PaymentMethod();
-		method.setMethodName((String) map.get("methodName"));
-		method.setMethodDescription((String) map.get("methodDescription"));
+		method.setMethodName(validator.getString("methodName"));
+		method.setMethodDescription(validator.getString("methodDescription"));
 		paymentMethodDAO.create(method);
 		
 		return "redirect:/admin/paymentMethods";
@@ -66,18 +62,16 @@ public class PaymentMethodsController extends MainController {
 						   Model model,
 					       HttpServletRequest request) {
 		
-		validator = new PaymentMethodValidator();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		List<String> errors = validator.validateCreatePaymentMethod(request, map);
+		validator = new PaymentMethodValidator();		
+		List<String> errors = validator.validateCreatePaymentMethod(request);
 		if (errors.size() != 0) {
 			model.addAttribute("errors", toJSArray(errors.toArray()));
 			return "payment/update";
 		}
 		
 		PaymentMethod method = paymentMethodDAO.findById(id);
-		method.setMethodName((String) map.get("methodName"));
-		method.setMethodDescription((String) map.get("methodDescription"));
+		method.setMethodName(validator.getString("methodName"));
+		method.setMethodDescription(validator.getString("methodDescription"));
 		paymentMethodDAO.update(method);
 		
 		return "redirect:/admin/paymentMethods";

@@ -1,16 +1,20 @@
 package org.taobao88.taobao.controllers.validators;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class PaymentMethodValidator extends AbstractValidator {
 
-	public List<String> validateCreatePaymentMethod(HttpServletRequest request, Map<String, Object> requestParams) {
+	public PaymentMethodValidator() {
+		this.requestParams = new HashMap<String, Object>();
+	}
+	
+	public List<String> validateCreatePaymentMethod(HttpServletRequest request) {
 		
-		validateStringParam(request.getParameter("methodName"), "methodName", requestParams);
-		validateStringParam(request.getParameter("methodDescription"), "methodDescription", requestParams);
+		validateStringParam(request.getParameter("methodName"), "methodName");
+		validateStringParam(request.getParameter("methodDescription"), "methodDescription");
 		
 		return errors;
 	}
