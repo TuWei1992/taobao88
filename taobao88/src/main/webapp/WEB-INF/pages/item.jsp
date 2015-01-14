@@ -163,9 +163,6 @@
 			</div>
 			<c:if test="${banner.size() != 0}">
 			<div class="main-hot-right">
-				<ul>
-   					<li><a href="#">hot products</a></li>
-				</ul>
 				<div class="best1" style="background: url(/images/${banner.get(0).photo}) no-repeat; background-size: cover;">
 					<a href="${banner.get(0).href}">
 						<p>${banner.get(0).price}$</p>${banner.get(0).description}
