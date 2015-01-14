@@ -168,12 +168,16 @@ public class AdminController extends MainController{
     }
     
     @RequestMapping(value = "showMessages", method = RequestMethod.GET)
-    public String showMessages(HttpServletRequest request) {
+    public String showMessages(Model model) {
     	List<PackageT> packs = packageDAO.getPackagesForAdmin();
+    	Map<Integer, UserT> packagesUsers = new HashMap<>();
     	for (PackageT p : packs) {
     		p.setMessages(messagesService.findMessagesByPackage(p));
+    		UserT user = userDAO.findUserById(orderDAO.getOrdersByPackages(p.getIdPackage()).get(0).getIdUser());
+    		packagesUsers.put(p.getIdPackage(), user);
     	}
-    	request.setAttribute("packages", packs);
+    	model.addAttribute("packages", packs);
+    	model.addAttribute("packagesUsers", packagesUsers);
     	return "messages/messagesAdmin";
     }
     

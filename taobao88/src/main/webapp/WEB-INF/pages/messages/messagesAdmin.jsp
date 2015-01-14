@@ -25,7 +25,8 @@
 					<div class="panel panel-default">
   						<div class="panel-heading">
   							<h4 class="panel-title">
-  								<a data-toggle="collapse" data-parent="#accordion" href="#collapse${packageT.idPackage}">Посылка №${packageT.idPackage}</a>
+  								<c:set var="user" value="${packagesUsers[packageT.idPackage]}"/>
+  								<a data-toggle="collapse" data-parent="#accordion" href="#collapse${packageT.idPackage}">Посылка №${packageT.idPackage} <span class="pull-right label label-info">заказчик: ${user.nameUser} (${user.femailUser} ${user.fullNameUser} ${user.patronymicUser})</span></a>
   							</h4>
   						</div>
   						<div id="collapse${packageT.idPackage}" class="panel-collapse collapse">
