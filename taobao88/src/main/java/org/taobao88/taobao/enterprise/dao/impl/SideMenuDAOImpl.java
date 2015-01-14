@@ -55,8 +55,8 @@ public class SideMenuDAOImpl implements SideMenuDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SideMenu> getChildren(int parentId) {
-		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = :parent_id order by parent_id").setParameter("parent_id", parentId).list();
+	public List<SideMenu> getChildren(int parentId, String orderBy) {
+		return (List<SideMenu>) sessionFactory.getCurrentSession().createQuery("from SideMenu where parent_id = :parent_id order by " + orderBy).setParameter("parent_id", parentId).list();
 	}
 
 	@SuppressWarnings("unchecked")

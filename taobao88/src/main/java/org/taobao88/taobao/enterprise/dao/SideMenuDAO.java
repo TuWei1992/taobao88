@@ -20,7 +20,7 @@ public interface SideMenuDAO {
 	
 	public List<SideMenu> getAll();
 	
-	public List<SideMenu> getChildren(int parentId);
+	public List<SideMenu> getChildren(int parentId, String orderBy);
 	
 	public List<SideMenu> getSideMenuByLevel(int level, String orderBy);
 }

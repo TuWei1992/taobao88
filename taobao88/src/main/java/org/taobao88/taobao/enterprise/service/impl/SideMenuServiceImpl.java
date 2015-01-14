@@ -32,7 +32,7 @@ public class SideMenuServiceImpl implements SideMenuService {
 	@Override
 	public SideMenu getSideMenuById(int id) {
 		SideMenu sideMenu = sideMenuDAO.getSideMenuById(id);
-		sideMenu.setChildren(sideMenuDAO.getChildren(sideMenu.getId()));
+		sideMenu.setChildren(sideMenuDAO.getChildren(sideMenu.getId(), "menu_order"));
 		sideMenu.setParent(sideMenuDAO.getSideMenuById(sideMenu.getParentId()));
 		return sideMenuDAO.getSideMenuById(id);
 	}
@@ -46,15 +46,15 @@ public class SideMenuServiceImpl implements SideMenuService {
 	public List<SideMenu> getSideMenu(String orderBy) {
 		List<SideMenu> sideMenu = sideMenuDAO.getSideMenu(orderBy);
 		for (SideMenu menu : sideMenu) {
-			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
+			menu.setChildren(sideMenuDAO.getChildren(menu.getId(), orderBy));
 			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));
 			if (menu.getChildren().size() != 0) {
 				for (SideMenu m1 : menu.getChildren()) {
-					m1.setChildren(sideMenuDAO.getChildren(m1.getId()));
+					m1.setChildren(sideMenuDAO.getChildren(m1.getId(), orderBy));
 					m1.setParent(menu);
 					if (m1.getChildren().size() != 0) {
 						for (SideMenu m2 : m1.getChildren()) {
-							m2.setChildren(sideMenuDAO.getChildren(m2.getId()));
+							m2.setChildren(sideMenuDAO.getChildren(m2.getId(), orderBy));
 							m2.setParent(m1);
 						}
 					}
@@ -68,7 +68,7 @@ public class SideMenuServiceImpl implements SideMenuService {
 	public List<SideMenu> getAll() {
 		List<SideMenu> sideMenu = sideMenuDAO.getAll();
 		for (SideMenu menu : sideMenu) {
-			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
+			menu.setChildren(sideMenuDAO.getChildren(menu.getId(), "menu_order"));
 			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));
 		}
 		return sideMenu;
@@ -78,7 +78,7 @@ public class SideMenuServiceImpl implements SideMenuService {
 	public List<SideMenu> getSideMenuForPage(int page, String orderBy) {
 		List<SideMenu> sideMenu = sideMenuDAO.getSideMenuByLevel(page - 1, orderBy);
 		for (SideMenu menu : sideMenu) {
-			menu.setChildren(sideMenuDAO.getChildren(menu.getId()));
+			menu.setChildren(sideMenuDAO.getChildren(menu.getId(), orderBy));
 			menu.setParent(sideMenuDAO.getSideMenuById(menu.getParentId()));
 		}
 		return sideMenu;
