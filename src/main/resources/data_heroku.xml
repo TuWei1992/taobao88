@@ -9,7 +9,7 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> 
-        <property name="url" value="jdbc:mysql://be26977ef01546:e5e35f13@us-cdbr-iron-east-01.cleardb.net/heroku_7156b07168df10d?reconnect=true;useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=utf8&amp;connectionCollation=utf8_general_ci" /> 
+        <property name="url" value="jdbc:mysql://us-cdbr-iron-east-01.cleardb.net/heroku_7156b07168df10d?reconnect=true;useUnicode=true&amp;characterEncoding=UTF-8&amp;characterSetResults=utf8&amp;connectionCollation=utf8_general_ci" /> 
   		<property name="username" value="be26977ef01546" /> 
   		<property name="password" value="e5e35f13" /> 
 	</bean>
