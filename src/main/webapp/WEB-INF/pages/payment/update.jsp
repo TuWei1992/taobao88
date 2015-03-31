@@ -50,7 +50,7 @@
 
 					<div class="form-group">
 						<label class="input" for="methodDescription">Реквизиты</label> 
-						<textarea name="methodDescription">${method.methodDescription}</textarea>
+						<textarea name="methodDescription" id="methodDescription">${method.methodDescription}</textarea>
 					</div>
 				
 				

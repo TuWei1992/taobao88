@@ -5,14 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>taobao88. Товары из Китая. Аукцион Таобао. Посредник Taobao</title>
+<title>taobravo.com. Товары из Китая. Аукцион Таобао. Посредник Taobao</title>
 <meta charset="utf-8">
 <meta name="keywords" content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/card.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/office.css" type="text/css">
-<link rel="shortcut icon" href="http://taobao88.org/favicon.ico">
+<link rel="shortcut icon" href="http://taobravo.com/favicon.ico">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/modernizr.custom.28468.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/taobao.js"></script>

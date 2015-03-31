@@ -75,7 +75,7 @@
 
 					<div class="form-group">
 						<label class="input" for="rPhoto">Фото</label> 
-						<input type="file" name="rPhoto">
+						<input type="file" name="rPhoto" id="rPhoto">
 					</div>
 
 					<div class="form-group">

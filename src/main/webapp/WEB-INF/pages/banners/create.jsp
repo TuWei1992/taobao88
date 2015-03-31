@@ -16,7 +16,7 @@
 					</div>
 
 					<div class="form-group">
-						<label class="input" for="bPrice">Цена</label> <input type="text"
+						<label class="input" for="sPrice">Цена</label> <input type="text"
 							class="form-control" id="sPrice" name="rPrice" placeholder="Цена" required="required">
 					</div>
 

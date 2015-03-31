@@ -9,8 +9,8 @@
 			</div>
 			<div style="float: right; padding-right: 5px">
 				<p>
-					Taobao88.org © 2014, 
-					<a href="http://taobao88.org/taobao88service@gmail.com">taobao88service@gmail.com</a>
+                    taobravo.com © 2015,
+					<a href="http://taobravo.com/tao.bravo2015@gmail.com">tao.bravo2015@gmail.com</a>
 				</p>
 			</div>
 		</div>

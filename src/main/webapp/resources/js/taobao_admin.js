@@ -3,7 +3,7 @@ $(function() {
 	var currentUrl = document.location.href;
 	var array = currentUrl.split('/');
 	var contextPath = '';
-	contextPath = array[0] + '//' + array[2] + '/' + array[3] + '/admin/pageRedactor';
+	contextPath = array[0] + '//' + array[2] + '/' + array[3] + '/pageRedactor';
 	
 	$('.delete_image').click(function() {
 			var delete_btn = $(this);

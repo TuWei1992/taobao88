@@ -11,7 +11,7 @@
 	content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
-<link rel="shortcut icon" href="http://taobao88.org/favicon.ico">
+<link rel="shortcut icon" href="http://taobravo.com/favicon.ico">
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/modernizr.custom.28468.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap_latest.min.js"></script>
@@ -79,7 +79,7 @@
 						<div class="input-group">
 							<label class="input" for="CHINAGOODS">Доставка по Китаю</label>
 							<input class="form-control order-control" type="number"
-								id="WEIGHTGOODS" name="CHINAGOODS" max="1000" placeholder=""
+								id="CHINAGOODS" name="CHINAGOODS" max="1000" placeholder=""
 								data-validation-pattern-message="Пример: 1.00, 0.55, 12.73"
 								onchange="checkFilling();">
 						</div>

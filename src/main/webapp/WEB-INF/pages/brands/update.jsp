@@ -17,7 +17,7 @@
 
 					<div class="form-group">
 						<label class="input" for="bPhoto">Фото</label>
-						<input type="file" name="bPhoto">
+						<input type="file" id="bPhoto" name="bPhoto">
 					</div>
 					<a href="${pageContext.request.contextPath}/admin/pageRedactor/brands" class="btn btn-default pull-left">Назад</a>
 					<button type="submit" class="btn btn-success pull-right">Обновить</button>

@@ -65,11 +65,11 @@
 					<div class="weight_price">
 						<div class="col-md-5">
 							<label class="input" for="weight">Вес</label>
-							<input class="form-control" type="text" name="weight" data-toggle="tooltip" data-placement="top" title="Пример: 0.1, 1.5" required>
+							<input class="form-control" id="weight" type="text" name="weight" data-toggle="tooltip" data-placement="top" title="Пример: 0.1, 1.5" required>
 						</div>
 						<div class="col-md-5">
 							<label class="input" for="price">Цена</label>
-							<input class="form-control" type="text" name="price" data-toggle="tooltip" data-placement="top" title="Пример: 20, 150" required>
+							<input class="form-control" id="price" type="text" name="price" data-toggle="tooltip" data-placement="top" title="Пример: 20, 150" required>
 						</div>
 					</div>
 						<div>

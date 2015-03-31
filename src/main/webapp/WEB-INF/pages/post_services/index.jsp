@@ -48,7 +48,7 @@
 										</td>
 										<td>
 											<c:forEach items="${service.postServicesPrices}" var="postPrice">
-												<b><span>${postPrice.weight}</b> | ${postPrice.price}</span><br>
+												<span><b>${postPrice.weight}</b> | ${postPrice.price}</span><br>
 											</c:forEach>
 										</td>
 										<td>

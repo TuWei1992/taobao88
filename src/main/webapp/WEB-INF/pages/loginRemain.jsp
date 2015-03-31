@@ -22,7 +22,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <!-- or use local jquery -->
-<script src=<c:url value="/resources//js/jqBootstrapValidation.js"/>></script>
+<script src=<c:url value="/resources/js/jqBootstrapValidation.js"/>></script>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
     <script src="../../assets/js/html5shiv.js"></script>
@@ -43,7 +43,7 @@
 							<div id="myTabContent" class="tab-content">
 								<div class="tab-pane active in" id="login">
 									<form class="form-horizontal" name='f'
-										action="/taobao88.org/remainPassword" method='POST'>
+										action="/remainPassword" method='POST'>
 										<fieldset>
 											<div id="legend">
 												<legend class="">
@@ -53,7 +53,7 @@
 															<button type="button" class="close" data-dismiss="alert">&times;</button>
 															<h5>Ваш пароль изменен успешно, все подробности в
 																письме на почте, которую вы указывали при регистрации</h5>
-															<a href="/taobao88.org/login" style="cursor: pointer">Перейти
+															<a href="/login" style="cursor: pointer">Перейти
 																на страницу авторизации</a>
 														</div>
 													</c:if>
@@ -217,5 +217,6 @@
 		<!-- Checking for empty fields -->
 		<script
 			src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        </div>
 </body>
 </html>

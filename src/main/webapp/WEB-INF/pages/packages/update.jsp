@@ -25,15 +25,15 @@
 				<form role="form" method="POST" action="${pageContext.request.contextPath}/admin/packages/doUpdate" accept-charset="utf-8">
 					<input type="hidden" name="idPackage" value="${packageT.idPackage}">
 					<div class="form-group">
-						<label class="input" for="serviceName">Цена</label>
+						<label class="input" for="fullPrice">Цена</label>
 						<input class="form-control" type="text" name="fullPrice" id="fullPrice" value="${packageT.fullPrice}" required>
 					</div>
 					<div class="form-group">
-						<label class="input" for="serviceName">Трек-номер</label>
-						<input class="form-control" type="text" name="tracknumber" id="tracknumbere" value="${packageT.tracknumber}">
+						<label class="input" for="tracknumber">Трек-номер</label>
+						<input class="form-control" type="text" name="tracknumber" id="tracknumber" value="${packageT.tracknumber}">
 					</div>
 					<div class="form-group">
-						<label class="input" for="serviceName">Вес</label>
+						<label class="input" for="weight">Вес</label>
 						<input class="form-control" type="text" name="weight" id="weight" value="${packageT.weight}" required>
 					</div>
 					<div class="form-group">

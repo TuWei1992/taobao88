@@ -6,14 +6,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>taobao88. Мои посылки</title>
+<title>taobravo.com. Мои посылки</title>
 	<meta charset="utf-8">
 	<meta name="keywords" content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/office.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/card.css" type="text/css">
-	<link rel="shortcut icon" href="http://taobao88.org/favicon.ico">
+	<link rel="shortcut icon" href="http://taobravo.com/favicon.ico">
 <!--[if IE 6]>
     <link rel="stylesheet" type="text/css" href="/css/ie6.css"/>
     <script  language="JavaScript" src="js/png.js" type="text/JavaScript"></script>

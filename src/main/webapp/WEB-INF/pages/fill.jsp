@@ -4,14 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>taobao88. Товары из Китая. Аукцион Таобао. Посредник Taobao</title>
+<title>taobravo.com. Товары из Китая. Аукцион Таобао. Посредник Taobao</title>
 <meta name="keywords" content="товары из китая, taobao на русском, таобао на русском языке, товары из китая по низким ценам, доставка из Китая для Россия, Казахстан, Украина, Беларусь">
 <!-- CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap_latest.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/office.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/card.css" type="text/css">
-<link rel="shortcut icon" href="http://taobao88.org/favicon.ico">
+<link rel="shortcut icon" href="http://taobravo.com/favicon.ico">
 <!--item CSS --> 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/item.css" type="text/css" media="screen"/>
 <!--[if IE 6]>
